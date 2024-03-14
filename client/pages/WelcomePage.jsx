@@ -1,6 +1,7 @@
 import React from 'react';
 import ClusterInput from '../components/clusterInput.jsx';
 import NavBar from '../components/Navbar.jsx';
+import Chart from '../components/Chart.jsx';
 
 export default function WelcomePage() {
   return (
@@ -14,6 +15,9 @@ export default function WelcomePage() {
       </div>
       <div>
         <ClusterInput />
+      </div>
+      <div>
+        <Chart />
       </div>
     </div>
   );
