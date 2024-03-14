@@ -15,6 +15,7 @@ export default function Chart() {
       .attr('height', h)
       .style('background', '#d3d3d3')
       .style('margin-top', '50')
+      .style('margin-left', '50')
       .style('overflow', 'visible');
     //setting up the scaling
     const xScale = d3
@@ -44,6 +45,20 @@ export default function Chart() {
       .attr('d', (d) => generateScaledLine(d))
       .attr('fill', 'none')
       .attr('stroke', 'black');
+
+    svg
+      .append('div')
+      .attr('class','tooltip')
+      .style('opacitiy',0);
+    
+    const focus = svg
+      .append('g')
+      .attr('class', 'focus')
+      .style('display', 'none');
+
+    focus.append('circle').attr('r', 5).attr('class', 'circle');
+
+
   }, [data]);
   return <svg ref={svgRef}></svg>;
 }
