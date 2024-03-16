@@ -17,9 +17,6 @@ export default function WelcomePage() {
       <div>
         <ClusterInput />
       </div>
-      <div>
-        <Chart />
-      </div>
     </div>
   );
 }
