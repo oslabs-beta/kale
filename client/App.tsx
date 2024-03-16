@@ -1,10 +1,9 @@
 import React from 'react';
 import './stylesheets/styles.scss';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import NotFoundPage from './pages/NotFoundPage.jsx';
-import WelcomePage from './pages/WelcomePage.jsx';
-import Dashboard from './pages/Dashboard.jsx';
-
+import NotFoundPage from './pages/NotFoundPage';
+import WelcomePage from './pages/WelcomePage';
+import Dashboard from './pages/Dashboard';
 
 const router = createBrowserRouter([
   {
