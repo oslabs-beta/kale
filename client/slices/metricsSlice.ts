@@ -1,21 +1,6 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
-// Interface for individual metric types (consider specific number or unit types)
-interface Metric {
-  [key: string]: number | string; // Flexible for various metric types
-}
-
-// Interface for the entire state
-interface MetricsState {
-  name: string;
-  driverVersion: string;
-  gpuUtilizationPercentage: Metric;
-  powerDrawPercentage: Metric;
-  temperatureCelsius: Metric;
-  fanSpeedPercentage: Metric;
-  memoryUtilizationPercentage: Metric;
-  memoryAllocation: Metric;
-}
+import { MetricsState, Metric } from '../../types.d';
 
 const initialState: MetricsState = {
   name: '',

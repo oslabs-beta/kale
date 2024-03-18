@@ -1,7 +1,7 @@
 import React from 'react';
 //import Gauge from '../components/Gauge.jsx';
 import NavBar from '../components/Navbar';
-//import Chart from '../components/Chart.jsx';
+import Chart from '../components/Chart';
 
 export default function Dashboard() {
   return (
@@ -12,7 +12,7 @@ export default function Dashboard() {
       <h1>Dashboard</h1>
       {/* <Gauge /> */}
       <div>
-        {/* <Chart /> */}
+        <Chart />
       </div>
     </div>
   );
