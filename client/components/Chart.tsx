@@ -22,7 +22,7 @@ export default function Chart() {
       .scaleLinear()
       .domain([0, data.length - 1])
       .range([0, w]);
-    const yScale = d3.scaleLinear().domain([0, h]).range([h, 0]);
+    const yScale: any = d3.scaleLinear().domain([0, h]).range([h, 0]);
     const generateScaledLine = d3
       .line()
       .x((d, i) => xScale(i))
@@ -31,7 +31,7 @@ export default function Chart() {
     const xAxis = d3
       .axisBottom(xScale)
       .ticks(data.length)
-      .tickFormat((i) => i + 1);
+      .tickFormat((i: any) => i + 1);
     const yAxis = d3.axisLeft(yScale).ticks(5);
     svg.append('g').call(xAxis).attr('transform', `translate(0,${h})`);
     svg.append('g').call(yAxis);
@@ -41,12 +41,12 @@ export default function Chart() {
       .selectAll('.line')
       .data([data])
       .join('path')
-      .attr('d', (d) => generateScaledLine(d))
+      .attr('d', (d: any) => generateScaledLine(d))
       .attr('fill', 'none')
       .attr('stroke', 'black');
 
     const tooltip = d3
-      .select('svg')
+      .select('body')
       .append('div')
       .attr('class', 'tooltip')
       .style('opacity', 0);
@@ -76,14 +76,14 @@ export default function Chart() {
       })
       .on('mousemove', mousemove);
 
-    function mousemove(event) {
+    function mousemove(event: any) {
       const bisect = d3.bisector((d) => d).left;
       const xPos = d3.pointer(event)[0];
       const x0 = bisect(data, xScale.invert(xPos)); // Update x0 on every mousemove
 
       if (x0 !== undefined) {
         // Check if a data point is found
-        const d0 = data[x0];
+        const d0: any = data[x0];
         focus.attr('transform', `translate(${xScale(x0)},${yScale(d0)})`);
         tooltip.transition().duration(150).style('opacity', 0.9);
         tooltip
