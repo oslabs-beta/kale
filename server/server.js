@@ -15,5 +15,7 @@ app.get('/', (req, res) => {
 app.listen(PORT, () => {
   console.log(`Server listening on port: ${PORT}`);
 });
+//add global error handler
 
+//s
 module.exports = app;
