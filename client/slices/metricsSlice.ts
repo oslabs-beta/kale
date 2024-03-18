@@ -1,12 +1,12 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 // Interface for individual metric types (consider specific number or unit types)
-interface Metric {
-  [key: string]: number | string; // Flexible for various metric types
-}
+type Metric = {
+  [key: string]: number[]; // Flexible for various metric types
+};
 
 // Interface for the entire state
-interface MetricsState {
+type MetricsState = {
   name: string;
   driverVersion: string;
   gpuUtilizationPercentage: Metric;
@@ -15,7 +15,12 @@ interface MetricsState {
   fanSpeedPercentage: Metric;
   memoryUtilizationPercentage: Metric;
   memoryAllocation: Metric;
-}
+};
+
+type SliceState =
+  | { status: 'idle'; value: MetricsState }
+  | { status: 'loading'; value: MetricsState }
+  | { status: 'failed'; error: string; value: MetricsState };
 
 const initialState: MetricsState = {
   name: '',
