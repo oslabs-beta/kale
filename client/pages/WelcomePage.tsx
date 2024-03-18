@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import ClusterInput from '../components/ClusterInput.jsx';
-import NavBar from '../components/Navbar.jsx';
+import ClusterInput from '../components/ClusterInput';
+import NavBar from '../components/Navbar';
 
 export default function WelcomePage() {
   return (

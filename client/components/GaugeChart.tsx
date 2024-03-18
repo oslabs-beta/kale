@@ -2,8 +2,14 @@ import React from 'react';
 import { useRef, useEffect } from 'react';
 import * as d3 from 'd3';
 
-export default function Gauge() {
-  const data = [0.4, 0.6];
+type GaugeChartProps = {
+  name: string;
+  value: number;
+  time: number;
+};
+
+export default function Gauge({ name, value, time }: GaugeChartProps) {
+  const data = [value, 1 - value];
   const svgRef = useRef();
 
   useEffect(() => {
@@ -26,7 +32,7 @@ export default function Gauge() {
       .endAngle(0.5 * Math.PI)
       .sort(null);
     const instructions = pieGenerator(data);
-    const arcGenerator = d3
+    const arcGenerator: any = d3
       .arc()
       .innerRadius(radius / 2)
       .outerRadius(radius);
