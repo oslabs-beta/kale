@@ -50,7 +50,7 @@ export default function Dashboard() {
 
   return (
     <>
-      <NavBar title="Dashboard" />
+      <NavBar title="Dashboard" to="/dashboard" />
       {isLoading ? (
         <div>Data loading...</div>
       ) : currentData ? (

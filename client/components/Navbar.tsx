@@ -6,8 +6,9 @@ import { toggleSidebar } from '../slices/uiSlice';
 
 type NavBarProps = {
   title: string;
+  to: string;
 };
-export default function NavBar({ title }: NavBarProps) {
+export default function NavBar({ title, to }: NavBarProps) {
   const isSidebarOpen = useSelector(
     (state: RootState) => state.ui.isSidebarOpen
   );
@@ -15,11 +16,11 @@ export default function NavBar({ title }: NavBarProps) {
   const dispatch = useAppDispatch();
 
   return (
-    <nav className="border-zinc-200 bg-zinc-50 dark:bg-zinc-950 dark:border-zinc-700">
+    <nav className="z-auto border-zinc-200 bg-zinc-50 dark:bg-zinc-950 dark:border-zinc-700">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-start p-0 m-0">
         <button
           type="button"
-          className="text-kalegreen-700 hover:bg-kalegreen-100 dark:hover:bg-zinc-700 focus:ring-4 font-medium rounded-lg text-sm px-5 py-2.5 dark:text-kalegreen-400 focus:outline-none dark:focus:bg-zinc-700"
+          className="my-2 z-10 text-kalegreen-700 hover:bg-kalegreen-100 dark:hover:bg-zinc-700 focus:ring-4 font-medium rounded-lg text-sm px-5 py-2.5 dark:text-kalegreen-400 focus:outline-none dark:focus:bg-zinc-700"
           aria-controls="drawer-navigation"
           onClick={() => dispatch(toggleSidebar())}
         >
@@ -43,11 +44,11 @@ export default function NavBar({ title }: NavBarProps) {
           {title}
         </h1> */}
         <Link
-          to="/"
+          to={to}
           className="flex items-center space-x-3 m-5 rtl:space-x-reverse"
         >
-          <span className="self-center text-lg whitespace-nowrap dark:text-zinc-300">
-            kale
+          <span className="z-10 self-center text-lg whitespace-nowrap dark:text-zinc-300">
+            {title !== 'Home' ? title : ''}
           </span>
         </Link>
 
