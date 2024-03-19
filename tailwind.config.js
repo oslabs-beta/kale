@@ -15,7 +15,7 @@ module.exports = {
       xl: '1440px',
     },
     fontFamily: {
-      sans: ['Open Sans', 'Breeze Sans', 'sans-serif'],
+      sans: ['Open Sans', 'sans-serif'],
       serif: ['Merriweather', 'serif'],
     },
     extend: {
