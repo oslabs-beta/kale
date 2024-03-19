@@ -3,27 +3,28 @@ import { useRef, useEffect } from 'react';
 import * as d3 from 'd3';
 
 type GaugeChartProps = {
-  name: string;
+  metric: string;
   value: number;
-  time: number;
+  time: string;
 };
 
-export default function Gauge({ name, value, time }: GaugeChartProps) {
+export default function Gauge({ metric, value, time }: GaugeChartProps) {
   const data = [value, 1 - value];
   const svgRef = useRef();
 
   useEffect(() => {
     //setting up svg container
-    const w = 500;
-    const h = 500;
-    const radius = w / 2;
+    const w = 400;
+    const h = 400;
+    const radius = +w / 2;
     const svg = d3
       .select(svgRef.current)
       .attr('width', w)
       .attr('height', h)
       .style('display', 'block')
-      .style('margin', '200px')
-      .style('background-color', 'white');
+      .style('margin', '40px')
+      .style('overflow', 'visible');
+    // .style('background-color', 'white');
 
     //setting up pie chart
     const pieGenerator = d3
@@ -59,8 +60,9 @@ export default function Gauge({ name, value, time }: GaugeChartProps) {
   }, [data]);
 
   return (
-    <div className="pie-chart">
+    <>
+      <p className="text-lg font-semibold text-center">{metric}</p>
       <svg ref={svgRef}></svg>
-    </div>
+    </>
   );
 }

@@ -1,5 +1,5 @@
 import React from 'react';
-import ClusterInput from '../components/ClusterInput';
+import ClusterInput from '../components/ClusterInput'
 import NavBar from '../components/Navbar';
 import { useGetMetricsQuery } from '../slices/metricsApi';
 import { RootState } from '../slices/store';
@@ -20,17 +20,17 @@ export default function WelcomePage() {
   }
 
   return (
-    <div>
-      <h1>Kale</h1>
+    <>
+      <NavBar title="Home" />
       <div>
-        <NavBar />
       </div>
       <div>
         <h2>{urlShow}</h2>
+        <h2 className="text-red-900">Welcome, Jeff</h2>
       </div>
       <div>
         <ClusterInput handleInputChange={handleInputChange} />
       </div>
-    </div>
+    </>
   );
 }
