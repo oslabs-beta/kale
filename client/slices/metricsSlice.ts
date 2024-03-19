@@ -11,7 +11,7 @@ export const metricsSlice = createSlice({
   initialState,
   reducers: {
     saveUrl: (state, action: PayloadAction<string>) => {
-      state.input += action.payload;
+      state.input = action.payload;
     },
   },
 });

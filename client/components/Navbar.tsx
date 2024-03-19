@@ -53,7 +53,7 @@ export default function NavBar({ title }: NavBarProps) {
 
         <div
           id="drawer-navigation"
-          className={`fixed top-0 left-0 z-40 w-64 h-screen p-4 overflow-y-auto transition-transform ${
+          className={`fixed top-0 left-0 z-40 w-64 h-screen p-4 overflow-y-auto transition-transform duration-700 ${
             isSidebarOpen ? '' : '-translate-x-full'
           } bg-white dark:bg-gray-800`}
           tabIndex={-1}
