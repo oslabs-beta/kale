@@ -3,12 +3,12 @@ import { useRef, useEffect } from 'react';
 import * as d3 from 'd3';
 
 type GaugeChartProps = {
-  name: string;
+  metric: string;
   value: number;
-  time: number;
+  time: string;
 };
 
-export default function Gauge({ name, value, time }: GaugeChartProps) {
+export default function Gauge({ metric, value, time }: GaugeChartProps) {
   const data = [value, 1 - value];
   const svgRef = useRef();
 
@@ -61,7 +61,7 @@ export default function Gauge({ name, value, time }: GaugeChartProps) {
 
   return (
     <>
-      <p className="text-lg font-semibold text-center">{name}</p>
+      <p className="text-lg font-semibold text-center">{metric}</p>
       <svg ref={svgRef}></svg>
     </>
   );

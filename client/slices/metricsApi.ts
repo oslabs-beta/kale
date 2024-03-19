@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { MetricsData } from '../../types.d';
+import { ApiData } from '../../types.d';
 
 const URL = 'https://3196ddeb-8f88-4dd3-999a-81ed7b21cd7c.mock.pstmn.io/api/';
 
@@ -8,12 +8,12 @@ export const metricsApiSlice = createApi({
   reducerPath: 'metricsApi',
   baseQuery: fetchBaseQuery({ baseUrl: URL }),
   endpoints: (builder) => ({
-    getMetrics: builder.query<MetricsData, void>({
+    getMetrics: builder.query<ApiData, void>({
       query: () => 'metrics',
       transformErrorResponse: (response: { status: string | number }) =>
         response.status,
     }),
-    getSnapshots: builder.query<MetricsData, void>({
+    getSnapshots: builder.query<ApiData, void>({
       query: () => 'snapshots',
     }),
     updateSnapshots: builder.mutation({

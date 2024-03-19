@@ -1,11 +1,9 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
-import { MetricsState } from '../../types.d';
+import { ClusterInputState } from '../../types.d';
 
-const initialState: MetricsState = {
-  status: 'loading',
-  error: null,
-  data: null,
+const initialState: ClusterInputState = {
+  input: '',
 };
 
 export const metricsSlice = createSlice({

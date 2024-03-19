@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+  // darkMode: 'media',
   content: [
     './client/pages/**/*.tsx',
     './client/components/**/*.tsx',
@@ -7,6 +8,16 @@ module.exports = {
     './node_modules/flowbite/**/*.js',
   ],
   theme: {
+    screens: {
+      sm: '480px',
+      md: '768px',
+      lg: '976px',
+      xl: '1440px',
+    },
+    fontFamily: {
+      sans: ['Graphik', 'sans-serif'],
+      serif: ['Merriweather', 'serif'],
+    },
     extend: {
       colors: {
         kalegreen: {

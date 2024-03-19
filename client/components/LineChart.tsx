@@ -1,13 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import * as d3 from 'd3';
+import { MetricsData } from '../../types';
 
-type LineChartProps = {
-  name: string;
-  value: number[];
-  time: number[];
-};
-
-export default function LineChart({ name, value, time }: LineChartProps) {
+export default function LineChart({ metric, value, time }: MetricsData) {
   const svgRef = useRef();
 
   useEffect(() => {
@@ -103,7 +98,7 @@ export default function LineChart({ name, value, time }: LineChartProps) {
 
   return (
     <>
-      <p className="text-lg font-semibold text-center">{name}</p>
+      <p className="text-lg font-semibold text-center">{metric}</p>
       <svg ref={svgRef}></svg>
     </>
   );
