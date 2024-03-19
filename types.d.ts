@@ -1,3 +1,5 @@
+import { RequestHandler } from 'express';
+
 // Interface for individual metric types (consider specific number or unit types)
 export type Metric = {
   name: string;
@@ -17,3 +19,16 @@ export type MetricsState = {
   error: { status: number; data: any } | null;
   data: MetricsData | null;
 };
+
+// export interface CpuUsageData {
+// export type apiController = {
+//   cpuUsage: RequestHandler():void
+// };
+
+export interface CpuUsageapiData {
+  podName: string;
+  metric: string;
+  time: string[];
+  value: (string | number)[];
+  Date: string;
+}
