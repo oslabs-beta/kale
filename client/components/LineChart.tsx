@@ -12,8 +12,8 @@ export default function LineChart({ name, value, time }: LineChartProps) {
 
   useEffect(() => {
     //setting up svg
-    const w = 400;
-    const h = 100;
+    const w = 600;
+    const h = 350;
     const svg = d3
       .select(svgRef.current)
       .attr('width', w)
@@ -101,5 +101,10 @@ export default function LineChart({ name, value, time }: LineChartProps) {
     // }
   }, [time]);
 
-  return <svg ref={svgRef}></svg>;
+  return (
+    <>
+      <p className="text-lg font-semibold text-center">{name}</p>
+      <svg ref={svgRef}></svg>
+    </>
+  );
 }

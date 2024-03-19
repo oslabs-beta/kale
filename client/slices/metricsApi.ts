@@ -13,7 +13,7 @@ export const metricsApiSlice = createApi({
       transformErrorResponse: (response: { status: string | number }) =>
         response.status,
     }),
-    getSnapshots: builder.query({
+    getSnapshots: builder.query<MetricsData, void>({
       query: () => 'snapshots',
     }),
     updateSnapshots: builder.mutation({

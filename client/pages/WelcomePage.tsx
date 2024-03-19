@@ -5,17 +5,14 @@ import NavBar from '../components/Navbar';
 
 export default function WelcomePage() {
   return (
-    <div>
-      <h1>Kale</h1>
+    <>
+      <NavBar title="Home" />
       <div>
-        <NavBar />
-      </div>
-      <div>
-        <h2>Welcome, Jeff</h2>
+        <h2 className="text-red-900">Welcome, Jeff</h2>
       </div>
       <div>
         <ClusterInput />
       </div>
-    </div>
+    </>
   );
 }
