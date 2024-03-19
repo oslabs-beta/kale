@@ -5,7 +5,7 @@ module.exports = {
     './client/pages/**/*.tsx',
     './client/components/**/*.tsx',
     './client/public/index.html',
-    './node_modules/flowbite/**/*.js',
+    'node_modules/flowbite-react/lib/esm/',
   ],
   theme: {
     screens: {
@@ -15,7 +15,7 @@ module.exports = {
       xl: '1440px',
     },
     fontFamily: {
-      sans: ['Graphik', 'sans-serif'],
+      sans: ['Open Sans', 'Breeze Sans', 'sans-serif'],
       serif: ['Merriweather', 'serif'],
     },
     extend: {
