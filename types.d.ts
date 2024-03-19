@@ -1,17 +1,7 @@
-import { RequestHandler } from 'express';
-
-// Interface for individual metric types (consider specific number or unit types)
 export type Metric = {
   name: string;
   time: number[];
   value: number[]; // Flexible for various metric types
-};
-
-// Interface for the entire state
-export type MetricsData = {
-  name: string;
-  driverVersion: number;
-  metrics: Metric[];
 };
 
 export type MetricsState = {
@@ -20,15 +10,38 @@ export type MetricsState = {
   data: MetricsData | null;
 };
 
-// export interface CpuUsageData {
-// export type apiController = {
-//   cpuUsage: RequestHandler():void
-// };
+export type ErrorMessage = {
+  err: string;
+};
+export type ServerError = {
+  log: string;
+  status: number;
+  message: ErrorMessage;
+};
 
-export interface CpuUsageapiData {
-  podName: string;
+export type FetchResponseData = {
+  status: string;
+  data: {
+    result: Array<{
+      values: Array<[number, string | number]>;
+    }>;
+  };
+};
+
+// // type for each metric
+export type MetricsData = {
   metric: string;
   time: string[];
-  value: (string | number)[];
-  Date: string;
+  value: number[];
+};
+
+// res.locals.metrics
+export interface ApiData {
+  podName: string;
+  date: string;
+  metrics: { [key: string]: MetricsData };
 }
+
+// export type ClusterInputState = {
+//   input: string;
+// };
