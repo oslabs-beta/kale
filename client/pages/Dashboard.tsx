@@ -10,36 +10,6 @@ import { useGetMetricsQuery } from '../slices/metricsApi';
 export default function Dashboard() {
   const { data: currentData, error, isLoading } = useGetMetricsQuery();
 
-  //MOCK DATA
-  // console.log(
-  //   JSON.stringify({
-  //     name: 'NVIDIA GeForce RTX 3080',
-  //     driverVersion: 465.19,
-  //     metrics: [
-  //       {
-  //         name: 'GPU Utilization',
-  //         time: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
-  //         value: Array.from({ length: 10 }, () => Math.random().toFixed(2)),
-  //       },
-  //       {
-  //         name: 'Power Draw',
-  //         time: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
-  //         value: Array.from({ length: 10 }, () => Math.random().toFixed(2)),
-  //       },
-  //       {
-  //         name: 'Temperature',
-  //         time: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
-  //         value: Array.from({ length: 10 }, () => Math.random().toFixed(2)),
-  //       },
-  //       {
-  //         name: 'Memory Utilization',
-  //         time: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
-  //         value: Array.from({ length: 10 }, () => Math.random().toFixed(2)),
-  //       },
-  //     ],
-  //   })
-  // );
-
   const lineChartArr: JSX.Element[] = [];
   const guageChartArr: JSX.Element[] = [];
 
@@ -91,3 +61,33 @@ export default function Dashboard() {
     </div>
   );
 }
+
+  //MOCK DATA
+  // console.log(
+  //   JSON.stringify({
+  //     name: 'NVIDIA GeForce RTX 3080',
+  //     driverVersion: 465.19,
+  //     metrics: [
+  //       {
+  //         name: 'GPU Utilization',
+  //         time: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+  //         value: Array.from({ length: 10 }, () => Math.random().toFixed(2)),
+  //       },
+  //       {
+  //         name: 'Power Draw',
+  //         time: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+  //         value: Array.from({ length: 10 }, () => Math.random().toFixed(2)),
+  //       },
+  //       {
+  //         name: 'Temperature',
+  //         time: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+  //         value: Array.from({ length: 10 }, () => Math.random().toFixed(2)),
+  //       },
+  //       {
+  //         name: 'Memory Utilization',
+  //         time: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+  //         value: Array.from({ length: 10 }, () => Math.random().toFixed(2)),
+  //       },
+  //     ],
+  //   })
+  // );

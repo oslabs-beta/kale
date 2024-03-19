@@ -13,7 +13,8 @@ export type MetricsData = {
 };
 
 export type MetricsState = {
-  status: 'loading' | 'failed' | 'finished';
-  error: { status: number; data: any } | null;
-  data: MetricsData | null;
+  input: string;
+  //error: { status: number; data: any } | null;
 };
+
+

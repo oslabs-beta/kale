@@ -1,6 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { metricsApiSlice } from './metricsApi';
 import { metricsSlice } from './metricsSlice';
+import type { TypedUseSelectorHook } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+
+
 
 const store = configureStore({
   reducer: {
