@@ -9,11 +9,11 @@ const PORT = 3000;
 app.use(express.json());
 app.use('/dist', express.static(path.resolve(__dirname, '../dist')));
 
-app.get(
+app.post(
   '/api',
-  apiController.cpuUsage,
+  apiController.gpuUsage,
   (req: Request, res: Response, next: NextFunction) => {
-    return res.status(200).json(res.locals.cpuUsage);
+    return res.status(200).json(res.locals.gpuUsage);
   }
 );
 

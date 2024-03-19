@@ -1,20 +1,27 @@
 import { Request, Response, NextFunction } from 'express';
 import { ApiData, FetchResponseData, MetricsData } from '../../types';
 
-const podName = 'hello-app-67dbb49698-ltmv6';
-const baseUrl = 'http://35.196.85.95/api/v1/query';
-const query = `container_cpu_usage_seconds_total{pod="${podName}", namespace="default"}[5m]`;
-const encodedQuery = encodeURIComponent(query);
-const apiUrl = `${baseUrl}?query=${encodedQuery}`;
-
 export const apiController = {
-  cpuUsage: async (req: Request, res: Response, next: NextFunction) => {
+  gpuUsage: async (req: Request, res: Response, next: NextFunction) => {
+    const podName = 'hello-app-67dbb49698-ltmv6';
+    // const baseUrl = 'http://35.196.85.95/api/v1/query';
+
+    const baseUrl = req.body.baseUrl;
+    console.log(`inside gpuUsage middleware`);
+    console.log(`baseUrl =: `, baseUrl);
+    if (!baseUrl) {
+      return next({ status: 400, message: { err: 'Base URL not provided' } });
+    }
+    const query = `container_cpu_usage_seconds_total{pod="${podName}", namespace="default"}[5m]`;
+    const encodedQuery = encodeURIComponent(query);
+    const apiUrl = `${baseUrl}?query=${encodedQuery}`;
+    console.log(`apiUrl: `, apiUrl);
     try {
       const response = await fetch(apiUrl);
       const data: FetchResponseData = await response.json();
 
       const metricsValues: MetricsData = {
-        metric: 'CPU Usage',
+        metric: 'GPU Usage',
         time: [],
         value: [],
       };
@@ -40,18 +47,18 @@ export const apiController = {
           timeZone: 'America/New_York',
         }),
         metrics: {
-          cpuUsage: metricsValues,
+          gpuUsage: metricsValues,
         },
       };
 
-      res.locals.cpuUsage = formattedData;
+      res.locals.gpuUsage = formattedData;
 
       return next();
     } catch (error) {
       const errorDetails = {
-        log: 'Error fetching CPU usage data',
+        log: 'Error fetching GPU usage data',
         status: 500,
-        message: { err: 'Error fetching CPU usage data' },
+        message: { err: 'Error fetching GPU usage data' },
       };
       next(errorDetails);
     }
