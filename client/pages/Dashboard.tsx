@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import GaugeChart from '../components/GaugeChart';
 import NavBar from '../components/Navbar';
 import LineChart from '../components/LineChart';
-import { MetricsState, MetricsData } from '../../types.d';
+//import { MetricsState, MetricsData } from '../../types.d';
 import { RootState } from '../slices/store';
 import { useGetMetricsQuery } from '../slices/metricsApi';
 
