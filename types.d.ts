@@ -1,5 +1,3 @@
-import { RequestHandler } from 'express';
-
 // type for each metric
 export type MetricsData = {
   metric: string;
