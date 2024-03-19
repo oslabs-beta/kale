@@ -8,12 +8,19 @@ export const metricsApiSlice = createApi({
   reducerPath: 'metricsApi',
   baseQuery: fetchBaseQuery({ baseUrl: URL }),
   endpoints: (builder) => ({
-    getMetrics: builder.query<ApiData, void>({
+    getMetrics: builder.query({
       query: () => 'metrics',
       transformErrorResponse: (response: { status: string | number }) =>
         response.status,
     }),
-    getSnapshots: builder.query<ApiData, void>({
+    grabMetrics: builder.mutation({
+      query: (data: any) => ({
+        url: 'send',
+        method: 'POST',
+        body: data
+    })
+    }),
+    getSnapshots: builder.query({
       query: () => 'snapshots',
     }),
     updateSnapshots: builder.mutation({
@@ -38,4 +45,5 @@ export const {
   useGetSnapshotsQuery,
   useUpdateSnapshotsMutation,
   useDeleteSnapshotsMutation,
+  useGrabMetricsMutation
 } = metricsApiSlice;

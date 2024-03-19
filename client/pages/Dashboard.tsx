@@ -1,11 +1,13 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { RootState } from '../slices/store';
 import GaugeChart from '../components/GaugeChart';
 import NavBar from '../components/Navbar';
 import LineChart from '../components/LineChart';
 import { useGetMetricsQuery } from '../slices/metricsApi';
 
 export default function Dashboard() {
+  const urlShow = useSelector((state: RootState) => state.metrics.input);
   const {
     data: currentData,
     error,
@@ -54,6 +56,9 @@ export default function Dashboard() {
       ) : currentData ? (
         <div className="w-full grid grid-cols-6 grid-rows-2 gap-3 place-content-center">
           <div className="h-80 max-w-full content-center">
+            <p className="text-lg font-semibold text-center">
+              Cluster URL: {urlShow}
+            </p>
             <p className="text-lg font-semibold text-center">Name of GPU</p>
             <p className="font-serif text-xl text-center font-bold h-full p-3">
               NVIDIA GeForce RTX 3080
