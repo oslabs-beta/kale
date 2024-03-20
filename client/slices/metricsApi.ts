@@ -5,27 +5,29 @@ export interface Snapshot extends ApiData {
   _id: string;
 }
 
-const URL = 'https://5491ba09-282b-49c6-b362-1b0f4e4e6f58.mock.pstmn.io';
-
 // API communication with server
 export const metricsApiSlice = createApi({
   reducerPath: 'metricsApi',
-  baseQuery: fetchBaseQuery({ baseUrl: URL }),
+  baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:8080/' }),
   endpoints: (builder) => ({
     getMetrics: builder.query({
-      query: () => 'metrics',
+      query: (url: URL) => ({
+        url: 'api',
+        method: 'GET',
+        body: url,
+      }),
       transformErrorResponse: (response: { status: string | number }) =>
         response.status,
     }),
-    grabMetrics: builder.mutation({
-      query: (data: any) => ({
-        url: 'send',
-        method: 'POST',
-        body: data,
-      }),
-    }),
+    // grabMetrics: builder.mutation<Snapshot[], URL>({
+    //   query: (url: URL) => ({
+    //     url: 'api',
+    //     method: 'POST',
+    //     body: url,
+    //   }),
+    // }),
     getSnapshots: builder.query<Snapshot[], void>({
-      query: () => 'snapshot',
+      query: () => 'snapshots',
     }),
     sendSnapshots: builder.mutation({
       query: (data: any) => ({
@@ -37,7 +39,7 @@ export const metricsApiSlice = createApi({
     updateSnapshots: builder.mutation<Snapshot, Partial<Snapshot>>({
       query: (newSnapshotData: Partial<Snapshot>) => {
         return {
-          url: `snapshot/${newSnapshotData._id}`,
+          url: `snapshots/${newSnapshotData._id}`,
           method: 'PATCH',
           body: newSnapshotData,
         };
@@ -45,7 +47,7 @@ export const metricsApiSlice = createApi({
     }),
     deleteSnapshots: builder.mutation<Snapshot, string>({
       query: (id) => ({
-        url: `snapshot/${id}`,
+        url: `snapshots/${id}`,
         method: 'DELETE',
       }),
     }),
@@ -59,7 +61,7 @@ export const useSnapshotQuerySubscription =
 
 export const {
   useGetMetricsQuery, //grab from mock data (fortesting)
-  useGrabMetricsMutation, //sending a post request using url
+  // useGrabMetricsMutation, //sending a post request using url
   useGetSnapshotsQuery, // (for history page)
   useSendSnapshotsMutation, // send post request to post snapshot
   useUpdateSnapshotsMutation, //STRETCH: update the snapshot

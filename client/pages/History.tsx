@@ -21,6 +21,7 @@ export default function History() {
 
   const dataArr = [];
   if (snapShots) {
+    console.log(snapShots);
     for (let i = 0; i < snapShots.length; i++) {
       dataArr.push(
         <tr className="bg-white border-b dark:bg-zinc-800 dark:border-zinc-700 hover:bg-zinc-50 dark:hover:bg-zinc-600">

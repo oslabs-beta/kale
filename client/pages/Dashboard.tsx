@@ -19,6 +19,7 @@ export default function Dashboard() {
     error,
     isLoading,
   } = useGetMetricsQuery(undefined, { pollingInterval: 60000 });
+
   const [createSnapshot] = useSendSnapshotsMutation();
 
   const lineChartArr: JSX.Element[] = [];
