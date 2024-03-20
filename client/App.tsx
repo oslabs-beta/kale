@@ -5,6 +5,7 @@ import NotFoundPage from './pages/NotFoundPage';
 import WelcomePage from './pages/WelcomePage';
 import Dashboard from './pages/Dashboard';
 import History from './pages/History';
+import SnapshotPage from './pages/SnapshotPage';
 
 const router = createBrowserRouter([
   {
@@ -20,6 +21,11 @@ const router = createBrowserRouter([
   {
     path: '/history',
     element: <History />,
+    errorElement: <NotFoundPage />,
+  },
+  {
+    path: '/history/:snapshotId',
+    element: <SnapshotPage />,
     errorElement: <NotFoundPage />,
   },
 ]);

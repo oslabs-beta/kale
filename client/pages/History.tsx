@@ -1,14 +1,68 @@
 import React from 'react';
-import { useGetSnapshotsQuery } from '../slices/metricsApi';
+import { Link } from 'react-router-dom';
+import {
+  useDeleteSnapshotsMutation,
+  useGetSnapshotsQuery,
+} from '../slices/metricsApi';
 import Navbar from '../components/Navbar';
+import { MetricsData } from '../../types.d';
 
 export default function History() {
-  // const { data, error, isLoading } = useGetSnapshotsQuery();
+  const { data: snapShots, error, isLoading } = useGetSnapshotsQuery();
+  const [
+    deleteSnapshots, // This is the mutation trigger
+    { data: deleteSnapshot, isLoading: isDeleting }, // This is the destructured mutation result
+  ] = useDeleteSnapshotsMutation();
+
+  const handleDelete = (id: string) => {
+    deleteSnapshots(id);
+    if (!isDeleting) console.log('Deleted:', deleteSnapshot);
+  };
+
+  const dataArr = [];
+  if (snapShots) {
+    for (let i = 0; i < snapShots.length; i++) {
+      dataArr.push(
+        <tr className="bg-white border-b dark:bg-zinc-800 dark:border-zinc-700 hover:bg-zinc-50 dark:hover:bg-zinc-600">
+          <td className="w-4 p-4">
+            <div className="flex items-center">
+              <input
+                id={`checkbox-table-search-${i + 1}`}
+                type="checkbox"
+                className="w-4 h-4 text-kalegreen-600 bg-zinc-100 border-zinc-300 rounded focus:ring-kalegreen-500 dark:focus:ring-kalegreen-600 dark:ring-offset-zinc-800 dark:focus:ring-offset-zinc-800 focus:ring-2 dark:bg-zinc-700 dark:border-zinc-600"
+              />
+              <label htmlFor="checkbox-table-search-1" className="sr-only">
+                checkbox
+              </label>
+            </div>
+          </td>
+          <th
+            scope="row"
+            className="px-6 py-4 font-medium text-zinc-900 whitespace-nowrap dark:text-white"
+          >
+            <Link to={`/history/${snapShots[i]._id}`}>{snapShots[i]._id}</Link>
+          </th>
+
+          <td className="px-6 py-4">pod</td>
+          <td className="px-6 py-4">{snapShots[i].podName}</td>
+          <td className="px-6 py-4">{snapShots[i].date}</td>
+          <td className="px-6 py-4">
+            <button
+              className="font-medium text-kalegreen-600 dark:text-kalegreen-500 hover:underline"
+              onClick={() => handleDelete(snapShots[i]._id)}
+            >
+              Delete
+            </button>
+          </td>
+        </tr>
+      );
+    }
+  }
 
   return (
     <div>
       <Navbar title="History" to="/history" />
-      <div>
+      <div className="mx-32 my-10 sm:mx-10">
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
           <div className="flex flex-column sm:flex-row flex-wrap space-y-4 sm:space-y-0 items-center justify-between pb-4">
             <div>
@@ -37,9 +91,9 @@ export default function History() {
                 >
                   <path
                     stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
                     d="m1 1 4 4 4-4"
                   />
                 </svg>
@@ -163,9 +217,9 @@ export default function History() {
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <path
-                    fill-rule="evenodd"
+                    fillRule="evenodd"
                     d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                    clip-rule="evenodd"
+                    clipRule="evenodd"
                   ></path>
                 </svg>
               </div>
@@ -193,219 +247,21 @@ export default function History() {
                   </div>
                 </th>
                 <th scope="col" className="px-6 py-3">
-                  Product name
+                  Name
                 </th>
                 <th scope="col" className="px-6 py-3">
-                  Color
+                  Unit
                 </th>
                 <th scope="col" className="px-6 py-3">
-                  Category
+                  Unit Name
                 </th>
                 <th scope="col" className="px-6 py-3">
-                  Price
+                  Date
                 </th>
-                <th scope="col" className="px-6 py-3">
-                  Action
-                </th>
+                <th scope="col" className="px-6 py-3"></th>
               </tr>
             </thead>
-            <tbody>
-              <tr className="bg-white border-b dark:bg-zinc-800 dark:border-zinc-700 hover:bg-zinc-50 dark:hover:bg-zinc-600">
-                <td className="w-4 p-4">
-                  <div className="flex items-center">
-                    <input
-                      id="checkbox-table-search-1"
-                      type="checkbox"
-                      className="w-4 h-4 text-kalegreen-600 bg-zinc-100 border-zinc-300 rounded focus:ring-kalegreen-500 dark:focus:ring-kalegreen-600 dark:ring-offset-zinc-800 dark:focus:ring-offset-zinc-800 focus:ring-2 dark:bg-zinc-700 dark:border-zinc-600"
-                    />
-                    <label
-                      htmlFor="checkbox-table-search-1"
-                      className="sr-only"
-                    >
-                      checkbox
-                    </label>
-                  </div>
-                </td>
-                <th
-                  scope="row"
-                  className="px-6 py-4 font-medium text-zinc-900 whitespace-nowrap dark:text-white"
-                >
-                  Apple MacBook Pro 17"
-                </th>
-                <td className="px-6 py-4">Silver</td>
-                <td className="px-6 py-4">Laptop</td>
-                <td className="px-6 py-4">$2999</td>
-                <td className="px-6 py-4">
-                  <a
-                    href="#"
-                    className="font-medium text-kalegreen-600 dark:text-kalegreen-500 hover:underline"
-                  >
-                    Edit
-                  </a>
-                </td>
-              </tr>
-              <tr className="bg-white border-b dark:bg-zinc-800 dark:border-zinc-700 hover:bg-zinc-50 dark:hover:bg-zinc-600">
-                <td className="w-4 p-4">
-                  <div className="flex items-center">
-                    <input
-                      id="checkbox-table-search-2"
-                      type="checkbox"
-                      className="w-4 h-4 text-kalegreen-600 bg-zinc-100 border-zinc-300 rounded focus:ring-kalegreen-500 dark:focus:ring-kalegreen-600 dark:ring-offset-zinc-800 dark:focus:ring-offset-zinc-800 focus:ring-2 dark:bg-zinc-700 dark:border-zinc-600"
-                    />
-                    <label
-                      htmlFor="checkbox-table-search-2"
-                      className="sr-only"
-                    >
-                      checkbox
-                    </label>
-                  </div>
-                </td>
-                <th
-                  scope="row"
-                  className="px-6 py-4 font-medium text-zinc-900 whitespace-nowrap dark:text-white"
-                >
-                  Microsoft Surface Pro
-                </th>
-                <td className="px-6 py-4">White</td>
-                <td className="px-6 py-4">Laptop PC</td>
-                <td className="px-6 py-4">$1999</td>
-                <td className="px-6 py-4">
-                  <a
-                    href="#"
-                    className="font-medium text-kalegreen-600 dark:text-kalegreen-500 hover:underline"
-                  >
-                    Edit
-                  </a>
-                </td>
-              </tr>
-              <tr className="bg-white border-b dark:bg-zinc-800 dark:border-zinc-700 hover:bg-zinc-50 dark:hover:bg-zinc-600">
-                <td className="w-4 p-4">
-                  <div className="flex items-center">
-                    <input
-                      id="checkbox-table-search-3"
-                      type="checkbox"
-                      className="w-4 h-4 text-kalegreen-600 bg-zinc-100 border-zinc-300 rounded focus:ring-kalegreen-500 dark:focus:ring-kalegreen-600 dark:ring-offset-zinc-800 dark:focus:ring-offset-zinc-800 focus:ring-2 dark:bg-zinc-700 dark:border-zinc-600"
-                    />
-                    <label
-                      htmlFor="checkbox-table-search-3"
-                      className="sr-only"
-                    >
-                      checkbox
-                    </label>
-                  </div>
-                </td>
-                <th
-                  scope="row"
-                  className="px-6 py-4 font-medium text-zinc-900 whitespace-nowrap dark:text-white"
-                >
-                  Magic Mouse 2
-                </th>
-                <td className="px-6 py-4">Black</td>
-                <td className="px-6 py-4">Accessories</td>
-                <td className="px-6 py-4">$99</td>
-                <td className="px-6 py-4">
-                  <a
-                    href="#"
-                    className="font-medium text-kalegreen-600 dark:text-kalegreen-500 hover:underline"
-                  >
-                    Edit
-                  </a>
-                </td>
-              </tr>
-              <tr className="bg-white border-b dark:bg-zinc-800 dark:border-zinc-700 hover:bg-zinc-50 dark:hover:bg-zinc-600">
-                <td className="w-4 p-4">
-                  <div className="flex items-center">
-                    <input
-                      id="checkbox-table-3"
-                      type="checkbox"
-                      className="w-4 h-4 text-kalegreen-600 bg-zinc-100 border-zinc-300 rounded focus:ring-kalegreen-500 dark:focus:ring-kalegreen-600 dark:ring-offset-zinc-800 dark:focus:ring-offset-zinc-800 focus:ring-2 dark:bg-zinc-700 dark:border-zinc-600"
-                    />
-                    <label htmlFor="checkbox-table-3" className="sr-only">
-                      checkbox
-                    </label>
-                  </div>
-                </td>
-                <th
-                  scope="row"
-                  className="px-6 py-4 font-medium text-zinc-900 whitespace-nowrap dark:text-white"
-                >
-                  Apple Watch
-                </th>
-                <td className="px-6 py-4">Silver</td>
-                <td className="px-6 py-4">Accessories</td>
-                <td className="px-6 py-4">$179</td>
-                <td className="px-6 py-4">
-                  <a
-                    href="#"
-                    className="font-medium text-kalegreen-600 dark:text-kalegreen-500 hover:underline"
-                  >
-                    Edit
-                  </a>
-                </td>
-              </tr>
-              <tr className="bg-white border-b dark:bg-zinc-800 dark:border-zinc-700 hover:bg-zinc-50 dark:hover:bg-zinc-600">
-                <td className="w-4 p-4">
-                  <div className="flex items-center">
-                    <input
-                      id="checkbox-table-3"
-                      type="checkbox"
-                      className="w-4 h-4 text-kalegreen-600 bg-zinc-100 border-zinc-300 rounded focus:ring-kalegreen-500 dark:focus:ring-kalegreen-600 dark:ring-offset-zinc-800 dark:focus:ring-offset-zinc-800 focus:ring-2 dark:bg-zinc-700 dark:border-zinc-600"
-                    />
-                    <label htmlFor="checkbox-table-3" className="sr-only">
-                      checkbox
-                    </label>
-                  </div>
-                </td>
-                <th
-                  scope="row"
-                  className="px-6 py-4 font-medium text-zinc-900 whitespace-nowrap dark:text-white"
-                >
-                  iPad
-                </th>
-                <td className="px-6 py-4">Gold</td>
-                <td className="px-6 py-4">Tablet</td>
-                <td className="px-6 py-4">$699</td>
-                <td className="px-6 py-4">
-                  <a
-                    href="#"
-                    className="font-medium text-kalegreen-600 dark:text-kalegreen-500 hover:underline"
-                  >
-                    Edit
-                  </a>
-                </td>
-              </tr>
-              <tr className="bg-white dark:bg-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-600">
-                <td className="w-4 p-4">
-                  <div className="flex items-center">
-                    <input
-                      id="checkbox-table-3"
-                      type="checkbox"
-                      className="w-4 h-4 text-kalegreen-600 bg-zinc-100 border-zinc-300 rounded focus:ring-kalegreen-500 dark:focus:ring-kalegreen-600 dark:ring-offset-zinc-800 dark:focus:ring-offset-zinc-800 focus:ring-2 dark:bg-zinc-700 dark:border-zinc-600"
-                    />
-                    <label htmlFor="checkbox-table-3" className="sr-only">
-                      checkbox
-                    </label>
-                  </div>
-                </td>
-                <th
-                  scope="row"
-                  className="px-6 py-4 font-medium text-zinc-900 whitespace-nowrap dark:text-white"
-                >
-                  Apple iMac 27"
-                </th>
-                <td className="px-6 py-4">Silver</td>
-                <td className="px-6 py-4">PC Desktop</td>
-                <td className="px-6 py-4">$3999</td>
-                <td className="px-6 py-4">
-                  <a
-                    href="#"
-                    className="font-medium text-kalegreen-600 dark:text-kalegreen-500 hover:underline"
-                  >
-                    Edit
-                  </a>
-                </td>
-              </tr>
-            </tbody>
+            <tbody>{dataArr}</tbody>
           </table>
         </div>
       </div>

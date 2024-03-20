@@ -20,7 +20,7 @@ app.get(
     return res.status(200).json(res.locals.cpuUsage);
   }
 );
-app.get('/', (req, res, next) => {
+app.get('/', (req, res) => {
   return res
     .status(200)
     .sendFile(path.join(__dirname, '../client/public/index.html'));

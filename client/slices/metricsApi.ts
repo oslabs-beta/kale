@@ -1,7 +1,11 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { ApiData } from '../../types.d';
 
-const URL = 'https://3196ddeb-8f88-4dd3-999a-81ed7b21cd7c.mock.pstmn.io/api/';
+export interface Snapshot extends ApiData {
+  _id: string;
+}
+
+const URL = 'https://a9abd903-f585-46ab-b66f-b18d23232503.mock.pstmn.io/';
 
 // API communication with server
 export const metricsApiSlice = createApi({
@@ -9,7 +13,7 @@ export const metricsApiSlice = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: URL }),
   endpoints: (builder) => ({
     getMetrics: builder.query({
-      query: () => 'metrics',
+      query: () => 'api/metrics',
       transformErrorResponse: (response: { status: string | number }) =>
         response.status,
     }),
@@ -17,33 +21,39 @@ export const metricsApiSlice = createApi({
       query: (data: any) => ({
         url: 'send',
         method: 'POST',
-        body: data
-    })
-    }),
-    getSnapshots: builder.query({
-      query: () => 'snapshots',
-    }),
-    updateSnapshots: builder.mutation({
-      query: (snapshot) => ({
-        url: 'snapshots',
-        method: 'PATCH',
-        body: snapshot,
+        body: data,
       }),
     }),
-    deleteSnapshots: builder.mutation({
-      query: (snapshot) => ({
-        url: 'snapshots',
+    getSnapshots: builder.query<Snapshot[], void>({
+      query: () => 'snapshot',
+    }),
+    updateSnapshots: builder.mutation<Snapshot, Partial<Snapshot>>({
+      query: (newSnapshotData: Partial<Snapshot>) => {
+        return {
+          url: `snapshot/${newSnapshotData._id}`,
+          method: 'PATCH',
+          body: newSnapshotData,
+        };
+      },
+    }),
+    deleteSnapshots: builder.mutation<Snapshot, string>({
+      query: (id) => ({
+        url: `snapshot/${id}`,
         method: 'DELETE',
-        body: snapshot,
       }),
     }),
   }),
 });
+
+export const useGetSnapshotState =
+  metricsApiSlice.endpoints.getSnapshots.useQueryState;
+export const useSnapshotQuerySubscription =
+  metricsApiSlice.endpoints.getSnapshots.useQuerySubscription;
 
 export const {
   useGetMetricsQuery,
   useGetSnapshotsQuery,
   useUpdateSnapshotsMutation,
   useDeleteSnapshotsMutation,
-  useGrabMetricsMutation
+  useGrabMetricsMutation,
 } = metricsApiSlice;
