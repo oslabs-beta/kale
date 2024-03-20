@@ -16,7 +16,8 @@ export default function LineChart({ metric, value, time }: MetricsData) {
       .style('background', '#d3d3d3')
       .style('margin-top', '50')
       .style('margin-left', '50')
-      .style('overflow', 'visible');
+      .style('overflow', 'visible')
+      .style('fill', '#ffffff');
     //setting up the scaling
     const xScale = d3
       .scaleLinear()
@@ -97,9 +98,9 @@ export default function LineChart({ metric, value, time }: MetricsData) {
   }, [time]);
 
   return (
-    <>
+    <div>
       <p className="text-lg font-semibold text-center">{metric}</p>
       <svg ref={svgRef}></svg>
-    </>
+    </div>
   );
 }

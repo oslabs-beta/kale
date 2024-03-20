@@ -1,11 +1,11 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  // darkMode: 'media',
+  darkMode: 'media',
   content: [
     './client/pages/**/*.tsx',
     './client/components/**/*.tsx',
     './client/public/index.html',
-    './node_modules/flowbite/**/*.js',
+    'node_modules/flowbite-react/lib/esm/',
   ],
   theme: {
     screens: {
@@ -15,7 +15,7 @@ module.exports = {
       xl: '1440px',
     },
     fontFamily: {
-      sans: ['Graphik', 'sans-serif'],
+      sans: ['Open Sans', 'sans-serif'],
       serif: ['Merriweather', 'serif'],
     },
     extend: {

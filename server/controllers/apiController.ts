@@ -3,11 +3,11 @@ import { ApiData, FetchResponseData, MetricsData } from '../../types';
 
 export const apiController = {
   gpuUsage: async (req: Request, res: Response, next: NextFunction) => {
-    const podName = 'hello-app-67dbb49698-ltmv6';
-
-    let baseUrl = req.body.baseUrl.includes(`http://`)
-      ? req.body.baseUrl.slice(7)
-      : req.body.baseUrl;
+    const podName = 'hello-app-67dbb49698-lcqbj';
+    console.log(req.body);
+    let baseUrl = req.body.url.includes(`http://`)
+      ? req.body.url.slice(7)
+      : req.body.url;
 
     console.log(`inside gpuUsage middleware`);
     console.log(`baseUrl =: `, baseUrl);

@@ -56,13 +56,14 @@ export default function Gauge({ metric, value, time }: GaugeChartProps) {
       .attr('transform', `translate(${radius}, ${radius})`)
       .attr('text-anchor', 'middle')
       .style('font-size', 50)
+      .style('fill', '#ffffff')
       .text(data[0] * 100 + '%');
   }, [data]);
 
   return (
-    <>
+    <div>
       <p className="text-lg font-semibold text-center">{metric}</p>
       <svg ref={svgRef}></svg>
-    </>
+    </div>
   );
 }

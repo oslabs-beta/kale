@@ -8,6 +8,9 @@ const app = express();
 app.use(express.json());
 const PORT = 3000;
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 app.use('/snapshot', dbRouter);
 app.use('/dist', express.static(path.resolve(__dirname, '../dist')));
 
@@ -24,6 +27,16 @@ app.get('/', (req, res, next) => {
     .status(200)
     .sendFile(path.join(__dirname, '../client/public/index.html'));
 });
+
+app.use('/snapshots', dbRouter);
+
+app.post(
+  '/api',
+  apiController.gpuUsage,
+  (req: Request, res: Response, next: NextFunction) => {
+    return res.status(200).json(res.locals.gpuUsage);
+  }
+);
 
 app.get('*', (req: Request, res: Response, next: NextFunction) =>
   res.status(404).send(`Page not found`)
