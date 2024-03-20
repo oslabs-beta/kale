@@ -1,10 +1,16 @@
-import { CreateSliceOptions, createSlice } from '@reduxjs/toolkit';
+import {
+  CreateSliceOptions,
+  createSlice,
+  PayloadAction,
+} from '@reduxjs/toolkit';
 
 type UiState = {
+  urlInput: string;
   isSidebarOpen: boolean;
   isInputOpen: boolean;
 };
 const initialState: UiState = {
+  urlInput: '',
   isSidebarOpen: false,
   isInputOpen: false,
 };
@@ -19,7 +25,10 @@ export const uiSlice = createSlice({
     showInput(state) {
       state.isInputOpen = true;
     },
+    saveUrl: (state, action: PayloadAction<string>) => {
+      state.urlInput = action.payload;
+    },
   },
 });
 
-export const { toggleSidebar, showInput } = uiSlice.actions;
+export const { toggleSidebar, showInput, saveUrl } = uiSlice.actions;

@@ -8,32 +8,33 @@ export interface Snapshot extends ApiData {
 // API communication with server
 export const metricsApiSlice = createApi({
   reducerPath: 'metricsApi',
-  baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:8080/' }),
+  baseQuery: fetchBaseQuery({ baseUrl: '/' }),
   endpoints: (builder) => ({
-    getMetrics: builder.query({
-      query: (url: URL) => ({
-        url: 'api',
-        method: 'GET',
-        body: url,
-      }),
-      transformErrorResponse: (response: { status: string | number }) =>
-        response.status,
-    }),
-    // grabMetrics: builder.mutation<Snapshot[], URL>({
-    //   query: (url: URL) => ({
+    // getMetrics: builder.query({
+    //   query: (url: string) => ({
     //     url: 'api',
-    //     method: 'POST',
+    //     method: 'GET',
     //     body: url,
     //   }),
+    //   transformErrorResponse: (response: { status: string | number }) =>
+    //     response.status,
     // }),
+    grabMetrics: builder.mutation<ApiData, string>({
+      query: (urlString: string) => ({
+        url: 'api',
+        method: 'POST',
+        body: { url: urlString },
+        // headers: { 'Content-type': 'application/json' },
+      }),
+    }),
     getSnapshots: builder.query<Snapshot[], void>({
       query: () => 'snapshots',
     }),
     sendSnapshots: builder.mutation({
-      query: (data: any) => ({
+      query: (data: ApiData) => ({
         url: 'snapshots',
         method: 'POST',
-        body: data,
+        body: { snapshot: data },
       }),
     }),
     updateSnapshots: builder.mutation<Snapshot, Partial<Snapshot>>({
@@ -60,8 +61,8 @@ export const useSnapshotQuerySubscription =
   metricsApiSlice.endpoints.getSnapshots.useQuerySubscription;
 
 export const {
-  useGetMetricsQuery, //grab from mock data (fortesting)
-  // useGrabMetricsMutation, //sending a post request using url
+  // useGetMetricsQuery, //grab from mock data (fortesting)
+  useGrabMetricsMutation, //sending a post request using url
   useGetSnapshotsQuery, // (for history page)
   useSendSnapshotsMutation, // send post request to post snapshot
   useUpdateSnapshotsMutation, //STRETCH: update the snapshot

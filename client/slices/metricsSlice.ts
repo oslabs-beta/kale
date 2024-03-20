@@ -10,10 +10,10 @@ export const metricsSlice = createSlice({
   name: 'metrics',
   initialState,
   reducers: {
-    saveUrl: (state, action: PayloadAction<string>) => {
-      state.input = action.payload;
-    },
+    // saveUrl: (state, action: PayloadAction<string>) => {
+    //   state.input = action.payload;
+    // },
   },
 });
 
-export const { saveUrl } = metricsSlice.actions;
+export const {} = metricsSlice.actions;

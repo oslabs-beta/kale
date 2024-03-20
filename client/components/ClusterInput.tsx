@@ -2,12 +2,12 @@ import { RootState, useAppDispatch } from '../slices/store';
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { saveUrl } from '../slices/metricsSlice';
-import { showInput } from '../slices/uiSlice';
+import { showInput, saveUrl } from '../slices/uiSlice';
 
 type ClusterInputProps = {
   handleInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  // handleClick: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+  handleClick: (url: string) => void;
+  url: string;
 };
 
 const ClusterInput = (props: ClusterInputProps) => {
@@ -42,11 +42,7 @@ const ClusterInput = (props: ClusterInputProps) => {
             to="/dashboard"
             className="rounded-md bg-kalegreen-600 px-3.5 py-2.5 text-sm text-white shadow-sm hover:bg-kalegreen-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-kalegreen-600"
           >
-            <button
-            // onClick={props.handleClick}
-            >
-              Go
-            </button>
+            <button onClick={() => props.handleClick(props.url)}>Go</button>
           </Link>
         </div>
       )}

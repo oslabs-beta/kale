@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction, RequestHandler } from 'express';
 import Snapshot from '../models/snapshotModel';
+
 export const dbController = {
   getSnapshot: async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -15,9 +16,9 @@ export const dbController = {
   },
 
   postSnapshot: async (req: Request, res: Response, next: NextFunction) => {
-    const { podName, date, metrics } = req.body;
+    const { podName, metrics } = req.body.snapshot;
     try {
-      if (!podName || !metrics || !metrics.gpuUsage || !metrics.memoryUsage) {
+      if (!podName || !metrics) {
         return next({
           status: 400,
           log: 'Error in postSnapshot middleware',
@@ -25,7 +26,7 @@ export const dbController = {
             'Cannot create new snapshot. Please provide all required information.',
         });
       }
-      const newSnapshot = await Snapshot.create({ podName, date, metrics });
+      const newSnapshot = await Snapshot.create({ podName, metrics });
       res.locals.newSnapshot = newSnapshot;
       return next();
     } catch (err) {

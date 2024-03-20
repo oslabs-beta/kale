@@ -5,58 +5,28 @@ import GaugeChart from '../components/GaugeChart';
 import NavBar from '../components/Navbar';
 import LineChart from '../components/LineChart';
 import {
-  useGetMetricsQuery,
+  // useGetMetricsQuery,
+  useGrabMetricsMutation,
   useSendSnapshotsMutation,
 } from '../slices/metricsApi';
 import LineChart2 from '../components/LineChart2';
 import SnapshotButton from '../components/SnapshotButton';
 import GuageChart2 from '../components/GuageChart2';
+import ChartTable from '../components/ChartTable';
+import { ApiData } from '../../types';
 
 export default function Dashboard() {
   const urlShow = useSelector((state: RootState) => state.metrics.input);
-  const {
-    data: currentData,
-    error,
-    isLoading,
-  } = useGetMetricsQuery(undefined, { pollingInterval: 60000 });
+  // const { data: currentData, error, isLoading } = useGetMetricsQuery(urlShow);
+  const [grabMetrics, { data: currentData, error, isLoading }] =
+    useGrabMetricsMutation({
+      fixedCacheKey: 'current-metric-data',
+    });
+  const [createSnapshot] = useSendSnapshotsMutation({
+    fixedCacheKey: 'last-snapshot-data',
+  });
 
-  const [createSnapshot] = useSendSnapshotsMutation();
-
-  const lineChartArr: JSX.Element[] = [];
-  const guageChartArr: JSX.Element[] = [];
-
-  if (currentData) {
-    for (let i = 0; i < Object.keys(currentData.metrics).length; i++) {
-      lineChartArr.push(
-        <LineChart
-          metric={
-            currentData.metrics[Object.keys(currentData.metrics)[i]].metric
-          }
-          value={currentData.metrics[Object.keys(currentData.metrics)[i]].value}
-          time={currentData.metrics[Object.keys(currentData.metrics)[i]].time}
-          key={i}
-        />
-      );
-    }
-    for (let i = 0; i < Object.keys(currentData.metrics).length; i++) {
-      guageChartArr.push(
-        <GaugeChart
-          metric={currentData.metrics[i].metric}
-          value={
-            currentData.metrics[i].value[
-              currentData.metrics[i].value.length - 1
-            ]
-          }
-          time={
-            currentData.metrics[i].time[currentData.metrics[i].time.length - 1]
-          }
-          key={i}
-        />
-      );
-    }
-  }
-
-  function handleClick(data: any) {
+  function handleClick(data: ApiData) {
     try {
       //console.log(currentData);
       const response = createSnapshot(currentData);
@@ -70,7 +40,7 @@ export default function Dashboard() {
     <>
       <NavBar title="Dashboard" to="/dashboard" />
       {isLoading || !currentData ? (
-        <div>Data loading...</div>
+        <div className="text-zinc-200">Data loading...</div>
       ) : currentData ? (
         <div className="w-full grid grid-cols-6 grid-rows-2 gap-3 place-content-center">
           <div className="h-80 max-w-full content-center">
@@ -93,32 +63,7 @@ export default function Dashboard() {
             </p>
             <SnapshotButton handleClick={() => handleClick(currentData)} />
           </div>
-          <div className="h-64 max-w-full col-span-2">{guageChartArr[0]}</div>
-          <div className="h-64 max-w-full col-span-2 col-start-5">
-            {guageChartArr[1]}
-          </div>
-          <div className="h-64 max-w-full col-span-2 col-start-5">
-            <GuageChart2 />
-          </div>
-          {/* <div className="h-96 max-w-full col-span-3 row-start-2">
-            {lineChartArr[0]}
-          </div>
-          <div className="h-96 max-w-full col-span-3 col-start-4 row-start-2">
-            {lineChartArr[1]}
-          </div> */}
-          <div className="h-96 max-w-full col-span-3 col-start-4 row-start-2">
-            <LineChart2
-              metric={
-                currentData.metrics[Object.keys(currentData.metrics)[1]].metric
-              }
-              value={
-                currentData.metrics[Object.keys(currentData.metrics)[1]].value
-              }
-              time={
-                currentData.metrics[Object.keys(currentData.metrics)[1]].time
-              }
-            />
-          </div>
+          <ChartTable metrics={currentData.metrics} />
         </div>
       ) : null}
     </>
