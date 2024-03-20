@@ -1,7 +1,7 @@
 export type Metric = {
   name: string;
   time: number[];
-  value: number[]; // Flexible for various metric types
+  value: number[];
 };
 
 export type MetricsState = {
@@ -28,7 +28,6 @@ export type FetchResponseData = {
   };
 };
 
-// // type for each metric
 export type MetricsData = {
   metric: string;
   time: string[];
@@ -41,7 +40,3 @@ export interface ApiData {
   date: string;
   metrics: { [key: string]: MetricsData };
 }
-
-// export type ClusterInputState = {
-//   input: string;
-// };\

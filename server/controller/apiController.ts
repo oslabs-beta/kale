@@ -4,7 +4,6 @@ import { ApiData, FetchResponseData, MetricsData } from '../../types';
 export const apiController = {
   gpuUsage: async (req: Request, res: Response, next: NextFunction) => {
     const podName = 'hello-app-67dbb49698-ltmv6';
-    // const baseUrl = 'http://35.196.85.95/api/v1/query';
 
     let baseUrl = req.body.baseUrl.includes(`http://`)
       ? req.body.baseUrl.slice(7)
@@ -19,9 +18,6 @@ export const apiController = {
       };
       return next(errObj);
     }
-    //  else if (baseUrl.includes('http://')) {
-    //   baseUrl = baseUrl.slice(7);
-    // }
 
     const query = `container_cpu_usage_seconds_total{pod="${podName}", namespace="default"}[5m]`;
     const encodedQuery = encodeURIComponent(query);
@@ -37,7 +33,7 @@ export const apiController = {
         value: [],
       };
 
-      //Gets only total percent usage
+      //-------- Total pod usage ------------
       data.data.result[0].values.forEach(([time, value]) => {
         let date = new Date(time * 1000);
         let formattedTime = date.toLocaleTimeString('en-US', {
