@@ -41,8 +41,8 @@ export default function ChartTable({ metrics }: ChartTableProps) {
   }
   return (
     <div>
-      <div>{lineChartArr}</div>
       <div>{gaugeChartArr}</div>
+      <div>{lineChartArr}</div>
     </div>
   );
 }

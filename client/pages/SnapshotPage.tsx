@@ -10,6 +10,7 @@ import {
   useDeleteSnapshotsMutation,
 } from '../slices/metricsApi';
 import { Snapshot } from '../slices/metricsApi';
+import ChartTable from '../components/ChartTable';
 
 export default function SnapshotPage() {
   const { snapshotId } = useParams();
@@ -27,47 +28,12 @@ export default function SnapshotPage() {
   };
 
   let currSnapshot: Snapshot;
-  const lineChartArr: JSX.Element[] = [];
-  const gaugeChartArr: JSX.Element[] = [];
 
   if (snapshots) {
     for (let i = 0; i < snapshots.length; i++) {
       if (snapshots[i]._id === snapshotId) {
         currSnapshot = snapshots[i];
       }
-    }
-
-    for (let i = 0; i < Object.keys(currSnapshot.metrics).length; i++) {
-      lineChartArr.push(
-        <LineChart
-          metric={Object.keys(currSnapshot.metrics)[i]}
-          value={
-            currSnapshot.metrics[Object.keys(currSnapshot.metrics)[i]].value
-          }
-          time={currSnapshot.metrics[Object.keys(currSnapshot.metrics)[i]].time}
-          key={i}
-        />
-      );
-    }
-    for (let i = 0; i < Object.keys(currSnapshot.metrics).length; i++) {
-      gaugeChartArr.push(
-        <GaugeChart
-          metric={Object.keys(currSnapshot.metrics)[i]}
-          value={
-            currSnapshot.metrics[Object.keys(currSnapshot.metrics)[i]].value[
-              currSnapshot.metrics[Object.keys(currSnapshot.metrics)[i]].value
-                .length - 1
-            ]
-          }
-          time={
-            currSnapshot.metrics[Object.keys(currSnapshot.metrics)[i]].time[
-              currSnapshot.metrics[Object.keys(currSnapshot.metrics)[i]].time
-                .length - 1
-            ]
-          }
-          key={i}
-        />
-      );
     }
   }
 
@@ -86,32 +52,20 @@ export default function SnapshotPage() {
           Delete Snapshot
         </button>
       </div>
-      <div className="w-full grid grid-cols-6 grid-rows-2 gap-3 place-content-center mx-20">
-        <div className="h-80 max-w-full content-center">
-          <p className="text-lg text-center dark:text-zinc-300">Name of GPU</p>
-          <p className="font-serif text-xl text-center h-full p-3 dark:text-zinc-300">
-            NVIDIA GeForce RTX 3080
-          </p>
-        </div>
-        <div className="h-64 max-w-full content-center">
-          <p className="text-lg text-center dark:text-zinc-300">
-            Driver Version
-          </p>
-          <p className="font-serif text-xl text-center h-full p-3 dark:text-zinc-300">
-            465.19
-          </p>
-        </div>
-        <div className="h-64 max-w-full col-span-2">{gaugeChartArr[0]}</div>
-        <div className="h-64 max-w-full col-span-2 col-start-5">
-          {gaugeChartArr[1]}
-        </div>
-        <div className="h-96 max-w-full col-span-3 row-start-2">
-          {lineChartArr[0]}
-        </div>
-        <div className="h-96 max-w-full col-span-3 col-start-4 row-start-2">
-          {lineChartArr[1]}
-        </div>
+
+      <div className="h-80 max-w-full content-center">
+        <p className="text-lg text-center dark:text-zinc-300">Name of GPU</p>
+        <p className="font-serif text-xl text-center h-full p-3 dark:text-zinc-300">
+          NVIDIA GeForce RTX 3080
+        </p>
       </div>
+      <div className="h-64 max-w-full content-center">
+        <p className="text-lg text-center dark:text-zinc-300">Driver Version</p>
+        <p className="font-serif text-xl text-center h-full p-3 dark:text-zinc-300">
+          465.19
+        </p>
+      </div>
+      <ChartTable metrics={currSnapshot.metrics} />
     </>
   );
 }

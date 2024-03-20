@@ -56,6 +56,7 @@ export default function Gauge({ metric, value, time }: GaugeChartProps) {
       .attr('transform', `translate(${radius}, ${radius})`)
       .attr('text-anchor', 'middle')
       .style('font-size', 50)
+      .style('fill', '#ffffff')
       .text(data[0] * 100 + '%');
   }, [data]);
 

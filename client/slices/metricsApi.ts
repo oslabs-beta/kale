@@ -5,7 +5,7 @@ export interface Snapshot extends ApiData {
   _id: string;
 }
 
-const URL = 'https://a9abd903-f585-46ab-b66f-b18d23232503.mock.pstmn.io/';
+const URL = 'https://5491ba09-282b-49c6-b362-1b0f4e4e6f58.mock.pstmn.io';
 
 // API communication with server
 export const metricsApiSlice = createApi({
@@ -13,7 +13,7 @@ export const metricsApiSlice = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: URL }),
   endpoints: (builder) => ({
     getMetrics: builder.query({
-      query: () => 'api/metrics',
+      query: () => 'metrics',
       transformErrorResponse: (response: { status: string | number }) =>
         response.status,
     }),
@@ -26,6 +26,13 @@ export const metricsApiSlice = createApi({
     }),
     getSnapshots: builder.query<Snapshot[], void>({
       query: () => 'snapshot',
+    }),
+    sendSnapshots: builder.mutation({
+      query: (data: any) => ({
+        url: 'snapshots',
+        method: 'POST',
+        body: data,
+      }),
     }),
     updateSnapshots: builder.mutation<Snapshot, Partial<Snapshot>>({
       query: (newSnapshotData: Partial<Snapshot>) => {
@@ -51,9 +58,10 @@ export const useSnapshotQuerySubscription =
   metricsApiSlice.endpoints.getSnapshots.useQuerySubscription;
 
 export const {
-  useGetMetricsQuery,
-  useGetSnapshotsQuery,
-  useUpdateSnapshotsMutation,
-  useDeleteSnapshotsMutation,
-  useGrabMetricsMutation,
+  useGetMetricsQuery, //grab from mock data (fortesting)
+  useGrabMetricsMutation, //sending a post request using url
+  useGetSnapshotsQuery, // (for history page)
+  useSendSnapshotsMutation, // send post request to post snapshot
+  useUpdateSnapshotsMutation, //STRETCH: update the snapshot
+  useDeleteSnapshotsMutation, //deleting the snapshot
 } = metricsApiSlice;
