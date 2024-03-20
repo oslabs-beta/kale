@@ -1,7 +1,7 @@
 import express, { Request, Response, NextFunction } from 'express';
 import { ServerError } from '../types';
 import * as path from 'path';
-import { apiController } from './controller/apiController';
+import { apiController } from './controllers/apiController';
 import dbRouter from './router/dbRouter';
 import exp from 'constants';
 const app = express();
