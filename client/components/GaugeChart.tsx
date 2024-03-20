@@ -60,9 +60,9 @@ export default function Gauge({ metric, value, time }: GaugeChartProps) {
   }, [data]);
 
   return (
-    <>
+    <div>
       <p className="text-lg font-semibold text-center">{metric}</p>
       <svg ref={svgRef}></svg>
-    </>
+    </div>
   );
 }
