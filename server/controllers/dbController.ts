@@ -4,17 +4,12 @@ export const dbController = {
   getSnapshot: async (req: Request, res: Response, next: NextFunction) => {
     try {
       const snapshots = await Snapshot.find();
-      if (snapshots.length === 0) {
-        return next({
-          status: 400,
-          log: 'Error in getSnapshots middleware',
-          message: 'There are no snapshots in the database',
-        });
-      }
       res.locals.snapshots = snapshots;
       return next();
     } catch (err) {
-      return next(err);
+      return next({
+        log: 'Error in getSnapshot middleware',
+        message: err.message});
     }
   },
 
@@ -23,7 +18,6 @@ export const dbController = {
     try {
       if (
         !podName ||
-        !date ||
         !metrics ||
         !metrics.gpuUsage ||
         !metrics.memoryUsage
@@ -39,12 +33,14 @@ export const dbController = {
       res.locals.newSnapshot = newSnapshot;
       return next();
     } catch (err) {
-      return next(err);
+      return next({
+        log: 'Error in postSnapshot middleware',
+        message: err.message});
     }
   },
 
   deleteSnapshot: async (req: Request, res: Response, next: NextFunction) => {
-    const { _id } = req.body;
+    const { _id } = req.params;
     try {
       if (!_id) {
         return next({
@@ -65,7 +61,9 @@ export const dbController = {
       res.locals.deletedSnapshot = deletedSnapshot;
       return next();
     } catch (err) {
-      return next(err);
+      return next({
+        log: 'Error in deleteSnapshot middleware',
+        message: err.message});
     }
   },
 };

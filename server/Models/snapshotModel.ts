@@ -12,7 +12,9 @@ try {
 
 const snapshotSchema = new Schema({
   podName: String,
-  date: Date,
+  date: {type: Date,
+  default: Date.now()
+},
   metrics: {
     gpuUsage: {
       metric: String,
