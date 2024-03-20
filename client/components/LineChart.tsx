@@ -1,19 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react';
 import * as d3 from 'd3';
+import { MetricsData } from '../../types';
 
-type LineChartProps = {
-  name: string;
-  value: number[];
-  time: number[];
-};
-
-export default function LineChart({ name, value, time }: LineChartProps) {
+export default function LineChart({ metric, value, time }: MetricsData) {
   const svgRef = useRef();
 
   useEffect(() => {
     //setting up svg
-    const w = 400;
-    const h = 100;
+    const w = 600;
+    const h = 350;
     const svg = d3
       .select(svgRef.current)
       .attr('width', w)
@@ -21,7 +16,8 @@ export default function LineChart({ name, value, time }: LineChartProps) {
       .style('background', '#d3d3d3')
       .style('margin-top', '50')
       .style('margin-left', '50')
-      .style('overflow', 'visible');
+      .style('overflow', 'visible')
+      .style('fill', '#ffffff');
     //setting up the scaling
     const xScale = d3
       .scaleLinear()
@@ -101,5 +97,10 @@ export default function LineChart({ name, value, time }: LineChartProps) {
     // }
   }, [time]);
 
-  return <svg ref={svgRef}></svg>;
+  return (
+    <div>
+      <p className="text-lg font-semibold text-center">{metric}</p>
+      <svg ref={svgRef}></svg>
+    </div>
+  );
 }

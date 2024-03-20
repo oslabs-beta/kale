@@ -1,4 +1,5 @@
 import React from 'react';
+import './stylesheets/styles.css';
 import { Provider } from 'react-redux';
 import { createRoot } from 'react-dom/client';
 import store from './slices/store';
