@@ -23,6 +23,13 @@ export const metricsApiSlice = createApi({
     getSnapshots: builder.query({
       query: () => 'snapshots',
     }),
+    sendSnapshots: builder.mutation({
+      query: (data: any) => ({
+        url: 'snapshots',
+        method: 'POST',
+        body: data
+    })
+    }),
     updateSnapshots: builder.mutation({
       query: (snapshot) => ({
         url: 'snapshots',
@@ -41,9 +48,10 @@ export const metricsApiSlice = createApi({
 });
 
 export const {
-  useGetMetricsQuery,
-  useGetSnapshotsQuery,
-  useUpdateSnapshotsMutation,
-  useDeleteSnapshotsMutation,
-  useGrabMetricsMutation
+  useGetMetricsQuery, //grab from mock data (fortesting)
+  useGrabMetricsMutation,   //sending a post request using url
+  useGetSnapshotsQuery, // (for history page)
+  useSendSnapshotsMutation, // send post request to post snapshot
+  useUpdateSnapshotsMutation,  //STRETCH: update the snapshot
+  useDeleteSnapshotsMutation, //deleting the snapshot
 } = metricsApiSlice;
