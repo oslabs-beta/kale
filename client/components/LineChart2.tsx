@@ -50,7 +50,7 @@ export default function LineChart2({ metric, value, time }: MetricsData) {
     datasets: [
       {
         label: metric,
-        data: value,
+        data: value.map((val) => +(val * 100).toFixed(2)),
         borderColor: '#3AD48F',
         backgroundColor: '#1E8A5A',
       },
@@ -58,7 +58,7 @@ export default function LineChart2({ metric, value, time }: MetricsData) {
   };
 
   return (
-    <div className="flex flex-col h-auto w-1/2 items-center justify-center">
+    <div className="flex flex-col h-auto w-1/2 items-center justify-center p-8">
       <p className="text-lg text-center dark:text-kalegreen-300">{metric}</p>
       <Line data={data} />
     </div>

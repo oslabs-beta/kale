@@ -47,7 +47,8 @@ export default function ChartTable({ metrics }: ChartTableProps) {
       </div>
 
       <div className="flex max-w-screen-xl flex-wrap items-center justify-start mx-6 my-6">
-        {lineChartArr}
+        {lineChartArr[0]}
+        {lineChartArr[0]}
       </div>
     </>
   );

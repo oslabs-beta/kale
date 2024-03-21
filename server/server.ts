@@ -38,6 +38,12 @@ app.get(
   }
 );
 
+app.get('/*', (req, res) => {
+  return res
+    .status(200)
+    .sendFile(path.join(__dirname, '../client/public/index.html'));
+});
+
 app.get('*', (req: Request, res: Response, next: NextFunction) =>
   res.status(404).send(`Page not found`)
 );
