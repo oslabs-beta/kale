@@ -1,70 +1,90 @@
 import React, { PureComponent } from 'react';
-import { RadialBarChart, RadialBar, Legend, Tooltip } from 'recharts';
+import {
+  RadialBarChart,
+  RadialBar,
+  Legend,
+  Tooltip,
+  ResponsiveContainer,
+  PolarAngleAxis,
+  PolarRadiusAxis,
+} from 'recharts';
 
-const data = [
-  {
-    name: 'Target (5%)',
-    uv: 5,
-    pv: 4567,
-    fill: '#777',
-  },
-  {
-    name: 'Growth %',
-    uv: 8.3,
-    pv: 2400,
-    fill: '#22AA22',
-  },
-];
+type GuageChartProps = {
+  metric: string;
+  value: number;
+  time: string;
+};
 
-const RadialBarChart01 = () => {
+// const data = [
+//   {
+//     name: 'Target (5%)',
+//     uv: 5,
+//     pv: 4567,
+//     fill: '#777',
+//   },
+//   {
+//     name: 'Growth %',
+//     uv: 8.3,
+//     pv: 2400,
+//     fill: '#22AA22',
+//   },
+// ];
+
+const GuageChart2 = ({ metric, value, time }: GuageChartProps) => {
   return (
-    <RadialBarChart
-      width={400}
-      height={400}
-      innerRadius="70%"
-      outerRadius="120%"
-      data={data}
-      startAngle={180}
-      endAngle={0}
-    >
-      <RadialBar
-        label={{ fill: '#FFF', position: 'insideStart' }}
-        background
-        dataKey="uv"
-      />
-      <text
-        x="50%"
-        y="50%"
-        dy={+12}
-        style={{ fontSize: 48, fontWeight: 'bold', fill: '#22AA22' }}
-        width={200}
-        textAnchor="middle"
+    <ResponsiveContainer width="95%" height={400}>
+      <RadialBarChart
+        innerRadius="80%"
+        outerRadius="100%"
+        barSize={10}
+        data={[value]}
       >
-        8.3%
-      </text>
-      <text
-        x="50%"
-        y="60%"
-        style={{ fontSize: 24, fontWeight: 'bold', fill: '#777' }}
-        width={200}
-        textAnchor="middle"
-      >
-        Target: 5%
-      </text>
-      <Legend
-        iconSize={20}
-        width={120}
-        height={100}
-        layout="vertical"
-        verticalAlign="bottom"
-        align="center"
-      />
-      <Tooltip />
-    </RadialBarChart>
+        <PolarAngleAxis
+          type="number"
+          domain={[360, 180]}
+          allowDataOverflow={true}
+          tick={false}
+        />
+        <PolarRadiusAxis angle={30} domain={[0, 100]} tick={false} />
+        <RadialBar
+          label={{ fill: '#666', position: 'insideStart' }}
+          background
+          dataKey="value"
+        />
+        <text
+          x="50%"
+          y="50%"
+          dy={+12}
+          style={{ fontSize: 48, fontWeight: 'bold', fill: '#22AA22' }}
+          width={200}
+          textAnchor="middle"
+        >
+          8.3%
+        </text>
+        <text
+          x="50%"
+          y="60%"
+          style={{ fontSize: 24, fontWeight: 'bold', fill: '#777' }}
+          width={200}
+          textAnchor="middle"
+        >
+          Target: 5%
+        </text>
+        <Legend
+          iconSize={20}
+          width={120}
+          height={100}
+          layout="vertical"
+          verticalAlign="bottom"
+          align="center"
+        />
+        <Tooltip />
+      </RadialBarChart>
+    </ResponsiveContainer>
   );
 };
-export default RadialBarChart01;
 
+export default GuageChart2;
 
 // import React, { PureComponent } from 'react';
 // import { PieChart, Pie, Cell, Label } from 'recharts';

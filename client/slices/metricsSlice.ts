@@ -1,8 +1,6 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
-import { ClusterInputState } from '../../types.d';
-
-const initialState: ClusterInputState = {
+const initialState: any = {
   input: '',
 };
 

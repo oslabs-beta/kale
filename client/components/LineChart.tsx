@@ -98,7 +98,7 @@ export default function LineChart({ metric, value, time }: MetricsData) {
   }, [time]);
 
   return (
-    <div>
+    <div className="flex flex-col h-60 w-60 items-center justify-center">
       <p className="text-lg font-semibold text-center">{metric}</p>
       <svg ref={svgRef}></svg>
     </div>
