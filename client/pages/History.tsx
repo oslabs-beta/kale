@@ -5,7 +5,6 @@ import {
   useGetSnapshotsQuery,
 } from '../slices/metricsApi';
 import Navbar from '../components/Navbar';
-import { MetricsData } from '../../types.d';
 
 export default function History() {
   const { data: snapShots, error, isLoading } = useGetSnapshotsQuery();
@@ -49,7 +48,7 @@ export default function History() {
           <td className="px-6 py-4">{snapShots[i].date}</td>
           <td className="px-6 py-4">
             <button
-              className="font-medium text-kalegreen-600 dark:text-kalegreen-500 hover:underline"
+              className="font-medium text-rose-600 dark:text-rose-500 hover:underline"
               onClick={() => handleDelete(snapShots[i]._id)}
             >
               Delete

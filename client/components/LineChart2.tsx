@@ -1,19 +1,40 @@
-import {
-  LineChart,
-  Line,
-  CartesianGrid,
-  Tooltip,
-  XAxis,
-  YAxis,
-  ResponsiveContainer,
-} from 'recharts';
+// import {
+//   LineChart,
+//   Line,
+//   CartesianGrid,
+//   Tooltip,
+//   XAxis,
+//   YAxis,
+//   Legend,
+// } from 'recharts';
 import React from 'react';
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+} from 'chart.js';
+import { Line } from 'react-chartjs-2';
 import { MetricsData } from '../../types';
 
-type ChartDataSingle = {
-  time: string;
-  value: number;
-};
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+);
+
+// type ChartDataSingle = {
+//   time: string;
+//   value: number;
+// };
 
 export default function LineChart2({ metric, value, time }: MetricsData) {
   // const data = [
@@ -23,21 +44,36 @@ export default function LineChart2({ metric, value, time }: MetricsData) {
   //   { name: 'Page D', uv: 200 },
   //   { name: 'Page E', uv: 100 },
   // ];
-  const data: ChartDataSingle[] = [];
 
-  for (let i = 0; i < time.length; i++) {
-    data.push({ time: time[i], value: value[i] });
-  }
+  const data = {
+    labels: time,
+    datasets: [
+      {
+        label: metric,
+        data: value.map((val) => +(val * 100).toFixed(2)),
+        borderColor: '#3AD48F',
+        backgroundColor: '#1E8A5A',
+      },
+    ],
+  };
 
   return (
-    <ResponsiveContainer width="95%" height={400}>
-      <LineChart data={data} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
-        <Line type="monotone" dataKey="uv" stroke="kalegreen" />
-        <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
-        <XAxis dataKey="time.length" />
-        <YAxis />
-        <Tooltip />
-      </LineChart>
-    </ResponsiveContainer>
+    <div className="flex flex-col h-auto w-1/2 items-center justify-center p-8">
+      <p className="text-lg text-center dark:text-kalegreen-300">{metric}</p>
+      <Line data={data} />
+    </div>
+    // <LineChart
+    //   width={730}
+    //   height={250}
+    //   data={data}
+    //   margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+    // >
+    //   <CartesianGrid strokeDasharray="3 3" />
+    //   <XAxis dataKey="time" />
+    //   <YAxis />
+    //   <Tooltip />
+    //   <Legend />
+    //   <Line type="monotone" dataKey="%" stroke="#8884d8" />
+    // </LineChart>
   );
 }

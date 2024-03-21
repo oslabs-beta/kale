@@ -2,20 +2,22 @@ import React from 'react';
 import { useRef, useEffect } from 'react';
 import * as d3 from 'd3';
 
-type GaugeChartProps = {
+type GuageChartProps = {
   metric: string;
   value: number;
   time: string;
 };
 
-export default function Gauge({ metric, value, time }: GaugeChartProps) {
+export default function GuageChart({ metric, value, time }: GuageChartProps) {
+  console.log('GuageChart', metric, value, time);
+
   const data = [value, 1 - value];
   const svgRef = useRef();
 
   useEffect(() => {
     //setting up svg container
-    const w = 400;
-    const h = 400;
+    const w = 320;
+    const h = 180;
     const radius = +w / 2;
     const svg = d3
       .select(svgRef.current)
@@ -46,7 +48,7 @@ export default function Gauge({ metric, value, time }: GaugeChartProps) {
       .data(instructions)
       .join('path')
       .attr('d', arcGenerator)
-      .attr('fill', (insctruction, i) => (i === 0 ? 'green' : 'red'))
+      .attr('fill', (insctruction, i) => (i === 0 ? '#1E8A5A' : '#e11d48'))
       .attr('opacity', 0.7)
       .style('transform', `translate(${radius}px, ${radius}px)`);
 
@@ -55,14 +57,14 @@ export default function Gauge({ metric, value, time }: GaugeChartProps) {
       .append('text')
       .attr('transform', `translate(${radius}, ${radius})`)
       .attr('text-anchor', 'middle')
-      .style('font-size', 50)
-      .style('fill', '#ffffff')
-      .text(data[0] * 100 + '%');
+      .style('font-size', 30)
+      .style('fill', '#e4e4e7')
+      .text(+data[0].toFixed(4) * 100 + '%');
   }, [data]);
 
   return (
-    <div>
-      <p className="text-lg font-semibold text-center">{metric}</p>
+    <div className="flex flex-col h-auto w-1/3 items-center justify-center">
+      <p className="text-lg text-center dark:text-kalegreen-300">{metric}</p>
       <svg ref={svgRef}></svg>
     </div>
   );
