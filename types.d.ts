@@ -19,11 +19,20 @@ export type ServerError = {
   message: ErrorMessage;
 };
 
-export type FetchResponseData = {
+export type FetchResponseDatas = {
   status: string;
   data: {
     result: Array<{
       values: Array<[number, string | number]>;
+    }>;
+  };
+};
+
+export type FetchResponseData = {
+  status: string;
+  data: {
+    result: Array<{
+      value: [number, string | number];
     }>;
   };
 };

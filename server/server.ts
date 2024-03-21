@@ -14,29 +14,25 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/snapshot', dbRouter);
 app.use('/dist', express.static(path.resolve(__dirname, '../dist')));
 
-app.post(
-  '/api',
-  apiController.gpuUsage,
-  (req: Request, res: Response, next: NextFunction) => {
-    return res.status(200).json(res.locals.gpuUsage);
-  }
-);
-
-app.get('/', (req, res, next) => {
-  return res
-    .status(200)
-    .sendFile(path.join(__dirname, '../client/public/index.html'));
-});
-
 app.use('/snapshots', dbRouter);
 
 app.post(
   '/api',
   apiController.gpuUsage,
+  apiController.nodeGpuUsage,
   (req: Request, res: Response, next: NextFunction) => {
-    return res.status(200).json(res.locals.gpuUsage);
+    const combinedResults = {
+      gpuUsage: res.locals.gpuUsage,
+      nodeGpuUsage: res.locals.nodeGpuUsage,
+    };
+    return res.status(200).json(combinedResults);
   }
 );
+app.get('/', (req, res, next) => {
+  return res
+    .status(200)
+    .sendFile(path.join(__dirname, '../client/public/index.html'));
+});
 
 app.get('*', (req: Request, res: Response, next: NextFunction) =>
   res.status(404).send(`Page not found`)
