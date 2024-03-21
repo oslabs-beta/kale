@@ -14,6 +14,12 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/snapshot', dbRouter);
 app.use('/public', express.static(path.resolve(__dirname, '../client/public')));
 
+app.get('/', (req, res) => {
+  return res
+    .status(200)
+    .sendFile(path.join(__dirname, '../client/public/index.html'));
+});
+
 app.post(
   '/api',
   apiController.gpuUsage,
@@ -22,21 +28,7 @@ app.post(
   }
 );
 
-app.get('/', (req, res) => {
-  return res
-    .status(200)
-    .sendFile(path.join(__dirname, '../client/public/index.html'));
-});
-
 app.use('/snapshots', dbRouter);
-
-app.get(
-  '/api',
-  apiController.gpuUsage,
-  (req: Request, res: Response, next: NextFunction) => {
-    return res.status(200).json(res.locals.gpuUsage);
-  }
-);
 
 app.get('/*', (req, res) => {
   return res
