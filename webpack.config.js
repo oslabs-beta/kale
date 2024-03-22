@@ -12,8 +12,8 @@ module.exports = {
   devServer: {
     historyApiFallback: true,
     static: {
-      publicPath: '/dist',
-      directory: path.resolve(__dirname, 'dist'),
+      publicPath: '/public',
+      directory: path.resolve(__dirname, './client/public'),
     },
     proxy: [
       {

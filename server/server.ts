@@ -13,9 +13,13 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use('/snapshot', dbRouter);
-app.use('/dist', express.static(path.resolve(__dirname, '../dist')));
+app.use('/public', express.static(path.resolve(__dirname, '../client/public')));
 
-app.use('/snapshots', dbRouter);
+app.get('/', (req, res) => {
+  return res
+    .status(200)
+    .sendFile(path.join(__dirname, '../client/public/index.html'));
+});
 
 app.post(
   '/api',
@@ -36,7 +40,10 @@ app.post(
     return res.status(200).json(result);
   }
 );
-app.get('/', (req, res, next) => {
+
+app.use('/snapshots', dbRouter);
+
+app.get('/*', (req, res) => {
   return res
     .status(200)
     .sendFile(path.join(__dirname, '../client/public/index.html'));

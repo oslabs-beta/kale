@@ -10,21 +10,20 @@ export const metricsApiSlice = createApi({
   reducerPath: 'metricsApi',
   baseQuery: fetchBaseQuery({ baseUrl: '/' }),
   endpoints: (builder) => ({
-    // getMetrics: builder.query({
-    //   query: (url: string) => ({
-    //     url: 'api',
-    //     method: 'GET',
-    //     body: url,
-    //   }),
-    //   transformErrorResponse: (response: { status: string | number }) =>
-    //     response.status,
-    // }),
+    getMetrics: builder.query({
+      query: (urlString: string) => ({
+        url: 'api',
+        method: 'GET',
+        body: { url: urlString },
+      }),
+      transformErrorResponse: (response: { status: string | number }) =>
+        response.status,
+    }),
     grabMetrics: builder.mutation<ApiData, string>({
       query: (urlString: string) => ({
         url: 'api',
         method: 'POST',
         body: { url: urlString },
-        // headers: { 'Content-type': 'application/json' },
       }),
     }),
     getSnapshots: builder.query<Snapshot[], void>({
@@ -61,7 +60,7 @@ export const useSnapshotQuerySubscription =
   metricsApiSlice.endpoints.getSnapshots.useQuerySubscription;
 
 export const {
-  // useGetMetricsQuery, //grab from mock data (fortesting)
+  useGetMetricsQuery, //grab from mock data (fortesting)
   useGrabMetricsMutation, //sending a post request using url
   useGetSnapshotsQuery, // (for history page)
   useSendSnapshotsMutation, // send post request to post snapshot
