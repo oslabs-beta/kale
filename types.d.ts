@@ -43,7 +43,7 @@ export type MetricsData = {
   value: number[];
 };
 
-// res.locals.metrics
+// res.locals.metrics.gpu
 export interface ApiData {
   podName: string;
   date: string;

@@ -4,6 +4,7 @@ import * as path from 'path';
 import { apiController } from './controllers/apiController';
 import dbRouter from './router/dbRouter';
 import exp from 'constants';
+import { ApiData } from '../types';
 const app = express();
 app.use(express.json());
 const PORT = 3000;
@@ -25,7 +26,14 @@ app.post(
       gpuUsage: res.locals.gpuUsage,
       nodeGpuUsage: res.locals.nodeGpuUsage,
     };
-    return res.status(200).json(combinedResults);
+    res.locals.metrics = combinedResults;
+    const result: ApiData = {
+      podName: combinedResults.gpuUsage.podName,
+      date: combinedResults.gpuUsage.date,
+      metrics: combinedResults,
+    };
+
+    return res.status(200).json(result);
   }
 );
 app.get('/', (req, res, next) => {
