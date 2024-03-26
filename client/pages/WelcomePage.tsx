@@ -9,7 +9,7 @@ import { saveUrl } from '../slices/uiSlice';
 export default function WelcomePage() {
   const urlShow = useSelector((state: RootState) => state.ui.urlInput);
   const dispatch = useDispatch();
-  const [grabMetrics, result] = useGrabMetricsMutation({
+  const [grabMetrics, { data }] = useGrabMetricsMutation({
     fixedCacheKey: 'current-metric-data',
   });
 

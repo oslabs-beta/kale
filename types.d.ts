@@ -19,24 +19,40 @@ export type ServerError = {
   message: ErrorMessage;
 };
 
+export type FetchResponseDatas = {
+  status: string;
+  data: {
+    result: Array<{
+      metric: { [key: string]: string };
+      values: (string | number)[];
+    }>;
+  };
+};
+
 export type FetchResponseData = {
   status: string;
   data: {
     result: Array<{
-      values: Array<[number, string | number]>;
+      metric: { [key: string]: string };
+      value: (string | number)[];
     }>;
   };
 };
 
 export type MetricsData = {
   metric: string;
-  time: string[];
-  value: number[];
+  time: string[] | string;
+  value: number[] | number;
 };
 
-// res.locals.metrics
-export interface ApiData {
-  podName: string;
-  date: string;
-  metrics: { [key: string]: MetricsData };
+// res.locals.metrics = DataByType[];
+export interface DataByType {
+  nodeName: string;
+  cluster: string;
+  exportedContainer: string;
+  exportedNamespace: string;
+  exportedPod: string;
+  model: string;
+  date: Date;
+  metrics: MetricsData[];
 }

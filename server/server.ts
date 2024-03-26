@@ -3,6 +3,7 @@ import { ServerError } from '../types';
 import * as path from 'path';
 import { apiController } from './controllers/apiController';
 import dbRouter from './router/dbRouter';
+import gpuRouter from './router/gpu';
 import exp from 'constants';
 const app = express();
 app.use(express.json());
@@ -22,12 +23,18 @@ app.get('/', (req, res) => {
 
 app.post(
   '/api',
-  apiController.gpuUsage,
+  // apiController.gpuUsage,
+  // apiController.nodeGpuUsage,
   (req: Request, res: Response, next: NextFunction) => {
+    // const combinedResults = {
+    //   gpuUsage: res.locals.gpuUsage,
+    //   nodeGpuUsage: res.locals.nodeGpuUsage,
+    // };
     return res.status(200).json(res.locals.gpuUsage);
   }
 );
 
+app.use('/gpu', gpuRouter);
 app.use('/snapshots', dbRouter);
 
 app.get('/*', (req, res) => {

@@ -9,8 +9,8 @@ type ChartTableProps = {
 
 export default function ChartTable({ metrics }: ChartTableProps) {
   const lineChartArr: JSX.Element[] = [];
-  const gaugeChartArr: JSX.Element[] = [];
 
+  // creating line chart components
   for (let i = 0; i < Object.keys(metrics).length; i++) {
     lineChartArr.push(
       <LineChart2
@@ -21,6 +21,10 @@ export default function ChartTable({ metrics }: ChartTableProps) {
       />
     );
   }
+
+  const gaugeChartArr: JSX.Element[] = [];
+
+  // creating guage chart components
   for (let i = 0; i < Object.keys(metrics).length; i++) {
     const val =
       metrics[Object.keys(metrics)[i]].value[
@@ -43,9 +47,9 @@ export default function ChartTable({ metrics }: ChartTableProps) {
   return (
     <>
       <div className="flex max-w-screen-xl flex-wrap items-center justify-start mx-6 my-6">
-        {gaugeChartArr}
+        {gaugeChartArr[0]}
+        {gaugeChartArr[0]}
       </div>
-
       <div className="flex max-w-screen-xl flex-wrap items-center justify-start mx-6 my-6">
         {lineChartArr[0]}
         {lineChartArr[0]}
