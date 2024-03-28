@@ -11,7 +11,6 @@ try {
 }
 
 const snapshotSchema = new Schema({
-  user: { type: Schema.Types.ObjectId, ref: 'User'},
   podName: String,
   date: {type: Date,
   default: Date.now()

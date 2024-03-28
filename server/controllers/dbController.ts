@@ -16,10 +16,9 @@ export const dbController = {
   },
 
   postSnapshot: async (req: Request, res: Response, next: NextFunction) => {
-    console.log('req.body: ', req.body);
-    const { user, podName, metrics } = req.body.snapshot;
+    const { podName, metrics } = req.body.snapshot;
     try {
-      if (!user || !podName || !metrics) {
+      if (!podName || !metrics) {
         return next({
           status: 400,
           log: 'Error in postSnapshot middleware',
@@ -27,7 +26,7 @@ export const dbController = {
             'Cannot create new snapshot. Please provide all required information.',
         });
       }
-      const newSnapshot = await Snapshot.create({ user, podName, metrics });
+      const newSnapshot = await Snapshot.create({ podName, metrics });
       res.locals.newSnapshot = newSnapshot;
       return next();
     } catch (err) {
