@@ -2,6 +2,7 @@ import express, { Request, Response, NextFunction } from 'express';
 import { ServerError } from '../types';
 import * as path from 'path';
 import { apiController } from './controllers/apiController';
+import { authController } from './controllers/authController';
 import dbRouter from './router/dbRouter';
 import exp from 'constants';
 const app = express();
@@ -11,7 +12,7 @@ const PORT = 3000;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use('/snapshot', dbRouter);
+app.use('/snapshots', dbRouter);
 app.use('/public', express.static(path.resolve(__dirname, '../client/public')));
 
 app.get('/', (req, res) => {
@@ -27,6 +28,14 @@ app.post(
     return res.status(200).json(res.locals.gpuUsage);
   }
 );
+
+app.post('/createUser', authController.createUser, (req, res) => {
+  return res.status(200).json(res.locals.newUser);
+});
+
+app.post('/login', authController.login, (req, res) => {
+  return res.status(200).json(res.locals.valid);
+});
 
 app.use('/snapshots', dbRouter);
 
