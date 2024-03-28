@@ -23,7 +23,6 @@ dbRouter.delete(
     '/:_id',
     dbController.deleteSnapshot,
     (req: Request, res: Response) => {
-      console.log('in dbRouter.post')
       return res.status(200).json(res.locals.deletedSnapshot);
     }
   );

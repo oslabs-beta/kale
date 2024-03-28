@@ -1,6 +1,8 @@
 import express, { Request, Response, NextFunction } from 'express';
 import { ServerError } from '../types';
 import * as path from 'path';
+import { apiController } from './controllers/apiController';
+import { authController } from './controllers/authController';
 import dbRouter from './router/dbRouter';
 import apiRouter from './router/apiRouter';
 
@@ -18,8 +20,16 @@ app.get('/', (req, res) => {
     .sendFile(path.join(__dirname, '../client/public/index.html'));
 });
 
-app.use('/snapshot', dbRouter);
+app.use('/snapshots', dbRouter);
 app.use('/api', apiRouter);
+
+app.post('/signup', authController.createUser, (req, res) => {
+  return res.status(200).json(res.locals.newUser);
+});
+
+app.post('/login', authController.login, (req, res) => {
+  return res.status(200).json(res.locals.valid);
+});
 
 app.get('/*', (req, res) => {
   return res
