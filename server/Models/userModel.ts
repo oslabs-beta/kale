@@ -2,7 +2,7 @@ const bcrypt = require('bcrypt');
 
 interface UserType { // Define an interface for user schema properties
   email: string;
-  name: string;
+  firstName: string;
   password: string;
   comparePassword(candidatePassword: string): Promise<boolean>;
 }
@@ -25,7 +25,7 @@ try {
 const userSchema = new Schema<UserType>({
   // Use generic type argument for UserType interface
   email: {type: String, required: true, unique: true},
-  name: { type: String, required: true, unique: true },
+  firstName: { type: String, required: true },
   password: { type: String, required: true },
 });
 

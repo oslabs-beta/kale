@@ -5,7 +5,7 @@ const saltRounds: Number = 10;
 
 export const authController = {
   createUser: async (req: Request, res: Response, next: NextFunction) => {
-    const { email, name, password } = req.body;
+    const { email, firstName, password } = req.body;
     try {
       const existingUser = await User.findOne({ email });
       if (existingUser) {
@@ -15,7 +15,7 @@ export const authController = {
           message: 'Username already exists. Please choose another username',
         });
       }
-      const newUser = await User.create({ email, name, password });
+      const newUser = await User.create({ email, firstName, password });
       res.locals.newUser = newUser;
       return next();
     } catch (err) {
