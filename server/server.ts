@@ -1,18 +1,15 @@
 import express, { Request, Response, NextFunction } from 'express';
 import { ServerError } from '../types';
 import * as path from 'path';
-import { apiController } from './controllers/apiController';
 import dbRouter from './router/dbRouter';
-import gpuRouter from './router/gpu';
-import exp from 'constants';
+import apiRouter from './router/apiRouter';
+
 const app = express();
-app.use(express.json());
 const PORT = 3000;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use('/snapshot', dbRouter);
 app.use('/public', express.static(path.resolve(__dirname, '../client/public')));
 
 app.get('/', (req, res) => {
@@ -21,21 +18,8 @@ app.get('/', (req, res) => {
     .sendFile(path.join(__dirname, '../client/public/index.html'));
 });
 
-app.post(
-  '/api',
-  // apiController.gpuUsage,
-  // apiController.nodeGpuUsage,
-  (req: Request, res: Response, next: NextFunction) => {
-    // const combinedResults = {
-    //   gpuUsage: res.locals.gpuUsage,
-    //   nodeGpuUsage: res.locals.nodeGpuUsage,
-    // };
-    return res.status(200).json(res.locals.gpuUsage);
-  }
-);
-
-app.use('/gpu', gpuRouter);
-app.use('/snapshots', dbRouter);
+app.use('/snapshot', dbRouter);
+app.use('/api', apiRouter);
 
 app.get('/*', (req, res) => {
   return res

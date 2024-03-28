@@ -36,7 +36,7 @@ export const apiController = {
   //       value: [],
   //     };
 
-  //     data.data.result[0].values?.forEach(([time, value]) => {
+  //     data.data.result[0].values.forEach(([time, value]) => {
   //       let date = new Date(time * 1000);
   //       let formattedTime = date.toLocaleTimeString('en-US', {
   //         timeZone: 'America/New_York',
