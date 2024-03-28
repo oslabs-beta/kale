@@ -16,7 +16,6 @@ export const dbController = {
   },
 
   postSnapshot: async (req: Request, res: Response, next: NextFunction) => {
-    console.log('req.body: ', req.body);
     const { user, podName, metrics } = req.body.snapshot;
     try {
       if (!user || !podName || !metrics) {

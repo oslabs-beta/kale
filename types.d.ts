@@ -41,8 +41,4 @@ export interface ApiData {
   metrics: { [key: string]: MetricsData };
 }
 
-export interface UserType { // Define an interface for user schema properties
-  username: string;
-  password: string;
-  comparePassword(candidatePassword: string): Promise<boolean>;
-}
+

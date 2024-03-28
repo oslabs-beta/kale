@@ -29,7 +29,7 @@ app.post(
   }
 );
 
-app.post('/createUser', authController.createUser, (req, res) => {
+app.post('/signup', authController.createUser, (req, res) => {
   return res.status(200).json(res.locals.newUser);
 });
 

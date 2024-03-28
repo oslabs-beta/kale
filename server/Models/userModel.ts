@@ -1,5 +1,11 @@
 const bcrypt = require('bcrypt');
-import { UserType } from '../../types';
+
+interface UserType { // Define an interface for user schema properties
+  email: string;
+  name: string;
+  password: string;
+  comparePassword(candidatePassword: string): Promise<boolean>;
+}
 
 const SALT_WORK_FACTOR: number = 10; // Use number type for numeric constant
 
@@ -18,7 +24,8 @@ try {
 
 const userSchema = new Schema<UserType>({
   // Use generic type argument for UserType interface
-  username: { type: String, required: true, unique: true },
+  email: {type: String, required: true, unique: true},
+  name: { type: String, required: true, unique: true },
   password: { type: String, required: true },
 });
 

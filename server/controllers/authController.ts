@@ -5,9 +5,9 @@ const saltRounds: Number = 10;
 
 export const authController = {
   createUser: async (req: Request, res: Response, next: NextFunction) => {
-    const { username, password } = req.body;
+    const { email, name, password } = req.body;
     try {
-      const existingUser = await User.findOne({ username });
+      const existingUser = await User.findOne({ email });
       if (existingUser) {
         return next({
           status: 400,
@@ -15,7 +15,7 @@ export const authController = {
           message: 'Username already exists. Please choose another username',
         });
       }
-      const newUser = await User.create({ username, password });
+      const newUser = await User.create({ email, name, password });
       res.locals.newUser = newUser;
       return next();
     } catch (err) {
@@ -27,8 +27,8 @@ export const authController = {
   },
 
   login: async (req: Request, res: Response, next: NextFunction) => {
-    let { username, password } = req.body;
-    if (!username || !password) {
+    let { email, password } = req.body;
+    if (!email || !password) {
       return next({
         status: 401, // Unauthorized
         log: 'Error in login middleware',
@@ -36,7 +36,7 @@ export const authController = {
       });
     }
     try {
-      const existingUser = await User.findOne({ username });
+      const existingUser = await User.findOne({ email });
       if (!existingUser) {
         return next({
           status: 401, // Unauthorized
@@ -50,7 +50,6 @@ export const authController = {
       }
 
       const valid = await existingUser.comparePassword(password);
-      console.log('valid: ', valid);
       res.locals.valid = valid;
       return next();
 
