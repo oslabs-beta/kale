@@ -1,6 +1,21 @@
-const bcrypt = require('bcrypt');
+import dotenv from 'dotenv';
+import bcrypt from 'bcryptjs';
+import mongoose from 'mongoose';
 
-interface UserType { // Define an interface for user schema properties
+const { Schema } = mongoose;
+dotenv.config();
+
+declare global {
+  namespace NodeJS {
+    interface ProcessEnv {
+      [key: string]: string | undefined;
+      MONGODB_URI: string;
+    }
+  }
+}
+
+interface UserType {
+  // Define an interface for user schema properties
   email: string;
   firstName: string;
   password: string;
@@ -9,11 +24,7 @@ interface UserType { // Define an interface for user schema properties
 
 const SALT_WORK_FACTOR: number = 10; // Use number type for numeric constant
 
-const myURI: string =
-  'mongodb+srv://codesmithbv:ax6POS3lHiGRGPfO@kalecluster.3wl6slc.mongodb.net/';
-
-import mongoose from 'mongoose';
-const { Schema } = mongoose;
+const myURI = process.env.MONGODB_URI;
 
 try {
   mongoose.connect(myURI);
@@ -24,7 +35,7 @@ try {
 
 const userSchema = new Schema<UserType>({
   // Use generic type argument for UserType interface
-  email: {type: String, required: true, unique: true},
+  email: { type: String, required: true, unique: true },
   firstName: { type: String, required: true },
   password: { type: String, required: true },
 });
