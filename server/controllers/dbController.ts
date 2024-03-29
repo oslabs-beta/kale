@@ -16,16 +16,16 @@ export const dbController = {
   },
 
   postSnapshot: async (req: Request, res: Response, next: NextFunction) => {
-    const { user, podName, metrics } = req.body.snapshot;
+    const data = req.body.snapshot;
     try {
-      if (!user || !podName || !metrics) {
-        return next({
-          status: 400,
-          log: 'Error in postSnapshot middleware',
-          message:
-            'Cannot create new snapshot. Please provide all required information.',
-        });
-      }
+      // if (!user || !podName || !metrics) {
+      //   return next({
+      //     status: 400,
+      //     log: 'Error in postSnapshot middleware',
+      //     message:
+      //       'Cannot create new snapshot. Please provide all required information.',
+      //   });
+      // }
       const newSnapshot = await Snapshot.create({ user, podName, metrics });
       res.locals.newSnapshot = newSnapshot;
       return next();

@@ -12,7 +12,7 @@ import ChartTable from '../components/ChartTable';
 
 export default function SnapshotPage() {
   const { snapshotId } = useParams();
-  const urlShow = useSelector((state: RootState) => state.metrics.input);
+  const urlShow = useSelector((state: RootState) => state.ui.urlInput);
   const { data: snapshots, error, isLoading } = useGetSnapshotState();
 
   const [
@@ -70,7 +70,7 @@ export default function SnapshotPage() {
           Delete Snapshot
         </button>
       </div>
-      <ChartTable metrics={currSnapshot.metrics} />
+      {/* <ChartTable metrics={currSnapshot.metrics} /> */}
     </>
   );
 }

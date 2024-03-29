@@ -4,14 +4,14 @@ import * as d3 from 'd3';
 
 type GuageChartProps = {
   metric: string;
-  value: number;
+  value: string;
   time: string;
 };
 
 export default function GuageChart({ metric, value, time }: GuageChartProps) {
   console.log('GuageChart', metric, value, time);
 
-  const data = [value, 1 - value];
+  const data = [+value, 1 - +value];
   const svgRef = useRef();
 
   useEffect(() => {

@@ -1,13 +1,13 @@
-export type Metric = {
+export type singleMetric = {
   name: string;
-  time: number[];
-  value: number[];
+  time: string;
+  value: string;
 };
 
-export type MetricsData = {
-  metric: string;
-  time: string[] | string;
-  value: number[] | number;
+export type timeseriesMetric = {
+  name: string;
+  time: string[];
+  value: string[];
 };
 
 // res.locals.metrics = DataByType[];
@@ -17,16 +17,17 @@ export interface DataByType {
   exportedContainer?: string;
   exportedNamespace?: string;
   exportedPod?: string;
-  model: string;
+  modelName: string;
   date: Date;
-  metrics: MetricsData[];
 }
 
-export type MetricsState = {
-  status: 'loading' | 'failed' | 'finished';
-  error: { status: number; data: any } | null;
-  data: MetricsData | null;
-};
+export interface singleData extends DataByType {
+  metrics: singleMetric[];
+}
+
+export interface timeseriesData extends DataByType {
+  metrics: timeseriesMetric[];
+}
 
 export type ErrorMessage = {
   err: string;
@@ -46,4 +47,9 @@ export type FetchResponseData = {
       value: (string | number)[];
     }>;
   };
+};
+
+export type MetricsState = {
+  userId: string | '';
+  dataAll: timeseriesData[] | null;
 };

@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { metricsApiSlice } from './metricsApi';
-import { metricsSlice } from './metricsSlice';
+import metricsSlice from './metricsSlice';
 import { uiSlice } from './uiSlice';
 import { useDispatch } from 'react-redux';
 

@@ -8,10 +8,15 @@ import {
 } from '../slices/metricsApi';
 import SnapshotButton from '../components/SnapshotButton';
 import ChartTable from '../components/ChartTable';
-import { ApiData } from '../../types';
+import { singleData, timeseriesData, MetricsState } from '../../types';
+import { setMetrics } from '../slices/metricsSlice';
 
 export default function Dashboard() {
   const urlShow = useSelector((state: RootState) => state.ui.urlInput);
+  const metrics = useSelector((state: RootState) => state.metrics);
+
+  const dispatch = useDispatch();
+
   const [grabMetrics, { data: currentData, error, isLoading }] =
     useGrabMetricsMutation({
       fixedCacheKey: 'current-metric-data',
@@ -21,16 +26,24 @@ export default function Dashboard() {
     fixedCacheKey: 'last-snapshot-data',
   });
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      grabMetrics(urlShow);
-    }, 30000);
-    return () => clearInterval(interval);
-  }, []);
+  if (urlShow !== '') {
+    useEffect(() => {
+      if (currentData) {
+        dispatch(setMetrics(currentData));
+      }
+    }, [currentData]);
 
-  function handleClick(data: ApiData) {
+    useEffect(() => {
+      const interval = setInterval(() => {
+        grabMetrics(urlShow);
+      }, 30000);
+      return () => clearInterval(interval);
+    }, []);
+  }
+
+  function handleClick(data: MetricsState) {
     try {
-      const response = createSnapshot(currentData);
+      const response = createSnapshot(data);
       console.log('data created!', response);
     } catch (error) {
       console.log('error saving data:', error);
@@ -40,9 +53,9 @@ export default function Dashboard() {
   return (
     <>
       <NavBar title="Dashboard" to="/dashboard" />
-      {isLoading ? (
+      {!metrics.dataAll ? (
         <div className="text-zinc-200">Data loading...</div>
-      ) : currentData ? (
+      ) : metrics.dataAll ? (
         <>
           <div className="max-w-screen-xl flex flex-wrap items-start justify-between mx-20 my-8">
             <p className="text-lg text-center dark:text-kalegreen-400">
@@ -56,21 +69,13 @@ export default function Dashboard() {
                 Name of GPU
               </p>
               <p className="font-serif text-xl text-center h-full p-3 dark:text-zinc-300">
-                NVIDIA GeForce RTX 3080
+                {metrics.dataAll[0].modelName}
               </p>
             </div>
-            <div className="flex flex-col h-32 w-60 items-center justify-center">
-              <p className="text-lg text-center dark:text-kalegreen-300">
-                Driver Version
-              </p>
-              <p className="font-serif text-xl text-center h-full p-3 dark:text-zinc-300">
-                465.19
-              </p>
-            </div>
-            <SnapshotButton handleClick={() => handleClick(currentData)} />
+            <SnapshotButton handleClick={() => handleClick(metrics)} />
           </div>
 
-          <ChartTable metrics={currentData.metrics} />
+          <ChartTable metrics={metrics.dataAll[0].metrics} />
         </>
       ) : null}
     </>

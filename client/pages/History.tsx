@@ -44,8 +44,8 @@ export default function History() {
           </th>
 
           <td className="px-6 py-4">pod</td>
-          <td className="px-6 py-4">{snapShots[i].podName}</td>
-          <td className="px-6 py-4">{snapShots[i].date}</td>
+          {/* <td className="px-6 py-4">{snapShots[i].podName}</td>
+          <td className="px-6 py-4">{snapShots[i].date}</td> */}
           <td className="px-6 py-4">
             <button
               className="font-medium text-rose-600 dark:text-rose-500 hover:underline"

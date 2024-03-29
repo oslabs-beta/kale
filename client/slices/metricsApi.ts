@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { DataByType } from '../../types.d';
+import { DataByType, singleData, MetricsState } from '../../types.d';
 
 export interface Snapshot extends DataByType {
   _id: string;
@@ -10,16 +10,7 @@ export const metricsApiSlice = createApi({
   reducerPath: 'metricsApi',
   baseQuery: fetchBaseQuery({ baseUrl: '/' }),
   endpoints: (builder) => ({
-    getMetrics: builder.query({
-      query: (urlString: string) => ({
-        url: 'api',
-        method: 'GET',
-        body: { url: urlString },
-      }),
-      transformErrorResponse: (response: { status: string | number }) =>
-        response.status,
-    }),
-    grabMetrics: builder.mutation<DataByType, string>({
+    grabMetrics: builder.mutation<singleData[], string>({
       query: (urlString: string) => ({
         url: 'api',
         method: 'POST',
@@ -30,7 +21,7 @@ export const metricsApiSlice = createApi({
       query: () => 'snapshots',
     }),
     sendSnapshots: builder.mutation({
-      query: (data: DataByType) => ({
+      query: (data: MetricsState) => ({
         url: 'snapshots',
         method: 'POST',
         body: { snapshot: data },
@@ -60,7 +51,6 @@ export const useSnapshotQuerySubscription =
   metricsApiSlice.endpoints.getSnapshots.useQuerySubscription;
 
 export const {
-  useGetMetricsQuery, //grab from mock data (fortesting)
   useGrabMetricsMutation, //sending a post request using url
   useGetSnapshotsQuery, // (for history page)
   useSendSnapshotsMutation, // send post request to post snapshot

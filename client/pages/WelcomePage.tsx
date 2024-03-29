@@ -1,7 +1,10 @@
 import React from 'react';
 import ClusterInput from '../components/ClusterInput';
 import NavBar from '../components/Navbar';
-import { useGrabMetricsMutation } from '../slices/metricsApi';
+import {
+  useGrabMetricsMutation,
+  // useGetMetricsQuery,
+} from '../slices/metricsApi';
 import { RootState } from '../slices/store';
 import { useSelector, useDispatch } from 'react-redux';
 import { saveUrl } from '../slices/uiSlice';

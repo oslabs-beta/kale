@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { FetchResponseData, MetricsData } from '../../types';
+import { FetchResponseData, singleMetric } from '../../types';
 import formatTime from '../util/formatTime';
 
 export const apiController = {
@@ -31,7 +31,7 @@ export const apiController = {
   //       value: [],
   //     };
 
-  //     data.data.result[0].values.forEach(([time, value]) => {
+  //     data.data.result[0].values.forEach(([time, value]x) => {
   //       let date = new Date(time * 1000);
   //       let formattedTime = date.toLocaleTimeString('en-US', {
   //         timeZone: 'America/New_York',
@@ -191,14 +191,16 @@ export const apiController = {
         res.locals.queryData[i].data.result[0].metric?.exported_namespace || '';
       const exportedPod =
         res.locals.queryData[i].data.result[0].metric?.exported_pod || '';
+
+      const modelName = res.locals.queryData[i].data.result[0].metric.modelName;
       const date = new Date();
       console.log(
         `cluster: ${cluster}, nodeName: ${nodeName}, exportedContainer: ${exportedContainer}, exportedNamespace: ${exportedNamespace}, exportedPod: ${exportedPod}, date: ${date}`
       );
-      const metricsData: MetricsData = {
-        metric: res.locals.queryData[i].queryDesc,
+      const metricsData: singleMetric = {
+        name: res.locals.queryData[i].queryDesc,
         time: formatTime(+res.locals.queryData[i].data.result[0].value[0]),
-        value: +res.locals.queryData[i].data.result[0].value[1],
+        value: res.locals.queryData[i].data.result[0].value[1],
       };
 
       console.log(`metricsData: `, metricsData);
@@ -210,6 +212,7 @@ export const apiController = {
           exportedNamespace,
           exportedPod,
           date,
+          modelName,
           metrics: [metricsData],
         });
         console.log(
@@ -230,6 +233,7 @@ export const apiController = {
               exportedContainer,
               exportedNamespace,
               exportedPod,
+              modelName,
               date,
             });
           } else if (
