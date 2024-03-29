@@ -2,17 +2,14 @@ import express, { Request, Response, NextFunction } from 'express';
 import { ServerError } from '../types';
 import * as path from 'path';
 import { apiController } from './controllers/apiController';
-import { authController } from './controllers/authController';
 import dbRouter from './router/dbRouter';
-import exp from 'constants';
+import authRouter from './router/authRouter';
 const app = express();
-app.use(express.json());
 const PORT = 3000;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use('/snapshots', dbRouter);
 app.use('/public', express.static(path.resolve(__dirname, '../client/public')));
 
 app.get('/', (req, res) => {
@@ -21,6 +18,8 @@ app.get('/', (req, res) => {
     .sendFile(path.join(__dirname, '../client/public/index.html'));
 });
 
+app.use('/snapshots', dbRouter);
+app.use('/user', authRouter);
 app.post(
   '/api',
   apiController.gpuUsage,
@@ -28,16 +27,6 @@ app.post(
     return res.status(200).json(res.locals.gpuUsage);
   }
 );
-
-app.post('/signup', authController.createUser, (req, res) => {
-  return res.status(200).json(res.locals.newUser);
-});
-
-app.post('/login', authController.login, (req, res) => {
-  return res.status(200).json(res.locals.valid);
-});
-
-app.use('/snapshots', dbRouter);
 
 app.get('/*', (req, res) => {
   return res
