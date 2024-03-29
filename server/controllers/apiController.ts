@@ -1,10 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import {
-  DataByType,
-  FetchResponseData,
-  FetchResponseDatas,
-  MetricsData,
-} from '../../types';
+import { FetchResponseData, MetricsData } from '../../types';
 import formatTime from '../util/formatTime';
 
 export const apiController = {
@@ -135,12 +130,7 @@ export const apiController = {
   //     next(errObj);
   //   }
   // },
-  getGpuMemoryUsageByNode: async (
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ) => {
-    console.log('in getGpuMemoryUsageByNode');
+  fetchData: async (req: Request, res: Response, next: NextFunction) => {
     if (!req.body.url) {
       const errObj = {
         log: 'Express error handler caught error in getGpuMemoryUsage: no url provided',
@@ -150,84 +140,112 @@ export const apiController = {
       return next(errObj);
     }
     const baseUrl = req.body.url + '/api/v1/query?query=';
-    const query = 'DCGM_FI_DEV_FB_USED';
-    const encodedQuery = encodeURIComponent(query);
-    const queryUrl = baseUrl + encodedQuery;
+    const queries = [
+      'DCGM_FI_DEV_FB_USED',
+      'DCGM_FI_DEV_FB_TOTAL',
+      'DCGM_FI_DEV_GPU_UTIL',
+      'DCGM_FI_DEV_GPU_TEMP',
+      'DCGM_FI_DEV_POWER_USAGE',
+    ];
+    const queryDesc = [
+      'Memory used (in MiB)',
+      'Total Frame Buffer of the GPU in MB',
+      'GPU utilization (in %)',
+      'GPU temperature (in C)',
+      'Power draw (in W)',
+    ];
+    const encodedQuery = queries.map((query) => encodeURIComponent(query));
+    const queryUrl = encodedQuery.map((encodedQuery) => baseUrl + encodedQuery);
+    res.locals.queryData = [];
 
-    res.locals.baseUrl = baseUrl;
-
-    try {
-      const response = await fetch(queryUrl);
-      const data: FetchResponseData = await response.json();
-
-      if (!res.locals.metrics) {
-        const cluster = data.data.result[0].metric.cluster;
-        const nodeName = data.data.result[0].metric.Hostname;
-        const exportedContainer = data.data.result[0].metric.exported_container;
-        const exportedNamespace = data.data.result[0].metric.exported_namespace;
-        const exportedPod = data.data.result[0].metric.exported_pod;
-        const date = new Date();
-        res.locals.metrics = [
-          {
-            cluster,
-            nodeName,
-            exportedContainer,
-            exportedNamespace,
-            exportedPod,
-            date,
-          },
-        ];
+    for (let i = 0; i < queryUrl.length; i++) {
+      try {
+        const response = await fetch(queryUrl[i]);
+        const data: FetchResponseData = await response.json();
+        data.queryDesc = queryDesc[i];
+        res.locals.queryData.push(data);
+      } catch (error) {
+        const errObj = {
+          log: 'Error fetching Node GPU usage data',
+          status: 500,
+          message: { err: 'Error fetching initial data' },
+        };
+        next(errObj);
       }
-
-      const metricsData: MetricsData = {
-        metric: 'GPU Memory Usage (in MiB)',
-        time: formatTime(+data.data.result[0].value[0]),
-        value: +data.data.result[0].value[1],
-      };
-
-      res.locals.metrics[0].metrics = [metricsData];
-      console.log(res.locals.metrics);
-      next();
-    } catch (error) {
-      const errObj = {
-        log: 'Error fetching Node GPU usage data',
-        status: 500,
-        message: { err: 'Error fetching initial data' },
-      };
-      next(errObj);
     }
+    next();
   },
-  getGpuMemoryFreeByNode: async (
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ) => {
-    console.log('in getGpuMemoryFreeByNode');
+  formatData: (req: Request, res: Response, next: NextFunction) => {
+    res.locals.metrics = [];
 
-    const query = 'DCGM_FI_DEV_FB_FREE';
-    const encodedQuery = encodeURIComponent(query);
-    const queryUrl = res.locals.baseUrl + encodedQuery;
-    console.log(queryUrl);
-    try {
-      const response = await fetch(queryUrl);
-      const data: FetchResponseData = await response.json();
+    for (let i = 0; i < res.locals.queryData.length; i++) {
+      console.log(`outer loop i: ${i}`);
 
+      const cluster = res.locals.queryData[i].data.result[0].metric.cluster;
+      console.log(`cluster: ${cluster}`);
+      const nodeName = res.locals.queryData[i].data.result[0].metric.Hostname;
+      console.log(`nodeName: ${nodeName}`);
+      const exportedContainer =
+        res.locals.queryData[i].data.result[0].metric?.exported_container || '';
+      const exportedNamespace =
+        res.locals.queryData[i].data.result[0].metric?.exported_namespace || '';
+      const exportedPod =
+        res.locals.queryData[i].data.result[0].metric?.exported_pod || '';
+      const date = new Date();
+      console.log(
+        `cluster: ${cluster}, nodeName: ${nodeName}, exportedContainer: ${exportedContainer}, exportedNamespace: ${exportedNamespace}, exportedPod: ${exportedPod}, date: ${date}`
+      );
       const metricsData: MetricsData = {
-        metric: 'GPU Memory Free (in MiB)',
-        time: formatTime(+data.data.result[0].value[0]),
-        value: +data.data.result[0].value[1],
+        metric: res.locals.queryData[i].queryDesc,
+        time: formatTime(+res.locals.queryData[i].data.result[0].value[0]),
+        value: +res.locals.queryData[i].data.result[0].value[1],
       };
 
-      res.locals.metrics[0].metrics.push(metricsData);
-      console.log(res.locals.metrics);
-      next();
-    } catch (error) {
-      const errObj = {
-        log: 'Error fetching Node GPU usage data',
-        status: 500,
-        message: { err: 'Error fetching initial data' },
-      };
-      next(errObj);
+      console.log(`metricsData: `, metricsData);
+      if (res.locals.metrics.length === 0) {
+        res.locals.metrics.push({
+          cluster,
+          nodeName,
+          exportedContainer,
+          exportedNamespace,
+          exportedPod,
+          date,
+          metrics: [metricsData],
+        });
+        console.log(
+          'if (res.locals.metrics.length === 0) res.locals.metrics: ',
+          res.locals.metrics
+        );
+      } else {
+        for (let j = 0; j < res.locals.metrics.length; j++) {
+          console.log(`res.locals.metrics[${j}]: `, res.locals.metrics[j]);
+          if (
+            exportedContainer !== res.locals.metrics[j].exportedContainer &&
+            exportedNamespace !== res.locals.metrics[j].exportedNamespace &&
+            exportedPod !== res.locals.metrics[j].exportedPod
+          ) {
+            res.locals.metrics.push({
+              cluster,
+              nodeName,
+              exportedContainer,
+              exportedNamespace,
+              exportedPod,
+              date,
+            });
+          } else if (
+            exportedContainer === res.locals.metrics[j].exportedContainer &&
+            exportedNamespace === res.locals.metrics[j].exportedNamespace &&
+            exportedPod === res.locals.metrics[j].exportedPod
+          ) {
+            if (!res.locals.metrics[j].metrics) {
+              res.locals.metrics[j].metrics = [];
+            }
+            res.locals.metrics[j].metrics.push(metricsData);
+          }
+        }
+      }
     }
+
+    next();
   },
 };

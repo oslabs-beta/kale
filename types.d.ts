@@ -14,9 +14,9 @@ export type MetricsData = {
 export interface DataByType {
   nodeName: string;
   cluster: string;
-  exportedContainer: string;
-  exportedNamespace: string;
-  exportedPod: string;
+  exportedContainer?: string;
+  exportedNamespace?: string;
+  exportedPod?: string;
   model: string;
   date: Date;
   metrics: MetricsData[];
@@ -37,17 +37,8 @@ export type ServerError = {
   message: ErrorMessage;
 };
 
-export type FetchResponseDatas = {
-  status: string;
-  data: {
-    result: Array<{
-      metric: { [key: string]: string };
-      values: (string | number)[];
-    }>;
-  };
-};
-
 export type FetchResponseData = {
+  queryDesc: string;
   status: string;
   data: {
     result: Array<{

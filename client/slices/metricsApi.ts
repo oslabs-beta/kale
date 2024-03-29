@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { ApiData } from '../../types.d';
+import { DataByType } from '../../types.d';
 
-export interface Snapshot extends ApiData {
+export interface Snapshot extends DataByType {
   _id: string;
 }
 
@@ -19,7 +19,7 @@ export const metricsApiSlice = createApi({
       transformErrorResponse: (response: { status: string | number }) =>
         response.status,
     }),
-    grabMetrics: builder.mutation<ApiData, string>({
+    grabMetrics: builder.mutation<DataByType, string>({
       query: (urlString: string) => ({
         url: 'api',
         method: 'POST',
@@ -30,7 +30,7 @@ export const metricsApiSlice = createApi({
       query: () => 'snapshots',
     }),
     sendSnapshots: builder.mutation({
-      query: (data: ApiData) => ({
+      query: (data: DataByType) => ({
         url: 'snapshots',
         method: 'POST',
         body: { snapshot: data },

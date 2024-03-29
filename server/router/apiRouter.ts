@@ -5,10 +5,8 @@ const apiRouter = express.Router();
 
 apiRouter.post(
   '/',
-  // apiController.gpuUsage,
-  // apiController.nodeGpuUsage,
-  apiController.getGpuMemoryUsageByNode,
-  apiController.getGpuMemoryFreeByNode,
+  apiController.fetchData,
+  apiController.formatData,
   (req, res) => {
     res.status(200).json(res.locals.metrics);
   }
