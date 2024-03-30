@@ -10,7 +10,7 @@ import {
   Legend,
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
-import { singleMetric, timeseriesMetric } from '../../types';
+import { timeseriesMetric } from '../../types';
 
 ChartJS.register(
   CategoryScale,

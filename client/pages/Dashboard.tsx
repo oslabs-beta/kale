@@ -8,7 +8,7 @@ import {
 } from '../slices/metricsApi';
 import SnapshotButton from '../components/SnapshotButton';
 import ChartTable from '../components/ChartTable';
-import { singleData, timeseriesData, MetricsState } from '../../types';
+import { MetricsState } from '../../types';
 import { setMetrics } from '../slices/metricsSlice';
 
 export default function Dashboard() {
@@ -18,9 +18,7 @@ export default function Dashboard() {
   const dispatch = useDispatch();
 
   const [grabMetrics, { data: currentData, error, isLoading }] =
-    useGrabMetricsMutation({
-      fixedCacheKey: 'current-metric-data',
-    });
+    useGrabMetricsMutation();
 
   const [createSnapshot] = useSendSnapshotsMutation({
     fixedCacheKey: 'last-snapshot-data',
@@ -44,7 +42,6 @@ export default function Dashboard() {
   function handleClick(data: MetricsState) {
     try {
       const response = createSnapshot(data);
-      console.log('data created!', response);
     } catch (error) {
       console.log('error saving data:', error);
     }

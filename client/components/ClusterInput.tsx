@@ -1,8 +1,8 @@
 import { RootState, useAppDispatch } from '../slices/store';
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { showInput, saveUrl } from '../slices/uiSlice';
+import { showInput } from '../slices/uiSlice';
 
 type ClusterInputProps = {
   handleInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
