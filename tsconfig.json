@@ -1,11 +1,13 @@
 {
-  "include": ["client/**/*"],
+  // "include": ["client/**/*"],
+  "include": ["**/*.ts"],
   "compilerOptions": {
     "jsx": "react", // Transpile JSX to React components
     "target": "ES5", // Adjust target JavaScript version as needed
     "module": "CommonJS", // Use CommonJS modules
     "esModuleInterop": true, // Enable interop between module systems
     "noImplicitAny": true, //explicitly typing
+    "types": ["cypress", "node", "jest"]
     // "moduleResolution": "webpack", // Replace with your bundler's option
     // "allowImportingTsExtensions": true
   }
