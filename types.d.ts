@@ -42,7 +42,7 @@ export interface ApiData {
 }
 
 export type VerifyData = {
-  name?: string;
+  firstName?: string;
   email: string;
   password: string;
   confirmPassword?: string;

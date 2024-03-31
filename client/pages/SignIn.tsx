@@ -1,12 +1,12 @@
 import React, { useState, ChangeEvent, FormEvent } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { useSigninMutation } from '../slices/userApi';
+import { useLoginMutation } from '../slices/userApi';
 import { setCredential } from '../slices/userSlice';
 import { VerifyData } from '../../types';
 import NavBar from '../components/Navbar';
 const SignInContainer = () => {
-  const [signin] = useSigninMutation();
+  const [signin] = useLoginMutation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [verifyData, setVerifyData] = useState<VerifyData>({
@@ -29,7 +29,7 @@ const SignInContainer = () => {
       .unwrap()
       .then((res) => {
         dispatch(setCredential(res));
-        navigate('/dashboard');
+        navigate('/');
       })
       .catch((err) => {
         console.log(err);

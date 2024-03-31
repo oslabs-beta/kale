@@ -1,56 +1,35 @@
 import React, { useState, ChangeEvent, FormEvent } from 'react';
 import { useSignupMutation } from '../slices/userApi';
+import { RootState } from '../slices/store';
+
 import { Link, useNavigate } from 'react-router-dom';
 import { setCredential } from '../slices/userSlice';
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { VerifyData } from '../../types';
 import NavBar from '../components/Navbar';
 const SignupContainer = () => {
+  //Initialize necessary hooks for the component
+
   const [signup] = useSignupMutation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [loginData, setLoginData] = useState<VerifyData>({
-    name: '',
+    firstName: '',
     email: '',
     password: '',
     confirmPassword: '',
   });
   const [passwordError, setPasswordError] = useState<string>('');
   const [confirmPasswordError, setConfirmPasswordError] = useState<string>('');
-  // const handleSubmit = (event) => {
-  //   event.preventDefault();
-  //   //send data to server
-  //   fetch("/user/create", {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //     body: JSON.stringify(loginData),
-  //   })
-  //     .then((response) => {
-  //       return response.json();
-  //     })
-  //     .then((data) => {
-  //       console.log("Success:", data);
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error:", error);
-  //     });
-  // };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
-    // const { name, email, password } = event.target.value;
-    // setLoginData({
-    //   ...loginData,
-    //   [event.target.name]: event.target.value,
-    // });
     const { name, value } = event.target;
-
+    console.log(`name & value: ${name} ${value}`);
     setLoginData((prevData) => ({
       ...prevData,
       [name]: value,
     }));
-    // console.log(`LoginData`, loginData);
+
     if (name === 'password' || name === 'confirmPassword') {
       validatePassword(
         loginData.password,
@@ -58,7 +37,11 @@ const SignupContainer = () => {
       );
     }
   };
-  const validatePassword = (password: string, confirmPassword: string) => {
+
+  const validatePassword = (
+    password: string,
+    confirmPassword: string
+  ): boolean => {
     const passwordPattern =
       /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z\d]).{8,}$/;
     setPasswordError('');
@@ -68,21 +51,32 @@ const SignupContainer = () => {
       setPasswordError(
         'Password must be at least 8 characters long and include at least one uppercase letter, one lowercase letter, one number, and one special character.'
       );
+      return false;
     } else if (password !== confirmPassword) {
       setConfirmPasswordError('Passwords do not match.');
+      return false;
     }
+    return true;
   };
 
   const submitHandler = async (
     e: React.FormEvent<HTMLFormElement>
   ): Promise<void> => {
     e.preventDefault();
+
+    if (!validatePassword(loginData.password, loginData.confirmPassword)) {
+      console.error(
+        'The passwords do not match or do not meet the complexity requirements.'
+      );
+      return;
+    }
+
     try {
       const res = await signup(loginData).unwrap();
       dispatch(setCredential(res));
-      navigate('/play');
+      navigate('/');
     } catch (err) {
-      console.log(err);
+      console.error(err);
     }
   };
   return (
@@ -124,7 +118,7 @@ const SignupContainer = () => {
 
             <div className='w-full lg:max-w-xl p-6 space-y-8 sm:p-8 bg-white rounded-lg shadow-xl dark:bg-zinc-800'>
               <h1 className='text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white text-center'>
-                Create and account
+                Create an account
               </h1>
 
               {/* Form starts from here */}
@@ -138,12 +132,12 @@ const SignupContainer = () => {
                   </label>
                   <input
                     type='username'
-                    name='name'
-                    id='username'
+                    name='firstName'
+                    id='firstName'
                     className='bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-zinc-700 dark:border-zinc-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
                     placeholder='username'
                     required
-                    value={loginData.name}
+                    value={loginData.firstName}
                     onChange={handleChange}
                   />
                 </div>
@@ -167,7 +161,7 @@ const SignupContainer = () => {
                 </div>
                 <div>
                   <label
-                    htmlFor='confirm-password'
+                    htmlFor='password'
                     className='block mb-2 text-sm font-medium text-gray-900 dark:text-white'
                   >
                     Password
@@ -176,7 +170,7 @@ const SignupContainer = () => {
                     type='password'
                     name='password'
                     id='password'
-                    placeholder='••••••••'
+                    placeholder='Password'
                     className='bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-zinc-700 dark:border-zinc-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
                     value={loginData.password}
                     required
@@ -194,15 +188,11 @@ const SignupContainer = () => {
                     type='password'
                     name='confirmPassword'
                     id='confirm-password'
-                    placeholder='••••••••'
+                    placeholder='Confirm'
                     className='bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-zinc-700 dark:border-zinc-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
-                    value={loginData.confirmPassword} //added
                     required
-                    onChange={handleChange} // added
+                    onChange={handleChange}
                   />
-                  {confirmPasswordError && (
-                    <p className='text-red-500'>{confirmPasswordError}</p>
-                  )}
                 </div>
                 <div className='flex items-start'>
                   <div className='flex items-center h-5'>
@@ -256,5 +246,3 @@ const SignupContainer = () => {
 };
 
 export default SignupContainer;
-
-// second version

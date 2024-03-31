@@ -165,6 +165,7 @@ export default function NavBar({ title, to }: NavBarProps) {
                 <Link
                   to='/signin'
                   className='flex items-center p-2 text-zinc-900 rounded-lg dark:text-zinc-300 hover:bg-kalegreen-100 dark:hover:bg-zinc-700 group'
+                  onClick={() => dispatch(toggleSidebar())}
                 >
                   <svg
                     xmlns='http://www.w3.org/2000/svg'
@@ -188,6 +189,7 @@ export default function NavBar({ title, to }: NavBarProps) {
                 <Link
                   to='/signup'
                   className='flex items-center p-2 text-zinc-900 rounded-lg dark:text-zinc-300 hover:bg-kalegreen-100 dark:hover:bg-zinc-700 group'
+                  onClick={() => dispatch(toggleSidebar())}
                 >
                   <svg
                     xmlns='http://www.w3.org/2000/svg'
