@@ -4,11 +4,11 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
   entry: './client/index.tsx',
+  mode: process.env.NODE_ENV,
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'bundle.js',
   },
-  mode: process.env.NODE_ENV,
   devServer: {
     historyApiFallback: true,
     static: {
@@ -17,13 +17,15 @@ module.exports = {
     },
     proxy: [
       {
-        context: ['/', '/api', '/snapshots'],
+        context: ['/api', '/snapshots'],
         target: 'http://localhost:3000',
       },
     ],
   },
   plugins: [
-    new MiniCssExtractPlugin(),
+    new MiniCssExtractPlugin({
+      filename: 'styles.css',
+    }),
     new HtmlWebpackPlugin({
       title: 'development',
       template: './client/public/index.html',
