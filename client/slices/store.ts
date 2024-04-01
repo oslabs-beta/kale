@@ -3,15 +3,18 @@ import { metricsApiSlice } from './metricsApi';
 import { metricsSlice } from './metricsSlice';
 import { uiSlice } from './uiSlice';
 import { useDispatch } from 'react-redux';
-
+import { userApi } from './userApi';
 const store = configureStore({
   reducer: {
     metrics: metricsSlice.reducer,
     metricsApi: metricsApiSlice.reducer,
     ui: uiSlice.reducer,
+    userApi: userApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(metricsApiSlice.middleware),
+    getDefaultMiddleware()
+      .concat(metricsApiSlice.middleware)
+      .concat(userApi.middleware),
 });
 
 export default store;

@@ -89,7 +89,7 @@ export default function NavBar({ title, to }: NavBarProps) {
               <li>
                 <Link
                   to="/"
-                  id="home-btn"
+                  id="home-nav-btn"
                   className="flex items-center p-2 text-zinc-900 rounded-lg dark:text-zinc-300 hover:bg-kalegreen-100 dark:hover:bg-zinc-700 group"
                   onClick={() => dispatch(toggleSidebar())}
                 >
@@ -114,8 +114,8 @@ export default function NavBar({ title, to }: NavBarProps) {
               <li>
                 <Link
                   to="/dashboard"
+                  id="dashboard-nav-btn"
                   className="flex items-center p-2 text-zinc-900 rounded-lg dark:text-zinc-300 hover:bg-kalegreen-100 dark:hover:bg-zinc-700 group"
-                  id="dashboard-btn"
                   onClick={() => dispatch(toggleSidebar())}
                 >
                   <svg
@@ -144,7 +144,7 @@ export default function NavBar({ title, to }: NavBarProps) {
               <li>
                 <Link
                   to="/history"
-                  id="history-btn"
+                  id="history-nav-btn"
                   className="flex items-center p-2 text-zinc-900 rounded-lg dark:text-zinc-300 hover:bg-kalegreen-100 dark:hover:bg-zinc-700 group"
                   onClick={() => dispatch(toggleSidebar())}
                 >
@@ -167,9 +167,11 @@ export default function NavBar({ title, to }: NavBarProps) {
                 </Link>
               </li>
               <li>
-                <a
-                  href="#"
+                <Link
+                  to="/signin"
+                  id="signin-nav-btn"
                   className="flex items-center p-2 text-zinc-900 rounded-lg dark:text-zinc-300 hover:bg-kalegreen-100 dark:hover:bg-zinc-700 group"
+                  onClick={() => dispatch(toggleSidebar())}
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -187,12 +189,14 @@ export default function NavBar({ title, to }: NavBarProps) {
                   </svg>
 
                   <span className="flex-1 ms-3 whitespace-nowrap">Sign In</span>
-                </a>
+                </Link>
               </li>
               <li>
-                <a
-                  href="#"
+                <Link
+                  to="/signup"
+                  id="signup-nav-btn"
                   className="flex items-center p-2 text-zinc-900 rounded-lg dark:text-zinc-300 hover:bg-kalegreen-100 dark:hover:bg-zinc-700 group"
+                  onClick={() => dispatch(toggleSidebar())}
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -210,7 +214,7 @@ export default function NavBar({ title, to }: NavBarProps) {
                   </svg>
 
                   <span className="flex-1 ms-3 whitespace-nowrap">Sign Up</span>
-                </a>
+                </Link>
               </li>
             </ul>
           </div>

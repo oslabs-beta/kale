@@ -36,14 +36,19 @@ describe('The Welcome Page', () => {
     cy.get('#nav-close-button').click();
     cy.get('#drawer-navigation').should('not.be.visible');
   });
-  it('dashboard button in sidebar redirects to /dashboard', () => {
+  it('dashboard sidebar button redirects to /dashboard', () => {
     cy.get('#nav-button').click();
-    cy.get('#dashboard-btn').click();
+    cy.get('#dashboard-nav-btn').click();
     cy.url().should('include', '/dashboard');
   });
   it('dashboard button in sidebar redirects to /history', () => {
     cy.get('#nav-button').click();
-    cy.get('#history-btn').click();
+    cy.get('#history-nav-btn').click();
+    cy.url().should('include', '/history');
+  });
+  it('dashboard button in sidebar redirects to /signup', () => {
+    cy.get('#nav-button').click();
+    cy.get('#history-nav-btn').click();
     cy.url().should('include', '/history');
   });
 });

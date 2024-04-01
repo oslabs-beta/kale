@@ -17,6 +17,7 @@
     "@reduxjs/toolkit": "^2.2.1",
     "@types/bcryptjs": "^2.4.6",
     "@types/d3": "^7.4.3",
+    "@types/dotenv": "^8.2.0",
     "@types/recharts": "^1.8.29",
     "bcryptjs": "^2.4.3",
     "chart.js": "^4.4.2",

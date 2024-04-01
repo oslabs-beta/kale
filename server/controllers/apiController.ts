@@ -26,7 +26,7 @@ export const apiController = {
     try {
       const response = await fetch(apiUrl);
       const data: FetchResponseData = await response.json();
-
+      console.log(`inside fetch(apiUrl)`);
       const metricsValues: MetricsData = {
         metric: 'GPU Usage',
         time: [],
@@ -74,7 +74,7 @@ export const apiController = {
       };
 
       res.locals.gpuUsage = formattedData;
-
+      console.log(`gpuusage2`);
       return next();
     } catch (error) {
       const errObj = {
