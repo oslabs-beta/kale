@@ -10,7 +10,8 @@ const PORT = 3000;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use('/public', express.static(path.resolve(__dirname, '../client/public')));
+//app.use('/public', express.static(path.resolve(__dirname, '../client/public')));
+app.use('/dist', express.static(path.resolve(__dirname, '../dist')));
 
 app.get('/', (req, res) => {
   return res
