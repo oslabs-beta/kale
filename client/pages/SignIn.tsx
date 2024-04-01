@@ -82,7 +82,7 @@ const SignInContainer = () => {
                     <input
                       type="email"
                       name="email"
-                      id="email"
+                      id="email-signin"
                       //added authError ?
                       value={verifyData.email}
                       className={`bg-gray-50 border ${
@@ -104,7 +104,7 @@ const SignInContainer = () => {
                       // type='password'
                       type={showPassword ? 'text' : 'password'}
                       name="password"
-                      id="password"
+                      id="password-signin"
                       placeholder="••••••••"
                       className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-zinc-700 dark:border-zinc-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                       required
@@ -124,6 +124,7 @@ const SignInContainer = () => {
 
                   <button
                     type="submit"
+                    id="signin-btn"
                     className="w-full text-white bg-kalegreen-600 hover:bg-kalegreen-500 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:focus:ring-primary-800"
                   >
                     Login to your account
