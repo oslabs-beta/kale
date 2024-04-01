@@ -1,6 +1,6 @@
 import React, { lazy } from 'react';
 import GuageChart from './GuageChart';
-import { MetricsData } from '../../types';
+import type { MetricsData } from '../../types';
 import LineChart2 from './LineChart2';
 
 type ChartTableProps = {
