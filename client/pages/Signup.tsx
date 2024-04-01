@@ -19,6 +19,7 @@ const SignupContainer = () => {
     password: '',
     confirmPassword: '',
   });
+
   const [passwordError, setPasswordError] = useState<string>('');
   const [confirmPasswordError, setConfirmPasswordError] = useState<string>('');
 
@@ -49,7 +50,7 @@ const SignupContainer = () => {
 
     if (!passwordPattern.test(password)) {
       setPasswordError(
-        'Password must be at least 8 characters long and include at least one uppercase letter, one lowercase letter, one number, and one special character.'
+        'Password must be at least 8 characters long, including uppercase and lowercase letters, a number, and a special character.'
       );
       return false;
     } else if (password !== confirmPassword) {
