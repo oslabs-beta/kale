@@ -20,6 +20,7 @@ export default function NavBar({ title, to }: NavBarProps) {
       <div className="max-w-screen-xl flex flex-wrap items-center justify-start p-0 m-0">
         <button
           type="button"
+          id="nav-button"
           className="my-2 z-10 text-kalegreen-700 hover:bg-kalegreen-100 dark:hover:bg-zinc-700 focus:ring-4 font-medium rounded-lg text-sm px-5 py-2.5 dark:text-kalegreen-400 focus:outline-none dark:focus:bg-zinc-700"
           aria-controls="drawer-navigation"
           onClick={() => dispatch(toggleSidebar())}
@@ -62,6 +63,7 @@ export default function NavBar({ title, to }: NavBarProps) {
         >
           <button
             type="button"
+            id="nav-close-button"
             data-drawer-hide="drawer-navigation"
             aria-controls="drawer-navigation"
             className="text-zinc-400 bg-transparent hover:bg-zinc-200 hover:text-zinc-900 rounded-lg text-sm p-1.5 absolute top-2.5 end-2.5 inline-flex items-center dark:hover:bg-zinc-600 dark:hover:text-white"
@@ -87,6 +89,7 @@ export default function NavBar({ title, to }: NavBarProps) {
               <li>
                 <Link
                   to="/"
+                  id="home-btn"
                   className="flex items-center p-2 text-zinc-900 rounded-lg dark:text-zinc-300 hover:bg-kalegreen-100 dark:hover:bg-zinc-700 group"
                   onClick={() => dispatch(toggleSidebar())}
                 >
@@ -112,6 +115,7 @@ export default function NavBar({ title, to }: NavBarProps) {
                 <Link
                   to="/dashboard"
                   className="flex items-center p-2 text-zinc-900 rounded-lg dark:text-zinc-300 hover:bg-kalegreen-100 dark:hover:bg-zinc-700 group"
+                  id="dashboard-btn"
                   onClick={() => dispatch(toggleSidebar())}
                 >
                   <svg
@@ -140,6 +144,7 @@ export default function NavBar({ title, to }: NavBarProps) {
               <li>
                 <Link
                   to="/history"
+                  id="history-btn"
                   className="flex items-center p-2 text-zinc-900 rounded-lg dark:text-zinc-300 hover:bg-kalegreen-100 dark:hover:bg-zinc-700 group"
                   onClick={() => dispatch(toggleSidebar())}
                 >
