@@ -18,6 +18,7 @@ export default function ChartTable({ metrics }: ChartTableProps) {
         value={metrics[Object.keys(metrics)[i]].value}
         time={metrics[Object.keys(metrics)[i]].time}
         key={i}
+        id={`line-chart-${i}`}
       />
     );
   }
@@ -37,6 +38,7 @@ export default function ChartTable({ metrics }: ChartTableProps) {
           ]
         }
         key={i}
+        id={`gauge-chart-${i}`}
       />
     );
   }
