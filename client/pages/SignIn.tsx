@@ -1,13 +1,14 @@
 import React, { useState, ChangeEvent, FormEvent } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+//import { useDispatch } from 'react-redux';
+import { useAppDispatch } from '../slices/store';
 import { useLoginMutation } from '../slices/userApi';
 import { setCredential } from '../slices/userSlice';
 import { VerifyData } from '../../types';
 import NavBar from '../components/Navbar';
 const SignInContainer = () => {
   const [signin] = useLoginMutation();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const [verifyData, setVerifyData] = useState<VerifyData>({
@@ -36,6 +37,7 @@ const SignInContainer = () => {
     signin(verifyData)
       .unwrap()
       .then((res) => {
+        console.log(res);
         dispatch(setCredential(res));
         navigate('/');
       })

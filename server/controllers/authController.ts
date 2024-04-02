@@ -38,6 +38,7 @@ export const authController = {
     }
     try {
       const existingUser = await User.findOne({ email });
+      console.log(existingUser);
       if (!existingUser) {
         return next({
           status: 401, // Unauthorized
@@ -51,7 +52,14 @@ export const authController = {
       }
 
       const valid = await existingUser.comparePassword(password);
-      res.locals.valid = valid;
+
+      if (!valid) {
+        return res
+          .status(401)
+          .json({ message: 'Invalid username or password' });
+      }
+      
+      res.locals.valid = existingUser;
       return next();
     } catch (err) {
       return next({
