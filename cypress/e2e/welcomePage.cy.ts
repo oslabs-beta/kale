@@ -3,6 +3,8 @@ describe('The Welcome Page', () => {
 
   beforeEach(() => {
     cy.visit('http://localhost:8080');
+    cy.get('#nav-button').click();
+    cy.get('#home-nav-btn').click();
   });
 
   it('has a title', () => {
