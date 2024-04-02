@@ -5,7 +5,7 @@ export interface Snapshot extends ApiData {
   _id: string;
 }
 
-type queryArg = { url: string; nodeName: string };
+type queryArg = { url: string; podName: string };
 
 // API communication with server
 export const metricsApiSlice = createApi({
@@ -13,10 +13,10 @@ export const metricsApiSlice = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: '/' }),
   endpoints: (builder) => ({
     grabMetrics: builder.mutation<ApiData, queryArg>({
-      query: ({ url, nodeName }: queryArg) => ({
+      query: ({ url, podName }: queryArg) => ({
         url: 'api',
         method: 'POST',
-        body: { url, nodeName },
+        body: { url, podName },
       }),
     }),
     getSnapshots: builder.query<Snapshot[], void>({

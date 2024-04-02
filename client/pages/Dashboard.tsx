@@ -12,7 +12,7 @@ import { ApiData } from '../../types';
 
 export default function Dashboard() {
   const url = useSelector((state: RootState) => state.ui.urlInput);
-  const nodeName = useSelector((state: RootState) => state.ui.nodeNameInput);
+  const podName = useSelector((state: RootState) => state.ui.nodeNameInput);
   const [grabMetrics, { data: currentData, error, isLoading }] =
     useGrabMetricsMutation({
       fixedCacheKey: 'current-metric-data',
@@ -24,7 +24,7 @@ export default function Dashboard() {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      grabMetrics({ url, nodeName });
+      grabMetrics({ url, podName });
     }, 30000);
     return () => clearInterval(interval);
   }, []);

@@ -6,11 +6,11 @@ import { RootState } from '../slices/store';
 import { useSelector, useDispatch } from 'react-redux';
 import { saveUrl, saveNodeName } from '../slices/uiSlice';
 
-type handleClickArg = { url: string; nodeName: string };
+type handleClickArg = { url: string; podName: string };
 
 export default function WelcomePage() {
   const urlShow = useSelector((state: RootState) => state.ui.urlInput);
-  const nodeName = useSelector((state: RootState) => state.ui.nodeNameInput);
+  const podName = useSelector((state: RootState) => state.ui.nodeNameInput);
 
   const [grabMetrics, result] = useGrabMetricsMutation({
     fixedCacheKey: 'current-metric-data',
@@ -19,9 +19,9 @@ export default function WelcomePage() {
   const dispatch = useDispatch();
 
   // handle the 'Go' button click event to fetch the metrics data with provided url
-  function handleClick({ url, nodeName }: handleClickArg) {
+  function handleClick({ url, podName }: handleClickArg) {
     try {
-      const response = grabMetrics({ url, nodeName });
+      const response = grabMetrics({ url, podName });
     } catch (error) {
       console.log('error creating data:', error);
     }
@@ -32,7 +32,7 @@ export default function WelcomePage() {
     dispatch(saveUrl(e.target.value));
   }
   // Update node name as user types
-  function handleNodeNameChange(e: any) {
+  function handlePodNameChange(e: any) {
     dispatch(saveNodeName(e.target.value));
   }
   return (
@@ -58,10 +58,10 @@ export default function WelcomePage() {
           </p>
           <ClusterInput
             handleUrlChange={handleUrlChange}
-            handleNodeNameChange={handleNodeNameChange}
+            handlePodNameChange={handlePodNameChange}
             handleClick={handleClick}
             url={urlShow}
-            nodeName={nodeName}
+            podName={podName}
           />
           <p className="mt-6 text-xs leading-8 text-zinc-400">
             *Proof of Concept: Data is currently based on <b>CPU metrics</b>.
