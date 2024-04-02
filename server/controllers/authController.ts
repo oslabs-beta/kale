@@ -32,7 +32,7 @@ export const authController = {
     if (!email || !password) {
       return next({
         status: 401, // Unauthorized
-        log: 'Error in login if email password DNE middleware',
+        log: 'Error in login middleware',
         message: 'Invalid username or password',
       });
     }
@@ -42,7 +42,7 @@ export const authController = {
       if (!existingUser) {
         return next({
           status: 401, // Unauthorized
-          log: 'Error in login existingUser middleware',
+          log: 'Error in login middleware',
           message: 'Invalid username or password',
         });
       }
@@ -63,7 +63,7 @@ export const authController = {
       return next();
     } catch (err) {
       return next({
-        log: 'Error in login  just some error middleware',
+        log: 'Error in login middleware',
         message: { err: 'An error occurred while user login: ' + err },
       });
     }

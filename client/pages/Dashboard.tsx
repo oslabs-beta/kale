@@ -69,7 +69,9 @@ export default function Dashboard() {
               </p>
             </div>
             <SnapshotButton
-              handleClick={handleClick} currentData={currentData} userId={grabUserInfo.id}
+              handleClick={handleClick}
+              currentData={currentData}
+              userId={grabUserInfo.id}
             />
           </div>
 
