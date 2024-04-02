@@ -11,9 +11,7 @@ type handleClickArg = { url: string; podName: string };
 export default function WelcomePage() {
   const urlShow = useSelector((state: RootState) => state.ui.urlInput);
   const podName = useSelector((state: RootState) => state.ui.nodeNameInput);
-  const firstNameShow = useSelector(
-    (state: RootState) => state.users.userData.firstName
-  );
+  const userDataShow = useSelector((state: RootState) => state.users.userData);
 
   const [grabMetrics, result] = useGrabMetricsMutation({
     fixedCacheKey: 'current-metric-data',
@@ -55,7 +53,10 @@ export default function WelcomePage() {
         <div className="h-full mx-auto max-w-3xl py-28 sm:py-32 lg:py-20 text-left">
           <h1 className="text-4xl font-bold tracking-tight text-zinc-200 sm:text-6xl">
             Hello{' '}
-            <p className="inline-block text-kalegreen-400">{firstNameShow}</p>,
+            <p className="inline-block text-kalegreen-400">
+              {userDataShow ? userDataShow.firstName : 'Random Hacker'}
+            </p>
+            ,
           </h1>
           <p className="mt-6 text-lg leading-8 text-zinc-400">
             Please enter your cluster's Prometheus URL and the name of the pod

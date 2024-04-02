@@ -6,7 +6,7 @@ import { RootState } from '../slices/store';
 import {
   useGetSnapshotState,
   useDeleteSnapshotsMutation,
-} from '../slices/metricsApi';
+} from '../slices/snapshotsApi';
 import { Snapshot } from '../slices/metricsApi';
 import ChartTable from '../components/ChartTable';
 

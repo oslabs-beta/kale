@@ -38,7 +38,9 @@ const SignInContainer = () => {
     signin(verifyData)
       .unwrap()
       .then((res) => {
+        console.log(res);
         const firstName = {
+          id: res._id,
           firstName: res.firstName,
         };
         dispatch(setCredential(firstName));

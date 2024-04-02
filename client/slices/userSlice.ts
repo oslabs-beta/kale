@@ -24,10 +24,10 @@ export const userSlice = createSlice({
     updateSessionData: (state, action: PayloadAction<any>) => {
       state.sessionData.push(action.payload);
     },
-    setFirstName: (state) => {
-      state.userData = localStorage.getItem('userData');
-    },
+    // setFirstName: (state) => {
+    //   state.userData = localStorage.getItem('userData');
+    // },
   },
 });
-export const { setCredential, logout, updateSessionData, setFirstName } = userSlice.actions;
+export const { setCredential, logout, updateSessionData } = userSlice.actions;
 //export default userSlice.reducer;
