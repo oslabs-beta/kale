@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { ApiData, FetchResponseData, MetricsData } from '../../types';
 
-export const apiController = {
+const apiController = {
   gpuUsage: async (req: Request, res: Response, next: NextFunction) => {
     const podName = req.body.podName;
     console.log(podName);
@@ -86,3 +86,5 @@ export const apiController = {
     }
   },
 };
+
+export default apiController;
