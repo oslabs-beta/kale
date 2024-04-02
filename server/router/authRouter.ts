@@ -1,7 +1,5 @@
-// create an auth router that will handle all authentication routes
-
 import express from 'express';
-import { authController } from '../controllers/authController';
+import authController from '../controllers/authController';
 
 const authRouter = express.Router();
 

@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import User from '../Models/userModel';
 
-export const authController = {
+const authController = {
   createUser: async (req: Request, res: Response, next: NextFunction) => {
     const { email, firstName, password } = req.body;
     console.log(email, firstName, password);
@@ -61,3 +61,5 @@ export const authController = {
     }
   },
 };
+
+export default authController;
