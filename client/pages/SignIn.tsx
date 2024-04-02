@@ -1,13 +1,14 @@
 import React, { useState, ChangeEvent, FormEvent } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useAppDispatch } from '../slices/store';
 import { useLoginMutation } from '../slices/userApi';
 import { setCredential } from '../slices/userSlice';
 import { VerifyData } from '../../types';
 import NavBar from '../components/Navbar';
+
 const SignInContainer = () => {
   const [signin] = useLoginMutation();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const [verifyData, setVerifyData] = useState<VerifyData>({
@@ -31,12 +32,18 @@ const SignInContainer = () => {
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
-  const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
+
+  const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     signin(verifyData)
       .unwrap()
       .then((res) => {
-        dispatch(setCredential(res));
+        console.log(res);
+        const data = {
+          id: res._id,
+          firstName: res.firstName,
+        };
+        dispatch(setCredential(data));
         navigate('/');
       })
       .catch((err) => {
