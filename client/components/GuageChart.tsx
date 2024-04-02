@@ -6,9 +6,15 @@ type GuageChartProps = {
   metric: string;
   value: number;
   time: string;
+  id: string;
 };
 
-export default function GuageChart({ metric, value, time }: GuageChartProps) {
+export default function GuageChart({
+  metric,
+  value,
+  time,
+  id,
+}: GuageChartProps) {
   console.log('GuageChart', metric, value, time);
 
   const data = [value, 1 - value];
@@ -63,7 +69,10 @@ export default function GuageChart({ metric, value, time }: GuageChartProps) {
   }, [data]);
 
   return (
-    <div className="flex flex-col h-auto w-1/3 items-center justify-center">
+    <div
+      className="flex flex-col h-auto w-1/3 items-center justify-center"
+      id={id}
+    >
       <p className="text-lg text-center dark:text-kalegreen-300">{metric}</p>
       <svg ref={svgRef}></svg>
     </div>

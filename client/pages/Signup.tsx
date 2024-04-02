@@ -117,7 +117,11 @@ const SignupContainer = () => {
               </h1>
 
               {/* Form starts from here */}
-              <form onSubmit={submitHandler} className='space-y-4 md:space-y-6'>
+              <form
+                id='signup-form'
+                onSubmit={submitHandler}
+                className='space-y-4 md:space-y-6'
+              >
                 <div>
                   <label
                     htmlFor='firstName'
@@ -128,7 +132,7 @@ const SignupContainer = () => {
                   <input
                     type='firstName'
                     name='firstName'
-                    id='firstName'
+                    id='first-name-signup'
                     className='bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-zinc-700 dark:border-zinc-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
                     placeholder='First Name'
                     required
@@ -173,7 +177,7 @@ const SignupContainer = () => {
                   <input
                     type={showPassword ? 'text' : 'password'}
                     name='password'
-                    id='password'
+                    id='password-signup'
                     placeholder='Password'
                     className='bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-zinc-700 dark:border-zinc-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
                     value={loginData.password}
@@ -203,7 +207,7 @@ const SignupContainer = () => {
                   <input
                     type={showPassword ? 'text' : 'password'}
                     name='confirmPassword'
-                    id='confirm-password'
+                    id='confirm-password-signup'
                     placeholder='Confirm'
                     className='bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-zinc-700 dark:border-zinc-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
                     required
@@ -230,6 +234,7 @@ const SignupContainer = () => {
                 </div>
                 <button
                   type='submit'
+                  id='create-account-btn'
                   className='w-full text-white bg-kalegreen-600 hover:bg-kalegreen-500 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:focus:ring-primary-800'
                 >
                   Create an account

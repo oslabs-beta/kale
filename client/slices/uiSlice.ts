@@ -6,13 +6,13 @@ import {
 
 type UiState = {
   urlInput: string;
+  nodeNameInput: string;
   isSidebarOpen: boolean;
-  isInputOpen: boolean;
 };
 const initialState: UiState = {
   urlInput: '',
+  nodeNameInput: '',
   isSidebarOpen: false,
-  isInputOpen: false,
 };
 
 export const uiSlice = createSlice({
@@ -22,13 +22,13 @@ export const uiSlice = createSlice({
     toggleSidebar(state) {
       state.isSidebarOpen = !state.isSidebarOpen;
     },
-    showInput(state) {
-      state.isInputOpen = true;
-    },
     saveUrl: (state, action: PayloadAction<string>) => {
       state.urlInput = action.payload;
+    },
+    saveNodeName: (state, action: PayloadAction<string>) => {
+      state.nodeNameInput = action.payload;
     },
   },
 });
 
-export const { toggleSidebar, showInput, saveUrl } = uiSlice.actions;
+export const { toggleSidebar, saveUrl, saveNodeName } = uiSlice.actions;

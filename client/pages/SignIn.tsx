@@ -43,7 +43,6 @@ const SignInContainer = () => {
           email: res.email,
         };
         dispatch(setCredential(abc));
-        // dispatch(setCredential(res));
         navigate('/welcome');
       })
       .catch((err) => {
@@ -56,25 +55,10 @@ const SignInContainer = () => {
       <NavBar title='Sign In' to='/signin' />
       <section className='bg-gray-50 dark:bg-zinc-950'>
         <div className='flex items-center justify-center min-h-screen'>
-          {/* <div
-            className='py-8 px-4 mx-auto 
-          max-w-screen-xl lg:py-16 grid lg:grid-cols-2 gap-8 lg:gap-16'
-          > */}
           <div
             className='py-8 px-4 mx-auto 
           max-w-screen-xl lg:py-16 grid lg:grid-cols-1 gap-8 lg:gap-16'
           >
-            {/* <div className='flex flex-col justify-center'>
-              <h1 className='mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl dark:text-white'>
-                Optimizing Efficiency in AI/ML: Minimizing Costs and Resource
-                Use{' '}
-              </h1>
-              <p className='mb-6 text-lg font-normal text-gray-500 lg:text-xl dark:text-gray-400'>
-                Here at Kale we leverage your unleashed talent, technology, and
-                innovation to help improve flow of communication.
-              </p>
-            </div> */}
-            {/* <div> */}
             <div className='w-full lg:max-w-xl p-6 space-y-8 sm:p-8 bg-white rounded-lg shadow-xl dark:bg-zinc-800'>
               <h2 className='text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white text-center'>
                 Sign in to kale
@@ -135,7 +119,6 @@ const SignInContainer = () => {
 
                   <div className='flex justify-between items-center !mt-0'>
                     <div className='!mt-0 text-left mt-0'>
-                      {/* In your form display the authError if it exists */}
                       {authError && (
                         <p className='!mt-0 text-xs text-left font-medium text-red-500'>
                           {authError}
@@ -171,7 +154,6 @@ const SignInContainer = () => {
                 </div>
               </form>
             </div>
-            {/* </div> */}
           </div>
         </div>
       </section>
