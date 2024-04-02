@@ -2,17 +2,17 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../slices/store';
 import NavBar from '../components/Navbar';
-import {
-  useGrabMetricsMutation,
-  useSendSnapshotsMutation,
-} from '../slices/metricsApi';
+import { useSendSnapshotsMutation } from '../slices/snapshotsApi';
+import { useGrabMetricsMutation } from '../slices/metricsApi';
 import SnapshotButton from '../components/SnapshotButton';
 import ChartTable from '../components/ChartTable';
 import { ApiData } from '../../types';
+import { SendSnapshotArg } from '../slices/snapshotsApi';
 
 export default function Dashboard() {
   const url = useSelector((state: RootState) => state.ui.urlInput);
   const podName = useSelector((state: RootState) => state.ui.nodeNameInput);
+  const grabUserInfo = useSelector((state: RootState) => state.users.userData);
   const [grabMetrics, { data: currentData, error, isLoading }] =
     useGrabMetricsMutation({
       fixedCacheKey: 'current-metric-data',
@@ -29,9 +29,9 @@ export default function Dashboard() {
     return () => clearInterval(interval);
   }, []);
 
-  function handleClick(data: ApiData) {
+  function handleClick({ data, userId }: SendSnapshotArg) {
     try {
-      const response = createSnapshot(currentData);
+      const response = createSnapshot({ data, userId });
       console.log('data created!', response);
     } catch (error) {
       console.log('error saving data:', error);
@@ -68,7 +68,11 @@ export default function Dashboard() {
                 465.19
               </p>
             </div>
-            <SnapshotButton handleClick={() => handleClick(currentData)} />
+            <SnapshotButton
+              handleClick={handleClick}
+              currentData={currentData}
+              userId={grabUserInfo.id}
+            />
           </div>
 
           <ChartTable metrics={currentData.metrics} />

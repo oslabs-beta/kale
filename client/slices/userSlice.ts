@@ -9,13 +9,13 @@ const initialState: UserState = {
   sessionData: [],
 };
 
-const userSlice = createSlice({
+export const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
     setCredential: (state, action: PayloadAction<any>) => {
-      state.userData = action.payload;
       localStorage.setItem('userData', JSON.stringify(action.payload));
+      state.userData = action.payload;
     },
     logout: (state) => {
       state.userData = null;
@@ -24,7 +24,10 @@ const userSlice = createSlice({
     updateSessionData: (state, action: PayloadAction<any>) => {
       state.sessionData.push(action.payload);
     },
+    // setFirstName: (state) => {
+    //   state.userData = localStorage.getItem('userData');
+    // },
   },
 });
 export const { setCredential, logout, updateSessionData } = userSlice.actions;
-export default userSlice.reducer;
+//export default userSlice.reducer;
