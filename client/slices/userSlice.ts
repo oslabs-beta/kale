@@ -9,7 +9,7 @@ const initialState: UserState = {
   sessionData: [],
 };
 
-const userSlice = createSlice({
+export const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
@@ -27,4 +27,4 @@ const userSlice = createSlice({
   },
 });
 export const { setCredential, logout, updateSessionData } = userSlice.actions;
-export default userSlice.reducer;
+//export default userSlice.reducer;

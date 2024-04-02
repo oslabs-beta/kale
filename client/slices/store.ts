@@ -4,12 +4,14 @@ import { metricsSlice } from './metricsSlice';
 import { uiSlice } from './uiSlice';
 import { useDispatch } from 'react-redux';
 import { userApi } from './userApi';
+import { userSlice } from './userSlice'
 const store = configureStore({
   reducer: {
     metrics: metricsSlice.reducer,
     metricsApi: metricsApiSlice.reducer,
     ui: uiSlice.reducer,
     userApi: userApi.reducer,
+    users: userSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware()

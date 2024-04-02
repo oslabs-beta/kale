@@ -1,11 +1,11 @@
 import React, { useState, ChangeEvent, FormEvent } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-//import { useDispatch } from 'react-redux';
 import { useAppDispatch } from '../slices/store';
 import { useLoginMutation } from '../slices/userApi';
 import { setCredential } from '../slices/userSlice';
 import { VerifyData } from '../../types';
 import NavBar from '../components/Navbar';
+
 const SignInContainer = () => {
   const [signin] = useLoginMutation();
   const dispatch = useAppDispatch();
@@ -32,13 +32,16 @@ const SignInContainer = () => {
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
-  const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
+
+  const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     signin(verifyData)
       .unwrap()
       .then((res) => {
-        console.log(res);
-        dispatch(setCredential(res));
+        const firstName = {
+          firstName: res.firstName,
+        };
+        dispatch(setCredential(firstName));
         navigate('/');
       })
       .catch((err) => {
