@@ -39,11 +39,11 @@ const SignInContainer = () => {
       .unwrap()
       .then((res) => {
         console.log(res);
-        const firstName = {
+        const data = {
           id: res._id,
           firstName: res.firstName,
         };
-        dispatch(setCredential(firstName));
+        dispatch(setCredential(data));
         navigate('/');
       })
       .catch((err) => {
