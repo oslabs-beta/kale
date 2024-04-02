@@ -8,11 +8,10 @@ import { useSelector, useDispatch } from 'react-redux';
 import { VerifyData } from '../../types';
 import NavBar from '../components/Navbar';
 const SignupContainer = () => {
-  //Initialize necessary hooks for the component
-
   const [signup] = useSignupMutation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const [showPassword, setShowPassword] = useState(false);
   const [loginData, setLoginData] = useState<VerifyData>({
     firstName: '',
@@ -23,31 +22,40 @@ const SignupContainer = () => {
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
+  const [emailError, setEmailError] = useState<string>('');
   const [passwordError, setPasswordError] = useState<string>('');
   const [confirmPasswordError, setConfirmPasswordError] = useState<string>('');
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = event.target;
-    console.log(`name & value: ${name} ${value}`);
     setLoginData((prevData) => ({
       ...prevData,
       [name]: value,
     }));
+    if (name === 'email') {
+      setEmailError('');
+    }
+    if (name === 'password') {
+      const isValid = passwordPattern.test(value) || value.length === 0;
 
-    if (name === 'password' || name === 'confirmPassword') {
-      validatePassword(
-        loginData.password,
-        name === 'confirmPassword' ? value : loginData.confirmPassword
+      setPasswordError(
+        passwordPattern.test(value) ? '' : 'Password must meet requirements.'
+      );
+    } else if (name === 'confirmPassword') {
+      setConfirmPasswordError(
+        loginData.password !== value && value ? 'Passwords do not match.' : ''
       );
     }
   };
+  const passwordPattern =
+    /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z\d]).{8,}$/;
+  const passwordValid =
+    loginData.password.length === 0 || passwordPattern.test(loginData.password);
 
   const validatePassword = (
     password: string,
     confirmPassword: string
   ): boolean => {
-    const passwordPattern =
-      /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z\d]).{8,}$/;
     setPasswordError('');
     setConfirmPasswordError('');
 
@@ -80,7 +88,11 @@ const SignupContainer = () => {
       dispatch(setCredential(res));
       navigate('/');
     } catch (err) {
-      console.error(err);
+      if (err.status === 400 && err.data.includes('exist')) {
+        setEmailError('Email address already taken');
+      } else {
+        console.error(err);
+      }
     }
   };
   return (
@@ -156,12 +168,21 @@ const SignupContainer = () => {
                     type='email'
                     name='email'
                     id='email'
-                    className='bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-zinc-700 dark:border-zinc-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+                    className={`bg-gray-50  ${
+                      emailError
+                        ? '!border-2 !border-red-500'
+                        : '!border !border-gray-300'
+                    } text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-zinc-700 dark:border-zinc-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500`}
                     placeholder='name@company.com'
                     required
                     value={loginData.email}
                     onChange={handleChange}
                   />
+                  {emailError && (
+                    <p className='text-xs text-left font-medium text-red-500'>
+                      {emailError}
+                    </p>
+                  )}
                 </div>
                 <div>
                   <label
@@ -181,12 +202,17 @@ const SignupContainer = () => {
                     onChange={handleChange}
                   />
                 </div>
-                {/* <div className='text-right mt-0'> */}
-                <p>
-                  Create a strong password including upper and lower case
-                  letters, numbers, symbols and 8 characters long.
+
+                <p
+                  className={`!mt-0 text-xs font-medium ${
+                    loginData.password.length > 0 && !passwordValid
+                      ? '!text-red-500'
+                      : '!text-white'
+                  } dark:text-white`}
+                >
+                  Create a strong password with at least 8 characters with upper
+                  and lower case letters, numbers, and symbols.
                 </p>
-                {/* </div> */}
 
                 <div>
                   <label
@@ -205,14 +231,23 @@ const SignupContainer = () => {
                     onChange={handleChange}
                   />
                 </div>
-                <div className='text-right mt-0'>
-                  <button
-                    type='button'
-                    className=' mb-2 text-sm font-medium text-gray-900 dark:text-white'
-                    onClick={togglePasswordVisibility}
-                  >
-                    {showPassword ? 'Hide password' : 'Show password'}
-                  </button>
+                <div className='flex justify-between items-center !mt-0'>
+                  <div className='!mt-0 text-left mt-0'>
+                    {confirmPasswordError && (
+                      <p className='!mt-0 text-xs text-left font-medium text-red-500'>
+                        {confirmPasswordError}
+                      </p>
+                    )}
+                  </div>
+                  <div className='!mt-0 text-right mt-0'>
+                    <button
+                      type='button'
+                      className=' mb-2 text-sm font-medium text-gray-900 dark:text-white'
+                      onClick={togglePasswordVisibility}
+                    >
+                      {showPassword ? 'Hide password' : 'Show password'}
+                    </button>
+                  </div>
                 </div>
                 <button
                   type='submit'
@@ -223,8 +258,8 @@ const SignupContainer = () => {
                 <p className='text-sm font-light text-gray-500 dark:text-gray-400'>
                   Already have an account?{' '}
                   <Link
-                    to='/login'
-                    className='font-medium text-primary-600 hover:underline dark:text-primary-500'
+                    to='/signin'
+                    className='text-blue-600 hover:underline dark:text-blue-500'
                   >
                     Login here
                   </Link>

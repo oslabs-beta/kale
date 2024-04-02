@@ -51,7 +51,14 @@ export const authController = {
       }
 
       const valid = await existingUser.comparePassword(password);
-      res.locals.valid = valid;
+      if (!valid) {
+        return res
+          .status(401)
+          .json({ message: 'Invalid username or password' });
+      }
+      // res.locals.valid = valid;
+
+      res.locals.valid = existingUser;
       return next();
     } catch (err) {
       return next({
