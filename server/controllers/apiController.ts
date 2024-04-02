@@ -3,8 +3,8 @@ import { ApiData, FetchResponseData, MetricsData } from '../../types';
 
 export const apiController = {
   gpuUsage: async (req: Request, res: Response, next: NextFunction) => {
-    const podName = 'hello-app-8589f56ccb-t66b8';
-    console.log(req.body);
+    const podName = req.body.podName;
+
     let baseUrl = req.body.url.includes(`http://`)
       ? req.body.url.slice(7)
       : req.body.url;
