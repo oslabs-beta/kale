@@ -9,13 +9,11 @@ const initialState: UserState = {
   sessionData: [],
 };
 
-const userSlice = createSlice({
+export const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
     setCredential: (state, action: PayloadAction<any>) => {
-      console.log('Setting credential in reducer', action.payload);
-
       state.userData = action.payload;
 
       localStorage.setItem('userData', JSON.stringify(action.payload));
@@ -30,4 +28,3 @@ const userSlice = createSlice({
   },
 });
 export const { setCredential, logout, updateSessionData } = userSlice.actions;
-export default userSlice.reducer;

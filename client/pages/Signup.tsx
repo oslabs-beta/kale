@@ -86,7 +86,7 @@ const SignupContainer = () => {
     try {
       const res = await signup(loginData).unwrap();
       dispatch(setCredential(res));
-      navigate('/');
+      navigate('/welcome');
     } catch (err) {
       if (err.status === 400 && err.data.includes('exist')) {
         setEmailError('Email address already taken');
@@ -102,36 +102,15 @@ const SignupContainer = () => {
         <div className='flex items-center justify-center min-h-screen'>
           <div className='py-8 px-4 mx-auto max-w-screen-xl lg:py-16 grid lg:grid-cols-2 gap-8 lg:gap-16'>
             <div className='flex flex-col justify-center space-y-6'>
-              <h1 className='text-4xl font-bold tracking-tight text-zinc-200 sm:text-6xl text-center'>
-                <p className='text-kalegreen-400'>kale</p>
+              <h1 className='mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 text-center md:text-5xl lg:text-6xl dark:text-white'>
+                Optimizing Efficiency in AI/ML: Minimizing Costs and Resource
+                Use{' '}
               </h1>
-              <ul className='list-inside list-disc space-y-4'>
-                <li className='flex items-center'>
-                  <span className='text-blue-600 dark:text-blue-500 mr-2'></span>
-                  Get started quickly
-                  <p className='text-lg text-gray-500 dark:text-gray-400'>
-                    Flexible solutions to practice at any time and place
-                  </p>
-                </li>
-                <li className='flex items-center'>
-                  <span className='text-blue-600 dark:text-blue-500 mr-2'></span>
-                  Support any business model
-                  <p className='text-lg text-gray-500 dark:text-gray-400'>
-                    Clear, confident, and effective communication unlocks growth
-                    and innovation opportunities.
-                  </p>
-                </li>
-                <li className='flex items-center'>
-                  <span className='text-blue-600 dark:text-blue-500 mr-2'></span>
-                  Join millions of businesses
-                  <p className='text-lg text-gray-500 dark:text-gray-400'>
-                    SpeakEasy is trusted by organizations of every size with
-                    ambitious goals.
-                  </p>
-                </li>
-              </ul>
+              <p className='mb-6 text-center text-lg font-normal text-gray-500 lg:text-xl dark:text-gray-400'>
+                Here at Kale we leverage your unleashed talent, technology, and
+                innovation to help improve flow of communication.
+              </p>
             </div>
-
             <div className='w-full lg:max-w-xl p-6 space-y-8 sm:p-8 bg-white rounded-lg shadow-xl dark:bg-zinc-800'>
               <h1 className='text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white text-center'>
                 Create an account
