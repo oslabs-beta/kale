@@ -3,7 +3,7 @@ import Snapshot from '../Models/snapshotModel';
 
 const dbController = {
   getSnapshot: async (req: Request, res: Response, next: NextFunction) => {
-    const userId = req.body.userId;
+    const { userId } = req.params;
     try {
       const snapshots = await Snapshot.find({ user: userId });
       res.locals.snapshots = snapshots;
