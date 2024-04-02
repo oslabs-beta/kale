@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction, RequestHandler } from 'express';
 import Snapshot from '../Models/snapshotModel';
 
-export const dbController = {
+const dbController = {
   getSnapshot: async (req: Request, res: Response, next: NextFunction) => {
     try {
       const snapshots = await Snapshot.find();
@@ -67,3 +67,5 @@ export const dbController = {
     }
   },
 };
+
+export default dbController;
