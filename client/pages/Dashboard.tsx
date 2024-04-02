@@ -11,7 +11,8 @@ import ChartTable from '../components/ChartTable';
 import { ApiData } from '../../types';
 
 export default function Dashboard() {
-  const urlShow = useSelector((state: RootState) => state.ui.urlInput);
+  const url = useSelector((state: RootState) => state.ui.urlInput);
+  const podName = useSelector((state: RootState) => state.ui.nodeNameInput);
   const [grabMetrics, { data: currentData, error, isLoading }] =
     useGrabMetricsMutation({
       fixedCacheKey: 'current-metric-data',
@@ -23,7 +24,7 @@ export default function Dashboard() {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      grabMetrics(urlShow);
+      grabMetrics({ url, podName });
     }, 30000);
     return () => clearInterval(interval);
   }, []);
@@ -48,7 +49,7 @@ export default function Dashboard() {
             <p className="text-lg text-center dark:text-kalegreen-400">
               Cluster URL:{' '}
               <p className="inline-block text-lg text-center dark:text-zinc-300">
-                {urlShow}
+                {url}
               </p>
             </p>
             <div className="flex flex-col h-32 w-60 items-center justify-center">
