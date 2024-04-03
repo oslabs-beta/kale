@@ -1,5 +1,4 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-
 import { UserState } from '../../types';
 
 const initialState: UserState = {
@@ -15,7 +14,6 @@ export const userSlice = createSlice({
   reducers: {
     setCredential: (state, action: PayloadAction<any>) => {
       state.userData = action.payload;
-
       localStorage.setItem('userData', JSON.stringify(action.payload));
     },
     logout: (state) => {

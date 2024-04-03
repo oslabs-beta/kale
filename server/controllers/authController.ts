@@ -4,7 +4,7 @@ import User from '../Models/userModel';
 export const authController = {
   createUser: async (req: Request, res: Response, next: NextFunction) => {
     const { email, firstName, password } = req.body;
-    console.log(email, firstName, password);
+    // console.log(email, firstName, password);
 
     try {
       const existingUser = await User.findOne({ email });
@@ -16,7 +16,7 @@ export const authController = {
         });
       }
       const newUser = await User.create({ email, firstName, password });
-      console.log('new user' + newUser);
+      // console.log('new user' + newUser);
       res.locals.newUser = newUser;
       return next();
     } catch (err) {
@@ -38,7 +38,7 @@ export const authController = {
     }
     try {
       const existingUser = await User.findOne({ email });
-      console.log(existingUser);
+      // console.log(existingUser);
       if (!existingUser) {
         return next({
           status: 401, // Unauthorized
@@ -57,7 +57,6 @@ export const authController = {
           .status(401)
           .json({ message: 'Invalid username or password' });
       }
-      // res.locals.valid = valid;
 
       res.locals.valid = existingUser;
       return next();

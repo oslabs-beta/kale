@@ -40,17 +40,10 @@ const SignInContainer = () => {
       .unwrap()
       .then((res) => {
         const userData = {
-          firstName: res.firstName,
-          email: res.email,
-        };
-        dispatch(setCredential(userData));
-        navigate('/welcome');
-        console.log(res);
-        const data = {
           id: res._id,
           firstName: res.firstName,
         };
-        dispatch(setCredential(data));
+        dispatch(setCredential(userData));
         navigate('/welcome');
       })
       .catch((err) => {
