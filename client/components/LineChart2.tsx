@@ -31,12 +31,19 @@ ChartJS.register(
   Legend
 );
 
-// type ChartDataSingle = {
-//   time: string;
-//   value: number;
-// };
+type LineChartProps = {
+  time: string[];
+  value: number[];
+  metric: string;
+  id: string;
+};
 
-export default function LineChart2({ metric, value, time }: MetricsData) {
+export default function LineChart2({
+  metric,
+  value,
+  time,
+  id,
+}: LineChartProps) {
   // const data = [
   //   { name: 'Page A', uv: 400 },
   //   { name: 'Page B', uv: 300 },
@@ -58,7 +65,10 @@ export default function LineChart2({ metric, value, time }: MetricsData) {
   };
 
   return (
-    <div className="flex flex-col h-auto w-1/2 items-center justify-center p-8">
+    <div
+      className="flex flex-col h-auto w-1/2 items-center justify-center p-8"
+      id={id}
+    >
       <p className="text-lg text-center dark:text-kalegreen-300">{metric}</p>
       <Line data={data} />
     </div>

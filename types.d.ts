@@ -40,3 +40,15 @@ export interface ApiData {
   date: string;
   metrics: { [key: string]: MetricsData };
 }
+
+export type VerifyData = {
+  firstName?: string;
+  email: string;
+  password: string;
+  confirmPassword?: string;
+};
+
+export type UserState = {
+  userData: any | null;
+  sessionData: any[];
+};

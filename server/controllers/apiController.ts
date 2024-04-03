@@ -1,28 +1,27 @@
 import { Request, Response, NextFunction } from 'express';
 import { ApiData, FetchResponseData, MetricsData } from '../../types';
 
-export const apiController = {
+const apiController = {
   gpuUsage: async (req: Request, res: Response, next: NextFunction) => {
-    const podName = 'hello-app-67dbb49698-zjl8l';
-    console.log(req.body);
-    let baseUrl = req.body.url.includes(`http://`)
+    const podName = req.body.podName;
+
+    const baseUrl = req.body.url.includes(`http://`)
       ? req.body.url.slice(7)
       : req.body.url;
 
-    console.log(`inside gpuUsage middleware`);
-    console.log(`baseUrl =: `, baseUrl);
-    if (!baseUrl) {
+    if (!baseUrl || !podName) {
       const errObj = {
         status: 400,
-        message: { err: 'baseUrl not being provided' },
+        message: { err: 'Your Prometheus URL or Pod Name was not provided' },
       };
       return next(errObj);
     }
 
+    // buliding PromQL query
     const query = `container_cpu_usage_seconds_total{pod="${podName}", namespace="default"}[5m]`;
     const encodedQuery = encodeURIComponent(query);
     const apiUrl = `http://${baseUrl}/api/v1/query?query=${encodedQuery}`;
-    console.log(`apiUrl: `, apiUrl);
+
     try {
       const response = await fetch(apiUrl);
       const data: FetchResponseData = await response.json();
@@ -47,22 +46,6 @@ export const apiController = {
         metricsValues.value.push(Number(value));
       });
 
-      //-------- Total and individual pod usages ------------
-      // data.data.result.forEach((metric) => {
-      //   metric.values.forEach(([time, value]) => {
-      //     let date = new Date(time * 1000);
-      //     let formattedTime = date.toLocaleTimeString('en-US', {
-      //       timeZone: 'America/New_York',
-      //       hour12: false,
-      //       hour: '2-digit',
-      //       minute: '2-digit',
-      //       second: '2-digit',
-      //     });
-      //     metricsValues.time.push(formattedTime);
-      //     metricsValues.value.push(Number(value));
-      //   });
-      // });
-
       const formattedData: ApiData = {
         podName: podName,
         date: new Date().toLocaleDateString('en-CA', {
@@ -78,11 +61,13 @@ export const apiController = {
       return next();
     } catch (error) {
       const errObj = {
-        log: 'Error fetching GPU usage data',
+        log: 'Error fetching GPU usage data: ' + error,
         status: 500,
         message: { err: 'Error fetching GPU usage data' },
       };
-      next(errObj);
+      return next(errObj);
     }
   },
 };
+
+export default apiController;

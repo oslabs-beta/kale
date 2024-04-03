@@ -6,11 +6,19 @@ import WelcomePage from './pages/WelcomePage';
 import Dashboard from './pages/Dashboard';
 import History from './pages/History';
 import SnapshotPage from './pages/SnapshotPage';
+import SignInContainer from './pages/SignIn';
+import SignupContainer from './pages/Signup';
+import SplashPage from './pages/SplashPage';
 
 const router = createBrowserRouter([
   {
-    path: '/',
+    path: '/welcome',
     element: <WelcomePage />,
+    errorElement: <NotFoundPage />,
+  },
+  {
+    path: '/',
+    element: <SplashPage />,
     errorElement: <NotFoundPage />,
   },
   {
@@ -26,6 +34,16 @@ const router = createBrowserRouter([
   {
     path: '/history/:snapshotId',
     element: <SnapshotPage />,
+    errorElement: <NotFoundPage />,
+  },
+  {
+    path: '/signin',
+    element: <SignInContainer />,
+    errorElement: <NotFoundPage />,
+  },
+  {
+    path: '/signup',
+    element: <SignupContainer />,
     errorElement: <NotFoundPage />,
   },
 ]);

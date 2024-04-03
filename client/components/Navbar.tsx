@@ -3,7 +3,8 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { toggleSidebar } from '../slices/uiSlice';
-
+import { logout } from '../slices/userSlice';
+import { useNavigate } from 'react-router-dom';
 type NavBarProps = {
   title: string;
   to: string;
@@ -12,7 +13,11 @@ export default function NavBar({ title, to }: NavBarProps) {
   const isSidebarOpen = useSelector(
     (state: RootState) => state.ui.isSidebarOpen
   );
-
+  const navigate = useNavigate();
+  const logOutHandler = () => {
+    dispatch(logout());
+    navigate('/signin');
+  };
   const dispatch = useAppDispatch();
 
   return (
@@ -20,6 +25,7 @@ export default function NavBar({ title, to }: NavBarProps) {
       <div className="max-w-screen-xl flex flex-wrap items-center justify-start p-0 m-0">
         <button
           type="button"
+          id="nav-button"
           className="my-2 z-10 text-kalegreen-700 hover:bg-kalegreen-100 dark:hover:bg-zinc-700 focus:ring-4 font-medium rounded-lg text-sm px-5 py-2.5 dark:text-kalegreen-400 focus:outline-none dark:focus:bg-zinc-700"
           aria-controls="drawer-navigation"
           onClick={() => dispatch(toggleSidebar())}
@@ -40,9 +46,7 @@ export default function NavBar({ title, to }: NavBarProps) {
             />
           </svg>
         </button>
-        {/* <h1 className=" contents w-full self-center text-lg whitespace-nowrap dark:text-white">
-          {title}
-        </h1> */}
+
         <Link
           to={to}
           className="flex items-center space-x-3 m-5 rtl:space-x-reverse"
@@ -62,6 +66,7 @@ export default function NavBar({ title, to }: NavBarProps) {
         >
           <button
             type="button"
+            id="nav-close-button"
             data-drawer-hide="drawer-navigation"
             aria-controls="drawer-navigation"
             className="text-zinc-400 bg-transparent hover:bg-zinc-200 hover:text-zinc-900 rounded-lg text-sm p-1.5 absolute top-2.5 end-2.5 inline-flex items-center dark:hover:bg-zinc-600 dark:hover:text-white"
@@ -86,7 +91,8 @@ export default function NavBar({ title, to }: NavBarProps) {
             <ul className="space-y-2 text-sm">
               <li>
                 <Link
-                  to="/"
+                  to="/welcome"
+                  id="welcome-nav-btn"
                   className="flex items-center p-2 text-zinc-900 rounded-lg dark:text-zinc-300 hover:bg-kalegreen-100 dark:hover:bg-zinc-700 group"
                   onClick={() => dispatch(toggleSidebar())}
                 >
@@ -111,6 +117,7 @@ export default function NavBar({ title, to }: NavBarProps) {
               <li>
                 <Link
                   to="/dashboard"
+                  id="dashboard-nav-btn"
                   className="flex items-center p-2 text-zinc-900 rounded-lg dark:text-zinc-300 hover:bg-kalegreen-100 dark:hover:bg-zinc-700 group"
                   onClick={() => dispatch(toggleSidebar())}
                 >
@@ -140,6 +147,7 @@ export default function NavBar({ title, to }: NavBarProps) {
               <li>
                 <Link
                   to="/history"
+                  id="history-nav-btn"
                   className="flex items-center p-2 text-zinc-900 rounded-lg dark:text-zinc-300 hover:bg-kalegreen-100 dark:hover:bg-zinc-700 group"
                   onClick={() => dispatch(toggleSidebar())}
                 >
@@ -162,9 +170,11 @@ export default function NavBar({ title, to }: NavBarProps) {
                 </Link>
               </li>
               <li>
-                <a
-                  href="#"
+                <Link
+                  to="/signin"
+                  id="signin-nav-btn"
                   className="flex items-center p-2 text-zinc-900 rounded-lg dark:text-zinc-300 hover:bg-kalegreen-100 dark:hover:bg-zinc-700 group"
+                  onClick={() => dispatch(toggleSidebar())}
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -182,12 +192,14 @@ export default function NavBar({ title, to }: NavBarProps) {
                   </svg>
 
                   <span className="flex-1 ms-3 whitespace-nowrap">Sign In</span>
-                </a>
+                </Link>
               </li>
               <li>
-                <a
-                  href="#"
+                <Link
+                  to="/signup"
+                  id="signup-nav-btn"
                   className="flex items-center p-2 text-zinc-900 rounded-lg dark:text-zinc-300 hover:bg-kalegreen-100 dark:hover:bg-zinc-700 group"
+                  onClick={() => dispatch(toggleSidebar())}
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -205,7 +217,35 @@ export default function NavBar({ title, to }: NavBarProps) {
                   </svg>
 
                   <span className="flex-1 ms-3 whitespace-nowrap">Sign Up</span>
-                </a>
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/"
+                  className="flex items-center p-2 text-zinc-900 rounded-lg dark:text-zinc-300 hover:bg-kalegreen-100 dark:hover:bg-zinc-700 group"
+                  onClick={() => {
+                    dispatch(toggleSidebar());
+                    logOutHandler();
+                  }}
+                >
+                  <svg
+                    className="flex-shrink-0 w-5 h-5 text-zinc-500 transition duration-75 dark:text-zinc-400 group-hover:text-kalegreen-600 dark:group-hover:text-white"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    strokeWidth={1.5}
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke="currentColor"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M20 12H8m12 0-4 4m4-4-4-4M9 4H7a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h2"
+                    />
+                  </svg>
+
+                  <span className="flex-1 ms-3 whitespace-nowrap">Log Out</span>
+                </Link>
               </li>
             </ul>
           </div>
