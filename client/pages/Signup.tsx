@@ -87,7 +87,7 @@ const SignupContainer = () => {
 
     try {
       const res = await signup(loginData).unwrap();
-      dispatch(setCredential(res));
+      dispatch(setCredential({ id: res._id, firstName: res.firstName }));
       navigate('/welcome');
       navigate('/welcome');
     } catch (err) {

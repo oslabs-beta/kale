@@ -1,22 +1,19 @@
 import React from 'react';
-import { ApiData } from '../../types';
-import { SendSnapshotArg } from '../slices/snapshotsApi';
+import { Snapshot } from '../slices/snapshotsApi';
 
 type SnapshotButtonProps = {
-  userId: string;
-  currentData: ApiData;
-  handleClick: (arg: SendSnapshotArg) => void;
+  currentData: Snapshot;
+  handleClick: (arg: Snapshot) => void;
 };
 
 export default function SnapshotButton({
   handleClick,
   currentData,
-  userId,
 }: SnapshotButtonProps) {
   return (
     <button
       id="snapshot"
-      onClick={() => handleClick({ data: currentData, userId })}
+      onClick={() => handleClick(currentData)}
       className="text-sm text-white dark:text-kalegreen-400"
     >
       Save Snapshot

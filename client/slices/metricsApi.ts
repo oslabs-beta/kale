@@ -1,10 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { ApiData } from '../../types.d';
 
-export interface Snapshot extends ApiData {
-  _id: string;
-}
-
 type queryArg = { url: string; podName: string };
 
 // API communication with server
@@ -18,7 +14,7 @@ export const metricsApiSlice = createApi({
         method: 'POST',
         body: { url, podName },
       }),
-    })
+    }),
   }),
 });
 
