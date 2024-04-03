@@ -1,4 +1,4 @@
-describe('The Home Page', () => {
+describe('The Splash Page', () => {
   beforeEach(() => {
     cy.visit('http://localhost:8080');
   });
