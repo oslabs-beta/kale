@@ -8,11 +8,17 @@ import History from './pages/History';
 import SnapshotPage from './pages/SnapshotPage';
 import SignInContainer from './pages/SignIn'; //added
 import SignupContainer from './pages/Signup';
+import SplashPage from './pages/SplashPage';
 
 const router = createBrowserRouter([
   {
-    path: '/',
+    path: '/welcome',
     element: <WelcomePage />,
+    errorElement: <NotFoundPage />,
+  },
+  {
+    path: '/',
+    element: <SplashPage />,
     errorElement: <NotFoundPage />,
   },
   {
