@@ -1,5 +1,4 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-
 import { UserState } from '../../types';
 
 const initialState: UserState = {
@@ -14,8 +13,8 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     setCredential: (state, action: PayloadAction<any>) => {
-      localStorage.setItem('userData', JSON.stringify(action.payload));
       state.userData = action.payload;
+      localStorage.setItem('userData', JSON.stringify(action.payload));
     },
     logout: (state) => {
       state.userData = null;
@@ -24,10 +23,6 @@ export const userSlice = createSlice({
     updateSessionData: (state, action: PayloadAction<any>) => {
       state.sessionData.push(action.payload);
     },
-    // setFirstName: (state) => {
-    //   state.userData = localStorage.getItem('userData');
-    // },
   },
 });
 export const { setCredential, logout, updateSessionData } = userSlice.actions;
-//export default userSlice.reducer;
