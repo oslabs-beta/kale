@@ -2,16 +2,17 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../slices/store';
 import NavBar from '../components/Navbar';
-import {
-  useGrabMetricsMutation,
-  useSendSnapshotsMutation,
-} from '../slices/metricsApi';
+import { useSendSnapshotsMutation } from '../slices/snapshotsApi';
+import { useGrabMetricsMutation } from '../slices/metricsApi';
 import SnapshotButton from '../components/SnapshotButton';
 import ChartTable from '../components/ChartTable';
 import { ApiData } from '../../types';
+import { SendSnapshotArg } from '../slices/snapshotsApi';
 
 export default function Dashboard() {
-  const urlShow = useSelector((state: RootState) => state.ui.urlInput);
+  const url = useSelector((state: RootState) => state.ui.urlInput);
+  const podName = useSelector((state: RootState) => state.ui.nodeNameInput);
+  const grabUserInfo = useSelector((state: RootState) => state.users.userData);
   const [grabMetrics, { data: currentData, error, isLoading }] =
     useGrabMetricsMutation({
       fixedCacheKey: 'current-metric-data',
@@ -23,14 +24,14 @@ export default function Dashboard() {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      grabMetrics(urlShow);
+      grabMetrics({ url, podName });
     }, 30000);
     return () => clearInterval(interval);
   }, []);
 
-  function handleClick(data: ApiData) {
+  function handleClick({ data, userId }: SendSnapshotArg) {
     try {
-      const response = createSnapshot(currentData);
+      const response = createSnapshot({ data, userId });
       console.log('data created!', response);
     } catch (error) {
       console.log('error saving data:', error);
@@ -48,7 +49,7 @@ export default function Dashboard() {
             <p className="text-lg text-center dark:text-kalegreen-400">
               Cluster URL:{' '}
               <p className="inline-block text-lg text-center dark:text-zinc-300">
-                {urlShow}
+                {url}
               </p>
             </p>
             <div className="flex flex-col h-32 w-60 items-center justify-center">
@@ -67,7 +68,11 @@ export default function Dashboard() {
                 465.19
               </p>
             </div>
-            <SnapshotButton handleClick={() => handleClick(currentData)} />
+            <SnapshotButton
+              handleClick={handleClick}
+              currentData={currentData}
+              userId={grabUserInfo.id}
+            />
           </div>
 
           <ChartTable metrics={currentData.metrics} />
