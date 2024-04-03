@@ -27,7 +27,7 @@ export const uiSlice = createSlice({
     },
     saveNodeName: (state, action: PayloadAction<string>) => {
       state.nodeNameInput = action.payload;
-    },
+    }
   },
 });
 

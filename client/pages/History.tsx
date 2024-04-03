@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import {
   useDeleteSnapshotsMutation,
   useGetSnapshotsQuery,
-} from '../slices/metricsApi';
+} from '../slices/snapshotsApi';
 import Navbar from '../components/Navbar';
 
 export default function History() {

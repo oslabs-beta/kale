@@ -6,6 +6,7 @@ import { setCredential } from '../slices/userSlice';
 import { VerifyData } from '../../types';
 import NavBar from '../components/Navbar';
 import { useSelector } from 'react-redux';
+
 const SignInContainer = () => {
   const [signin] = useLoginMutation();
   const dispatch = useAppDispatch();
@@ -38,11 +39,18 @@ const SignInContainer = () => {
     signin(verifyData)
       .unwrap()
       .then((res) => {
-        const abc = {
+        const userData = {
           firstName: res.firstName,
           email: res.email,
         };
-        dispatch(setCredential(abc));
+        dispatch(setCredential(userData));
+        navigate('/welcome');
+        console.log(res);
+        const data = {
+          id: res._id,
+          firstName: res.firstName,
+        };
+        dispatch(setCredential(data));
         navigate('/welcome');
       })
       .catch((err) => {
@@ -160,4 +168,5 @@ const SignInContainer = () => {
     </>
   );
 };
+
 export default SignInContainer;

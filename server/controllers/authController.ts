@@ -38,6 +38,7 @@ export const authController = {
     }
     try {
       const existingUser = await User.findOne({ email });
+      console.log(existingUser);
       if (!existingUser) {
         return next({
           status: 401, // Unauthorized
