@@ -26,6 +26,7 @@ const SignupContainer = () => {
   const [passwordError, setPasswordError] = useState<string>('');
   const [confirmPasswordError, setConfirmPasswordError] = useState<string>('');
 
+  //this enables us to see the user's input with every stroke
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = event.target;
     setLoginData((prevData) => ({
@@ -71,6 +72,7 @@ const SignupContainer = () => {
     return true;
   };
 
+  //ensures both password inputs are complex enough, sends the data to the backend, and sets our localStorage using dispatch
   const submitHandler = async (
     e: React.FormEvent<HTMLFormElement>
   ): Promise<void> => {
@@ -86,6 +88,7 @@ const SignupContainer = () => {
     try {
       const res = await signup(loginData).unwrap();
       dispatch(setCredential(res));
+      navigate('/welcome');
       navigate('/welcome');
     } catch (err) {
       if (err.status === 400 && err.data.includes('exist')) {

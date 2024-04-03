@@ -11,6 +11,7 @@ type ClusterInputProps = {
   podName: string;
 };
 
+//passing in all props from the Welcome page
 const ClusterInput = ({
   handlePodNameChange,
   handleClick,

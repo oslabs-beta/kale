@@ -34,7 +34,8 @@ const SignInContainer = () => {
     setShowPassword(!showPassword);
   };
 
-  const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
+  //this function sends the input to userSlice which calls the middleware function and dispatches the localStorage which we store specifically the ID and first name
+  const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     signin(verifyData)
       .unwrap()
