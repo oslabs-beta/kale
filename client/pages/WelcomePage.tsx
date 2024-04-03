@@ -1,6 +1,7 @@
 import React from 'react';
 import ClusterInput from '../components/ClusterInput';
 import NavBar from '../components/Navbar';
+import { Link } from 'react-router-dom';
 import { useGrabMetricsMutation } from '../slices/metricsApi';
 import { RootState } from '../slices/store';
 import { useSelector, useDispatch } from 'react-redux';
@@ -40,7 +41,18 @@ export default function WelcomePage() {
 
   return (
     <>
-      <NavBar title="Home" to="/" />
+      <nav className=" flex justify-between px-8 py-2 items-center w-full ">
+        <NavBar title="Home" to="/" />
+        <Link to="/welcome">
+          <img
+            className="ml-[-8]"
+            src="./public/Assets/kale logo.png"
+            alt="kale Logo"
+            width="50"
+            height="50"
+          />
+        </Link>
+      </nav>
       <div className="relative h-5/6 isolate pt-24">
         <div className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-96">
           <div
@@ -53,7 +65,7 @@ export default function WelcomePage() {
         </div>
         <div className="h-full mx-auto max-w-3xl py-28 sm:py-32 lg:py-20 text-left">
           <h1 className="text-4xl font-bold tracking-tight text-zinc-200 sm:text-6xl">
-            Hello,{' '}
+            Hello,
             <p className="inline-block text-kalegreen-400">
               {userDataShow ? userDataShow.firstName : 'Random Hacker'}
             </p>
