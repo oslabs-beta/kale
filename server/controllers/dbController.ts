@@ -1,49 +1,84 @@
-import { Request, Response, NextFunction, RequestHandler } from 'express';
+import { Request, Response, NextFunction } from 'express';
 import Snapshot from '../Models/snapshotModel';
 
-export const dbController = {
+const dbController = {
   getSnapshot: async (req: Request, res: Response, next: NextFunction) => {
+    const { userId } = req.params;
+
     try {
-      const snapshots = await Snapshot.find();
+      const snapshots = await Snapshot.find({ user: userId });
       res.locals.snapshots = snapshots;
       return next();
     } catch (err) {
       return next({
-        log: 'Error in getSnapshot middleware',
-        message: err.message,
+        log: 'Error in getSnapshot middleware: ' + err,
+        message: 'Error while fetching snapshots.',
       });
     }
   },
 
   postSnapshot: async (req: Request, res: Response, next: NextFunction) => {
-    const { user, podName, metrics } = req.body.snapshot;
+    const { userId, podName, metrics } = req.body.snapshot;
     try {
-      if (!user || !podName || !metrics) {
+      if (!userId || !podName || !metrics) {
         return next({
           status: 400,
-          log: 'Error in postSnapshot middleware',
+          log: 'Error in postSnapshot middleware: invalid input data',
           message:
             'Cannot create new snapshot. Please provide all required information.',
         });
       }
-      const newSnapshot = await Snapshot.create({ user, podName, metrics });
+      const newSnapshot = await Snapshot.create({
+        user: userId,
+        podName,
+        metrics,
+      });
       res.locals.newSnapshot = newSnapshot;
       return next();
     } catch (err) {
       return next({
-        log: 'Error in postSnapshot middleware',
-        message: err.message,
+        log: 'Error in postSnapshot middleware: ' + err,
+        message: 'Error while creating new snapshot.',
       });
     }
   },
-
+  getOneSnapshot: async (req: Request, res: Response, next: NextFunction) => {
+    console.log('get one snapshot');
+    const { _id } = req.params;
+    console.log('id: ' + _id);
+    try {
+      if (!_id) {
+        return next({
+          status: 400,
+          log: 'Error in getOneSnapshot middleware: snapshot id not provided',
+          message:
+            'Cannot get snapshot. Please provide all required information.',
+        });
+      }
+      const snapshot = await Snapshot.findOne({ _id });
+      if (!snapshot) {
+        return next({
+          status: 400,
+          log: 'Error in getOneSnapshot middleware: snapshot not found',
+          message: 'The snapshot you are looking for does not exist.',
+        });
+      }
+      res.locals.snapshot = snapshot;
+      return next();
+    } catch (err) {
+      return next({
+        log: 'Error in getOneSnapshot middleware: ' + err,
+        message: 'Error while fetching snapshot.',
+      });
+    }
+  },
   deleteSnapshot: async (req: Request, res: Response, next: NextFunction) => {
     const { _id } = req.params;
     try {
       if (!_id) {
         return next({
           status: 400,
-          log: 'Error in deleteSnapshot middleware',
+          log: 'Error in deleteSnapshot middleware: snapshot id not provided',
           message:
             'Cannot create delete snapshot. Please provide all required information.',
         });
@@ -52,7 +87,7 @@ export const dbController = {
       if (!deletedSnapshot) {
         return next({
           status: 400,
-          log: 'Error in deleteSnapshot middleware',
+          log: 'Error in deleteSnapshot middleware: snapshot not found',
           message:
             'The entry you want to delete does not exist in the database',
         });
@@ -61,9 +96,11 @@ export const dbController = {
       return next();
     } catch (err) {
       return next({
-        log: 'Error in deleteSnapshot middleware',
-        message: err.message,
+        log: 'Error in deleteSnapshot middleware: ' + err,
+        message: 'Error while deleting snapshot.',
       });
     }
   },
 };
+
+export default dbController;

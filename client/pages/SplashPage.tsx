@@ -94,6 +94,7 @@ export default function SplashPage() {
 
           <Link
             to="/signup"
+            id="sign-up-button-homepage"
             className="rounded-md bg-kalegreen-600 px-3.5 py-2.5 text-sm text-white shadow-sm hover:bg-kalegreen-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-kalegreen-600"
           >
             Sign up

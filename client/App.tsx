@@ -6,7 +6,7 @@ import WelcomePage from './pages/WelcomePage';
 import Dashboard from './pages/Dashboard';
 import History from './pages/History';
 import SnapshotPage from './pages/SnapshotPage';
-import SignInContainer from './pages/SignIn'; //added
+import SignInContainer from './pages/SignIn';
 import SignupContainer from './pages/Signup';
 import SplashPage from './pages/SplashPage';
 

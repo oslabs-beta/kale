@@ -12,7 +12,7 @@ export default function WelcomePage() {
   const urlShow = useSelector((state: RootState) => state.ui.urlInput);
   const podName = useSelector((state: RootState) => state.ui.nodeNameInput);
   //allows us to get access to the localStorage data(the curr user's id and name)
-  const userDataShow = useSelector((state: RootState) => state.users.userData);
+  const userDataShow = useSelector((state: RootState) => state.user.userData);
 
   const [grabMetrics, result] = useGrabMetricsMutation({
     fixedCacheKey: 'current-metric-data',
@@ -41,7 +41,7 @@ export default function WelcomePage() {
   return (
     <>
       <NavBar title="Home" to="/" />
-      <div className="relative h-screen isolate pt-14 ">
+      <div className="relative h-5/6 isolate pt-24">
         <div className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-96">
           <div
             className="relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-[#ff80b5] to-[#3AD48F] opacity-30 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]"
@@ -53,11 +53,10 @@ export default function WelcomePage() {
         </div>
         <div className="h-full mx-auto max-w-3xl py-28 sm:py-32 lg:py-20 text-left">
           <h1 className="text-4xl font-bold tracking-tight text-zinc-200 sm:text-6xl">
-            Hello{' '}
+            Hello,{' '}
             <p className="inline-block text-kalegreen-400">
               {userDataShow ? userDataShow.firstName : 'Random Hacker'}
             </p>
-            ,
           </h1>
           <p className="mt-6 text-lg leading-8 text-zinc-400">
             Please enter your cluster's Prometheus URL and the name of the pod

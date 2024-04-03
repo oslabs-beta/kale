@@ -8,11 +8,10 @@ import { useSelector, useDispatch } from 'react-redux';
 import { VerifyData } from '../../types';
 import NavBar from '../components/Navbar';
 const SignupContainer = () => {
-  //Initialize necessary hooks for the component
-
   const [signup] = useSignupMutation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const [showPassword, setShowPassword] = useState(false);
   const [loginData, setLoginData] = useState<VerifyData>({
     firstName: '',
@@ -23,6 +22,7 @@ const SignupContainer = () => {
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
+  const [emailError, setEmailError] = useState<string>('');
   const [passwordError, setPasswordError] = useState<string>('');
   const [confirmPasswordError, setConfirmPasswordError] = useState<string>('');
 
@@ -33,21 +33,30 @@ const SignupContainer = () => {
       ...prevData,
       [name]: value,
     }));
+    if (name === 'email') {
+      setEmailError('');
+    }
+    if (name === 'password') {
+      const isValid = passwordPattern.test(value) || value.length === 0;
 
-    if (name === 'password' || name === 'confirmPassword') {
-      validatePassword(
-        loginData.password,
-        name === 'confirmPassword' ? value : loginData.confirmPassword
+      setPasswordError(
+        passwordPattern.test(value) ? '' : 'Password must meet requirements.'
+      );
+    } else if (name === 'confirmPassword') {
+      setConfirmPasswordError(
+        loginData.password !== value && value ? 'Passwords do not match.' : ''
       );
     }
   };
+  const passwordPattern =
+    /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z\d]).{8,}$/;
+  const passwordValid =
+    loginData.password.length === 0 || passwordPattern.test(loginData.password);
 
   const validatePassword = (
     password: string,
     confirmPassword: string
   ): boolean => {
-    const passwordPattern =
-      /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z\d]).{8,}$/;
     setPasswordError('');
     setConfirmPasswordError('');
 
@@ -80,8 +89,13 @@ const SignupContainer = () => {
       const res = await signup(loginData).unwrap();
       dispatch(setCredential(res));
       navigate('/welcome');
+      navigate('/welcome');
     } catch (err) {
-      console.error(err);
+      if (err.status === 400 && err.data.includes('exist')) {
+        setEmailError('Email address already taken');
+      } else {
+        console.error(err);
+      }
     }
   };
   return (
@@ -91,36 +105,15 @@ const SignupContainer = () => {
         <div className="flex items-center justify-center min-h-screen">
           <div className="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 grid lg:grid-cols-2 gap-8 lg:gap-16">
             <div className="flex flex-col justify-center space-y-6">
-              <h1 className="text-4xl font-bold tracking-tight text-zinc-200 sm:text-6xl text-center">
-                <p className="text-kalegreen-400">kale</p>
+              <h1 className="mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 text-center md:text-5xl lg:text-6xl dark:text-white">
+                Optimizing Efficiency in AI/ML: Minimizing Costs and Resource
+                Use{' '}
               </h1>
-              <ul className="list-inside list-disc space-y-4">
-                <li className="flex items-center">
-                  <span className="text-blue-600 dark:text-blue-500 mr-2"></span>
-                  Get started quickly
-                  <p className="text-lg text-gray-500 dark:text-gray-400">
-                    Flexible solutions to practice at any time and place
-                  </p>
-                </li>
-                <li className="flex items-center">
-                  <span className="text-blue-600 dark:text-blue-500 mr-2"></span>
-                  Support any business model
-                  <p className="text-lg text-gray-500 dark:text-gray-400">
-                    Clear, confident, and effective communication unlocks growth
-                    and innovation opportunities.
-                  </p>
-                </li>
-                <li className="flex items-center">
-                  <span className="text-blue-600 dark:text-blue-500 mr-2"></span>
-                  Join millions of businesses
-                  <p className="text-lg text-gray-500 dark:text-gray-400">
-                    SpeakEasy is trusted by organizations of every size with
-                    ambitious goals.
-                  </p>
-                </li>
-              </ul>
+              <p className="mb-6 text-center text-lg font-normal text-gray-500 lg:text-xl dark:text-gray-400">
+                Here at Kale we leverage your unleashed talent, technology, and
+                innovation to help improve flow of communication.
+              </p>
             </div>
-
             <div className="w-full lg:max-w-xl p-6 space-y-8 sm:p-8 bg-white rounded-lg shadow-xl dark:bg-zinc-800">
               <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white text-center">
                 Create an account
@@ -161,12 +154,21 @@ const SignupContainer = () => {
                     type="email"
                     name="email"
                     id="email-signup"
-                    className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-zinc-700 dark:border-zinc-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    className={`bg-gray-50  ${
+                      emailError
+                        ? '!border-2 !border-red-500'
+                        : '!border !border-gray-300'
+                    } text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-zinc-700 dark:border-zinc-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500`}
                     placeholder="name@company.com"
                     required
                     value={loginData.email}
                     onChange={handleChange}
                   />
+                  {emailError && (
+                    <p className="text-xs text-left font-medium text-red-500">
+                      {emailError}
+                    </p>
+                  )}
                 </div>
                 <div>
                   <label
@@ -186,12 +188,17 @@ const SignupContainer = () => {
                     onChange={handleChange}
                   />
                 </div>
-                {/* <div className='text-right mt-0'> */}
-                <p>
-                  Create a strong password including upper and lower case
-                  letters, numbers, symbols and 8 characters long.
+
+                <p
+                  className={`!mt-0 text-xs font-medium ${
+                    loginData.password.length > 0 && !passwordValid
+                      ? '!text-red-500'
+                      : '!text-white'
+                  } dark:text-white`}
+                >
+                  Create a strong password with at least 8 characters with upper
+                  and lower case letters, numbers, and symbols.
                 </p>
-                {/* </div> */}
 
                 <div>
                   <label
@@ -210,14 +217,23 @@ const SignupContainer = () => {
                     onChange={handleChange}
                   />
                 </div>
-                <div className="text-right mt-0">
-                  <button
-                    type="button"
-                    className=" mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                    onClick={togglePasswordVisibility}
-                  >
-                    {showPassword ? 'Hide password' : 'Show password'}
-                  </button>
+                <div className="flex justify-between items-center !mt-0">
+                  <div className="!mt-0 text-left mt-0">
+                    {confirmPasswordError && (
+                      <p className="!mt-0 text-xs text-left font-medium text-red-500">
+                        {confirmPasswordError}
+                      </p>
+                    )}
+                  </div>
+                  <div className="!mt-0 text-right mt-0">
+                    <button
+                      type="button"
+                      className=" mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                      onClick={togglePasswordVisibility}
+                    >
+                      {showPassword ? 'Hide password' : 'Show password'}
+                    </button>
+                  </div>
                 </div>
                 <button
                   type="submit"
@@ -230,7 +246,7 @@ const SignupContainer = () => {
                   Already have an account?{' '}
                   <Link
                     to="/signin"
-                    className="font-medium text-primary-600 hover:underline dark:text-primary-500"
+                    className="text-blue-600 hover:underline dark:text-blue-500"
                   >
                     Login here
                   </Link>
