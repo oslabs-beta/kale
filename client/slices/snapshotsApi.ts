@@ -6,17 +6,17 @@ export interface Snapshot extends ApiData {
 }
 
 export type SendSnapshotArg = {
-    data: ApiData,
-    userId: string
-}
+  data: ApiData;
+  userId: string;
+};
 
 // database communication with server
 export const snapshotsApiSlice = createApi({
   reducerPath: 'snapshotsApi',
-  baseQuery: fetchBaseQuery({ baseUrl: '/user' }),
+  baseQuery: fetchBaseQuery({ baseUrl: '/snapshots' }),
   endpoints: (builder) => ({
     getSnapshots: builder.query<Snapshot[], void>({
-      query: (userId) => `/${userId}`,
+      query: (userId) => ({ url: `/${userId}` }),
     }),
     sendSnapshots: builder.mutation<Snapshot, SendSnapshotArg>({
       query: ({ data, userId }) => ({
@@ -31,15 +31,18 @@ export const snapshotsApiSlice = createApi({
     updateSnapshots: builder.mutation<Snapshot, Partial<Snapshot>>({
       query: (newSnapshotData: Partial<Snapshot>) => {
         return {
-          url: `snapshots/${newSnapshotData._id}`,
+          url: `${newSnapshotData._id}`,
           method: 'PATCH',
           body: newSnapshotData,
         };
       },
     }),
+    getOneSnapshot: builder.query<Snapshot, string>({
+      query: (id) => ({ url: `/one/${id}`, method: 'GET' }),
+    }),
     deleteSnapshots: builder.mutation<Snapshot, string>({
       query: (id) => ({
-        url: `snapshots/${id}`,
+        url: `${id}`,
         method: 'DELETE',
       }),
     }),
@@ -55,5 +58,6 @@ export const {
   useGetSnapshotsQuery, // (for history page)
   useSendSnapshotsMutation, // send post request to post snapshot
   useUpdateSnapshotsMutation, //STRETCH: update the snapshot
+  useGetOneSnapshotQuery,
   useDeleteSnapshotsMutation, //deleting the snapshot
 } = snapshotsApiSlice;

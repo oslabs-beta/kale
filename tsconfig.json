@@ -1,5 +1,5 @@
 {
-  "include": ["client/**/*", "cypress/**/*"],
+  "include": ["client/**/*", "cypress/**/*", "server/**/*"],
   "compilerOptions": {
     "jsx": "react", // Transpile JSX to React components
     "target": "ES5", // Adjust target JavaScript version as needed

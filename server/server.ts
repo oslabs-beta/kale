@@ -1,16 +1,18 @@
 import express, { Request, Response, NextFunction } from 'express';
-import { ServerError } from '../types';
 import * as path from 'path';
-import { apiController } from './controllers/apiController';
+import apiController from './controllers/apiController';
 import dbRouter from './router/dbRouter';
 import authRouter from './router/authRouter';
+import type { ServerError } from '../types';
+
 const app = express();
 const PORT = 3000;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-//app.use('/public', express.static(path.resolve(__dirname, '../client/public')));
+// serving static files
+app.use('/public', express.static(path.resolve(__dirname, '../client/public')));
 app.use('/dist', express.static(path.resolve(__dirname, '../dist')));
 
 app.get('/', (req, res) => {
@@ -19,6 +21,7 @@ app.get('/', (req, res) => {
     .sendFile(path.join(__dirname, '../client/public/index.html'));
 });
 
+// Routes
 app.use('/snapshots', dbRouter);
 app.use('/user', authRouter);
 app.post(
@@ -47,7 +50,6 @@ app.use((err: ServerError, req: Request, res: Response, next: NextFunction) => {
     message: { err: 'An error occurred' },
   };
   const errorObj: ServerError = Object.assign({}, defaultErr, err);
-  console.log(errorObj.log);
   return res.status(errorObj.status).json(errorObj.message);
 });
 
@@ -55,4 +57,4 @@ app.listen(PORT, () => {
   console.log(`Server listening on port: ${PORT}`);
 });
 
-module.exports = app;
+export default app;

@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../slices/store';
 import {
   useGetSnapshotState,
+  useGetOneSnapshotQuery,
   useDeleteSnapshotsMutation,
 } from '../slices/snapshotsApi';
 import { Snapshot } from '../slices/metricsApi';
@@ -13,27 +14,19 @@ import ChartTable from '../components/ChartTable';
 export default function SnapshotPage() {
   const { snapshotId } = useParams();
   const urlShow = useSelector((state: RootState) => state.ui.urlInput);
-  const { data: snapshots, error, isLoading } = useGetSnapshotState();
 
   const [
     deleteSnapshots, // This is the mutation trigger
     { data: deleteSnapshot, isLoading: isDeleting }, // This is the destructured mutation result
   ] = useDeleteSnapshotsMutation();
 
+  const { data: currSnapshot, error: snapshotError } =
+    useGetOneSnapshotQuery(snapshotId);
+
   const handleDelete = (id: string) => {
     deleteSnapshots(id);
     if (!isDeleting) console.log('Deleted:', deleteSnapshot);
   };
-
-  let currSnapshot: Snapshot;
-
-  if (snapshots) {
-    for (let i = 0; i < snapshots.length; i++) {
-      if (snapshots[i]._id === snapshotId) {
-        currSnapshot = snapshots[i];
-      }
-    }
-  }
 
   return (
     <>
@@ -41,9 +34,9 @@ export default function SnapshotPage() {
       <div className="max-w-screen-xl flex flex-wrap items-start justify-between mx-20 my-8">
         <p className="text-lg text-center dark:text-kalegreen-400">
           Cluster URL:{' '}
-          <p className="inline-block text-lg text-center dark:text-zinc-300">
+          <span className="inline-block text-lg text-center dark:text-zinc-300">
             {urlShow}
-          </p>
+          </span>
         </p>
 
         <div className="flex flex-col h-32 w-60 items-center justify-center">
@@ -70,7 +63,11 @@ export default function SnapshotPage() {
           Delete Snapshot
         </button>
       </div>
-      <ChartTable metrics={currSnapshot.metrics} />
+      {currSnapshot ? (
+        <ChartTable metrics={currSnapshot.metrics} />
+      ) : (
+        <p>Data Loading</p>
+      )}
     </>
   );
 }

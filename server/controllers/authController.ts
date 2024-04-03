@@ -1,10 +1,9 @@
 import { Request, Response, NextFunction } from 'express';
 import User from '../Models/userModel';
 
-export const authController = {
+const authController = {
   createUser: async (req: Request, res: Response, next: NextFunction) => {
     const { email, firstName, password } = req.body;
-    // console.log(email, firstName, password);
 
     try {
       const existingUser = await User.findOne({ email });
@@ -16,13 +15,12 @@ export const authController = {
         });
       }
       const newUser = await User.create({ email, firstName, password });
-      // console.log('new user' + newUser);
       res.locals.newUser = newUser;
       return next();
     } catch (err) {
       return next({
-        log: 'Error in createUser middleware',
-        message: { err: 'An error occurred while creating user: ' + err },
+        log: 'Error in createUser middleware: ' + err,
+        message: { err: 'An error occurred while creating user' },
       });
     }
   },
@@ -57,14 +55,17 @@ export const authController = {
           .status(401)
           .json({ message: 'Invalid username or password' });
       }
+      const { firstName, _id } = existingUser;
+      res.locals.user = { firstName, _id };
 
-      res.locals.valid = existingUser;
       return next();
     } catch (err) {
       return next({
-        log: 'Error in login middleware',
-        message: { err: 'An error occurred while user login: ' + err },
+        log: 'Error in login middleware: ' + err,
+        message: { err: 'An error occurred while user login ' },
       });
     }
   },
 };
+
+export default authController;
