@@ -15,7 +15,9 @@ const authController = {
         });
       }
       const newUser = await User.create({ email, firstName, password });
-      res.locals.newUser = newUser;
+
+      res.locals.newUser = { firstName: newUser.firstName, _id: newUser._id };
+
       return next();
     } catch (err) {
       return next({

@@ -2,28 +2,27 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { ApiData } from '../../types.d';
 
 export interface Snapshot extends ApiData {
-  _id: string;
+  user: string;
 }
 
-export type SendSnapshotArg = {
-  data: ApiData;
-  userId: string;
-};
+export interface SnapshotWithId extends ApiData {
+  user: string;
+  _id: string;
+}
 
 // database communication with server
 export const snapshotsApiSlice = createApi({
   reducerPath: 'snapshotsApi',
   baseQuery: fetchBaseQuery({ baseUrl: '/snapshots' }),
   endpoints: (builder) => ({
-    getSnapshots: builder.query<Snapshot[], void>({
+    getSnapshots: builder.query<SnapshotWithId[], void>({
       query: (userId) => ({ url: `/${userId}` }),
     }),
-    sendSnapshots: builder.mutation<Snapshot, SendSnapshotArg>({
-      query: ({ data, userId }) => ({
-        url: 'snapshots',
+    sendSnapshots: builder.mutation<Snapshot, Snapshot>({
+      query: (data) => ({
+        url: '/',
         method: 'POST',
         body: {
-          userId: userId,
           snapshot: data,
         },
       }),
@@ -31,16 +30,16 @@ export const snapshotsApiSlice = createApi({
     updateSnapshots: builder.mutation<Snapshot, Partial<Snapshot>>({
       query: (newSnapshotData: Partial<Snapshot>) => {
         return {
-          url: `${newSnapshotData._id}`,
+          url: `${newSnapshotData.user}`,
           method: 'PATCH',
           body: newSnapshotData,
         };
       },
     }),
-    getOneSnapshot: builder.query<Snapshot, string>({
+    getOneSnapshot: builder.query<SnapshotWithId, string>({
       query: (id) => ({ url: `/one/${id}`, method: 'GET' }),
     }),
-    deleteSnapshots: builder.mutation<Snapshot, string>({
+    deleteSnapshots: builder.mutation<SnapshotWithId, string>({
       query: (id) => ({
         url: `${id}`,
         method: 'DELETE',

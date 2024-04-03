@@ -18,9 +18,10 @@ const dbController = {
   },
 
   postSnapshot: async (req: Request, res: Response, next: NextFunction) => {
-    const { userId, podName, metrics } = req.body.snapshot;
+    const { podName, metrics, user } = req.body.snapshot;
+
     try {
-      if (!userId || !podName || !metrics) {
+      if (!podName || !metrics || !user) {
         return next({
           status: 400,
           log: 'Error in postSnapshot middleware: invalid input data',
@@ -28,11 +29,7 @@ const dbController = {
             'Cannot create new snapshot. Please provide all required information.',
         });
       }
-      const newSnapshot = await Snapshot.create({
-        user: userId,
-        podName,
-        metrics,
-      });
+      const newSnapshot = await Snapshot.create({ podName, metrics, user });
       res.locals.newSnapshot = newSnapshot;
       return next();
     } catch (err) {
@@ -43,9 +40,8 @@ const dbController = {
     }
   },
   getOneSnapshot: async (req: Request, res: Response, next: NextFunction) => {
-    console.log('get one snapshot');
     const { _id } = req.params;
-    console.log('id: ' + _id);
+
     try {
       if (!_id) {
         return next({

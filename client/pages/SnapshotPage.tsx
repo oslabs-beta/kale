@@ -8,7 +8,7 @@ import {
   useGetOneSnapshotQuery,
   useDeleteSnapshotsMutation,
 } from '../slices/snapshotsApi';
-import { Snapshot } from '../slices/metricsApi';
+import { Snapshot } from '../slices/snapshotsApi';
 import ChartTable from '../components/ChartTable';
 
 export default function SnapshotPage() {
