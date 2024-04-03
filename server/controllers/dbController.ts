@@ -42,7 +42,36 @@ const dbController = {
       });
     }
   },
-
+  getOneSnapshot: async (req: Request, res: Response, next: NextFunction) => {
+    console.log('get one snapshot');
+    const { _id } = req.params;
+    console.log('id: ' + _id);
+    try {
+      if (!_id) {
+        return next({
+          status: 400,
+          log: 'Error in getOneSnapshot middleware: snapshot id not provided',
+          message:
+            'Cannot get snapshot. Please provide all required information.',
+        });
+      }
+      const snapshot = await Snapshot.findOne({ _id });
+      if (!snapshot) {
+        return next({
+          status: 400,
+          log: 'Error in getOneSnapshot middleware: snapshot not found',
+          message: 'The snapshot you are looking for does not exist.',
+        });
+      }
+      res.locals.snapshot = snapshot;
+      return next();
+    } catch (err) {
+      return next({
+        log: 'Error in getOneSnapshot middleware: ' + err,
+        message: 'Error while fetching snapshot.',
+      });
+    }
+  },
   deleteSnapshot: async (req: Request, res: Response, next: NextFunction) => {
     const { _id } = req.params;
     try {

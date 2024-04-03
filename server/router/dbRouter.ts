@@ -12,6 +12,15 @@ dbRouter.get(
   }
 );
 
+// get one snapshot from database
+dbRouter.get(
+  '/one/:_id',
+  dbController.getOneSnapshot,
+  (req: Request, res: Response) => {
+    return res.status(200).json(res.locals.snapshot);
+  }
+);
+
 // post new snapshot to database
 dbRouter.post('/', dbController.postSnapshot, (req: Request, res: Response) => {
   return res.status(200).json(res.locals.newSnapshot);

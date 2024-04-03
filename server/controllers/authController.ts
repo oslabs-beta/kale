@@ -4,7 +4,6 @@ import User from '../Models/userModel';
 const authController = {
   createUser: async (req: Request, res: Response, next: NextFunction) => {
     const { email, firstName, password } = req.body;
-    // console.log(email, firstName, password);
 
     try {
       const existingUser = await User.findOne({ email });
@@ -16,13 +15,12 @@ const authController = {
         });
       }
       const newUser = await User.create({ email, firstName, password });
-      // console.log('new user' + newUser);
       res.locals.newUser = newUser;
       return next();
     } catch (err) {
       return next({
-        log: 'Error in createUser middleware',
-        message: { err: 'An error occurred while creating user: ' + err },
+        log: 'Error in createUser middleware: ' + err,
+        message: { err: 'An error occurred while creating user' },
       });
     }
   },
@@ -63,8 +61,8 @@ const authController = {
       return next();
     } catch (err) {
       return next({
-        log: 'Error in login middleware',
-        message: { err: 'An error occurred while user login: ' + err },
+        log: 'Error in login middleware: ' + err,
+        message: { err: 'An error occurred while user login ' },
       });
     }
   },
