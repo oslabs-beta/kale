@@ -6,17 +6,17 @@ export interface Snapshot extends ApiData {
 }
 
 export type SendSnapshotArg = {
-    data: ApiData,
-    userId: string
-}
+  data: ApiData;
+  userId: string;
+};
 
 // database communication with server
 export const snapshotsApiSlice = createApi({
   reducerPath: 'snapshotsApi',
-  baseQuery: fetchBaseQuery({ baseUrl: '/user' }),
+  baseQuery: fetchBaseQuery({ baseUrl: '/snapshots' }),
   endpoints: (builder) => ({
     getSnapshots: builder.query<Snapshot[], void>({
-      query: (userId) => `/${userId}`,
+      query: (userId) => ({ url: `/${userId}` }),
     }),
     sendSnapshots: builder.mutation<Snapshot, SendSnapshotArg>({
       query: ({ data, userId }) => ({

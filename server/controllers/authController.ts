@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import User from '../Models/userModel';
 
-export const authController = {
+const authController = {
   createUser: async (req: Request, res: Response, next: NextFunction) => {
     const { email, firstName, password } = req.body;
     // console.log(email, firstName, password);
@@ -57,8 +57,9 @@ export const authController = {
           .status(401)
           .json({ message: 'Invalid username or password' });
       }
+      const { firstName, _id } = existingUser;
+      res.locals.user = { firstName, _id };
 
-      res.locals.valid = existingUser;
       return next();
     } catch (err) {
       return next({
@@ -68,3 +69,5 @@ export const authController = {
     }
   },
 };
+
+export default authController;

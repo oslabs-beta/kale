@@ -1,30 +1,29 @@
-import { dbController } from '../controllers/dbController';
-import express, {
-  Request,
-  Response,
-  NextFunction,
-  RequestHandler,
-} from 'express';
+import express, { Request, Response } from 'express';
+import dbController from '../controllers/dbController';
+
 const dbRouter = express.Router();
 
-dbRouter.get('/', dbController.getSnapshot, (req: Request, res: Response) => {
-    return res.status(200).json(res.locals.snapshots);
-});
-
-dbRouter.post(
-  '/',
-  dbController.postSnapshot,
+// get snapshots from database based on user id
+dbRouter.get(
+  '/:userId',
+  dbController.getSnapshot,
   (req: Request, res: Response) => {
-    return res.status(200).json(res.locals.newSnapshot);
+    return res.status(200).json(res.locals.snapshots);
   }
 );
 
+// post new snapshot to database
+dbRouter.post('/', dbController.postSnapshot, (req: Request, res: Response) => {
+  return res.status(200).json(res.locals.newSnapshot);
+});
+
+// delete snapshot from database based on snapshot_id
 dbRouter.delete(
-    '/:_id',
-    dbController.deleteSnapshot,
-    (req: Request, res: Response) => {
-      return res.status(200).json(res.locals.deletedSnapshot);
-    }
-  );
+  '/:_id',
+  dbController.deleteSnapshot,
+  (req: Request, res: Response) => {
+    return res.status(200).json(res.locals.deletedSnapshot);
+  }
+);
 
 export default dbRouter;

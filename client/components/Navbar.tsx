@@ -91,8 +91,8 @@ export default function NavBar({ title, to }: NavBarProps) {
             <ul className="space-y-2 text-sm">
               <li>
                 <Link
-                  to="/"
-                  id="home-nav-btn"
+                  to="/welcome"
+                  id="welcome-nav-btn"
                   className="flex items-center p-2 text-zinc-900 rounded-lg dark:text-zinc-300 hover:bg-kalegreen-100 dark:hover:bg-zinc-700 group"
                   onClick={() => dispatch(toggleSidebar())}
                 >
@@ -221,30 +221,30 @@ export default function NavBar({ title, to }: NavBarProps) {
               </li>
               <li>
                 <Link
-                  to='/signin'
-                  className='flex items-center p-2 text-zinc-900 rounded-lg dark:text-zinc-300 hover:bg-kalegreen-100 dark:hover:bg-zinc-700 group'
+                  to="/"
+                  className="flex items-center p-2 text-zinc-900 rounded-lg dark:text-zinc-300 hover:bg-kalegreen-100 dark:hover:bg-zinc-700 group"
                   onClick={() => {
                     dispatch(toggleSidebar());
                     logOutHandler();
                   }}
                 >
                   <svg
-                    className='flex-shrink-0 w-5 h-5 text-zinc-500 transition duration-75 dark:text-zinc-400 group-hover:text-kalegreen-600 dark:group-hover:text-white'
-                    aria-hidden='true'
-                    xmlns='http://www.w3.org/2000/svg'
-                    fill='none'
+                    className="flex-shrink-0 w-5 h-5 text-zinc-500 transition duration-75 dark:text-zinc-400 group-hover:text-kalegreen-600 dark:group-hover:text-white"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
                     strokeWidth={1.5}
-                    viewBox='0 0 24 24'
+                    viewBox="0 0 24 24"
                   >
                     <path
-                      stroke='currentColor'
-                      strokeLinecap='round'
-                      strokeLinejoin='round'
-                      d='M20 12H8m12 0-4 4m4-4-4-4M9 4H7a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h2'
+                      stroke="currentColor"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M20 12H8m12 0-4 4m4-4-4-4M9 4H7a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h2"
                     />
                   </svg>
 
-                  <span className='flex-1 ms-3 whitespace-nowrap'>Log Out</span>
+                  <span className="flex-1 ms-3 whitespace-nowrap">Log Out</span>
                 </Link>
               </li>
             </ul>

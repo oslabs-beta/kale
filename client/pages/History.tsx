@@ -5,9 +5,18 @@ import {
   useGetSnapshotsQuery,
 } from '../slices/snapshotsApi';
 import Navbar from '../components/Navbar';
+import { useSelector } from 'react-redux';
+import { RootState } from '../slices/store';
 
 export default function History() {
-  const { data: snapShots, error, isLoading } = useGetSnapshotsQuery();
+  const userData = useSelector((state: RootState) => state.user.userData);
+
+  const {
+    data: snapShots,
+    error,
+    isLoading,
+  } = useGetSnapshotsQuery(userData.id);
+
   const [
     deleteSnapshots, // This is the mutation trigger
     { data: deleteSnapshot, isLoading: isDeleting }, // This is the destructured mutation result
