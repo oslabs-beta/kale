@@ -17,10 +17,10 @@ interface TeamMember {
 }
 
 //team member pictures
-const ismaelImageURL: string = './public/Assets/Ismael Headshot.jpg';
-const soniaImageURL: string = './public/Assets/Sonia Headshot.jpg';
-const jinImageURL: string = './public/Assets/Jin Headshot.jpg';
-const jeffImageURL: string = './public/Assets/Jeff Headshot.jpg';
+const ismaelImageURL: string = './public/Assets/Ismael-Headshot.jpg';
+const soniaImageURL: string = './public/Assets/Sonia-Headshot.jpg';
+const jinImageURL: string = './public/Assets/Jin-Headshot.jpg';
+const jeffImageURL: string = './public/Assets/Jeff-Headshot.jpg';
 
 //team member linkedIn
 const soniaLinkedInUrl: string = 'https://www.linkedin.com/in/soheunhan/';
@@ -35,7 +35,7 @@ const ismaelLinkedInUrl: string =
 const soniaEmail: string = 'sonia.han@hey.com';
 const jinEmail: string = 'jjjinnam@gmail.com';
 const ismaelEmail: string = 'boussatta.ismael@gmail.com';
-const jeffEmail: string = 'tbd';
+const jeffEmail: string = 'jeffplv@gmail.com';
 
 const teamMembers: TeamMember[] = [
   {
@@ -100,7 +100,7 @@ export default function SplashPage() {
           <a href="/" className="logo">
             <img
               className="ml-[-8]"
-              src="./public/Assets/kale logo.png"
+              src="./public/Assets/kale-logo.png"
               alt="kale Logo"
               width="50"
               height="50"
@@ -208,7 +208,7 @@ export default function SplashPage() {
           <div className="image-container">
             <img
               className="rounded-lg"
-              src="./public/Assets/GPU image.jpg"
+              src="./public/Assets/GPU-image.jpg"
               alt="GPU Image"
             />
           </div>
@@ -280,7 +280,7 @@ export default function SplashPage() {
               </ul>
             </div>
             <div className="image-container mr-3">
-              <img className="rounded-lg" src={demoGifUrl} alt="GPU Image" />
+              <img className="rounded-lg" src={demoGifUrl} alt="demo gif" />
             </div>
           </section>
         </div>
