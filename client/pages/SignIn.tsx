@@ -33,18 +33,18 @@ const SignInContainer = () => {
     setShowPassword(!showPassword);
   };
 
+  //this function sends the input to userSlice which calls the middleware function and dispatches the localStorage which we store specifically the ID and first name
   const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     signin(verifyData)
       .unwrap()
       .then((res) => {
-        console.log(res);
         const data = {
           id: res._id,
           firstName: res.firstName,
         };
         dispatch(setCredential(data));
-        navigate('/');
+        navigate('/welcome');
       })
       .catch((err) => {
         console.log(err);

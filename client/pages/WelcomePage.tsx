@@ -11,6 +11,7 @@ type handleClickArg = { url: string; podName: string };
 export default function WelcomePage() {
   const urlShow = useSelector((state: RootState) => state.ui.urlInput);
   const podName = useSelector((state: RootState) => state.ui.nodeNameInput);
+  //allows us to get access to the localStorage data(the curr user's id and name)
   const userDataShow = useSelector((state: RootState) => state.users.userData);
 
   const [grabMetrics, result] = useGrabMetricsMutation({
