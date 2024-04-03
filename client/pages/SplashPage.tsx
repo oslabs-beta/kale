@@ -253,7 +253,7 @@ export default function SplashPage() {
                   }`}
                 >
                   <button onClick={() => handleListClick('2', inputUrl)}>
-                    📈 Enter Prometheus Server URL and Pod Name you would like
+                    📈 Enter Prometheus Server URL and pod name you would like
                     to monitor.
                   </button>
                 </li>
@@ -274,7 +274,7 @@ export default function SplashPage() {
                   }`}
                 >
                   <button onClick={() => handleListClick('4', autoRefresh)}>
-                    🔄 Dashoboard will update metrics every 30 seconds
+                    🔄 Dashboard will update metrics every 30 seconds
                   </button>
                 </li>
               </ul>
