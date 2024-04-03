@@ -4,11 +4,11 @@ describe('The Welcome Page', () => {
   beforeEach(() => {
     cy.visit('http://localhost:8080');
     cy.get('#nav-button').click();
-    cy.get('#home-nav-btn').click();
+    cy.get('#welcome-nav-btn').click();
   });
 
   it('has a title', () => {
-    cy.contains('Welcome');
+    cy.contains('Hello');
   });
   it('has a "Get started" button and input field shows up when clicked', () => {
     cy.contains('Get started').click();

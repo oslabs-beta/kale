@@ -2,13 +2,13 @@ describe('Authentication', () => {
   describe('Signup', () => {
     beforeEach(() => {
       cy.visit('http://localhost:8080');
-      cy.get('#nav-button').click();
-      cy.get('#signup-nav-btn').click();
     });
     it('signup form is visible', () => {
+      cy.get('#sign-up-button-homepage').click();
       cy.get('#signup-form').should('be.visible');
     });
     it('successful create account', () => {
+      cy.get('#sign-up-button-homepage').click();
       cy.fixture('users/secretUser.json').then((userInfo) => {
         cy.intercept('POST', '/user/signup').as('createUser');
 
@@ -32,6 +32,7 @@ describe('Authentication', () => {
       });
     });
     it('create account with existing email address', () => {
+      cy.get('#sign-up-button-homepage').click();
       cy.fixture('users/secretUser.json').then((userInfo) => {
         cy.intercept('POST', '/user/signup').as('createUser');
 
@@ -50,6 +51,7 @@ describe('Authentication', () => {
       });
     });
     it('Already have an account? Sign in', () => {
+      cy.get('#sign-up-button-homepage').click();
       cy.contains('Login').click();
       cy.url().should('include', '/signin');
     });
@@ -58,6 +60,7 @@ describe('Authentication', () => {
   describe('Signin', () => {
     beforeEach(() => {
       cy.visit('http://localhost:8080');
+      cy.get('#sign-up-button-homepage').click();
       cy.get('#nav-button').click();
       cy.get('#signin-nav-btn').click();
     });

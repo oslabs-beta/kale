@@ -4,7 +4,7 @@ describe('The Splash Page', () => {
   });
 
   it('has a title', () => {
-    cy.contains('Welcome to kale').click();
+    cy.contains('Welcome to kale');
 
     // cy.url().should('include', '/commands/actions');
   });
