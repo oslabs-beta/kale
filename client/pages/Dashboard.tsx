@@ -22,12 +22,14 @@ export default function Dashboard() {
     fixedCacheKey: 'last-snapshot-data',
   });
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      grabMetrics({ url, podName });
-    }, 30000);
-    return () => clearInterval(interval);
-  }, []);
+  if (url !== '') {
+    useEffect(() => {
+      const interval = setInterval(() => {
+        grabMetrics({ url, podName });
+      }, 30000);
+      return () => clearInterval(interval);
+    }, []);
+  }
 
   function handleClick({ data, userId }: SendSnapshotArg) {
     try {
