@@ -133,7 +133,7 @@ export default function SplashPage() {
             }}
           />
         </div>
-        <div className="h-screen mx-auto max-w-3xl py-28 sm:py-32 lg:py-20">
+        <div className="h-screen sm:h-2/4 mx-auto max-w-3xl py-28 sm:py-6 lg:py-20">
           <div className="hidden sm:mb-8 sm:flex sm:justify-center"></div>
           <div className="text-center">
             <h1 className="text-4xl font-bold tracking-tight text-zinc-200 sm:text-6xl m-8">
@@ -167,7 +167,7 @@ export default function SplashPage() {
         </div>
 
         <section
-          className="text-zinc-200 grid grid-cols-2 gap-8 min-h-screen items-center pt-16"
+          className="text-zinc-200 grid grid-cols-2 gap-8 max-h-screen items-center pt-16"
           ref={whatIsK8sSectionRef}
         >
           <div className="text-content p-6 rounded-lg shadow-md">
