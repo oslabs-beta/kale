@@ -78,6 +78,17 @@ npm run dev
 
 Visit [http://localhost:8080](http://localhost:8080) in your browser.
 
+## Beta Limitations and Exciting Future
+
+CPU-Based Proof of Concept: Currently, kale uses CPU metrics as a proxy for GPU utilization. This provides a valuable proof of concept.
+
+**Roadmap: We envision exciting features including:**
+
+- **GPU Metric Integration**: Replace CPU monitoring with direct GPU metric monitoring for enhanced scaling accuracy tailored to ML workloads.
+- **Multi-Pod Monitoring**: Monitor resource consumption trends across multiple pods.
+- **Snapshot Customization**: Allow users to rename snapshots for better organization.
+- **Autoscaling Integration**: Directly trigger Kubernetes cluster scaling actions based on in-app analysis.
+
 ## Contributing
 
 kale is open-source and welcomes your contributions! Here's how to get involved:
