@@ -96,7 +96,7 @@ export default function SplashPage() {
   return (
     <>
       <header className="fixed top-0 left-0 w-full z-10">
-        <div className="container mx-auto flex items-center justify-between py-4">
+        <div className="container mx-auto flex items-center justify-between py-2 px-8 w-full">
           <a href="/" className="logo">
             <img
               className="ml-[-8]"
@@ -133,7 +133,7 @@ export default function SplashPage() {
             }}
           />
         </div>
-        <div className="h-screen sm:h-2/4 mx-auto max-w-3xl py-28 sm:py-6 lg:py-20">
+        <div className="h-full sm:h-2/4 mx-auto max-w-3xl py-28 sm:py-6 lg:py-20">
           <div className="hidden sm:mb-8 sm:flex sm:justify-center"></div>
           <div className="text-center">
             <h1 className="text-4xl font-bold tracking-tight text-zinc-200 sm:text-6xl m-8">
@@ -167,7 +167,7 @@ export default function SplashPage() {
         </div>
 
         <section
-          className="text-zinc-200 grid grid-cols-2 gap-8 max-h-screen items-center pt-16"
+          className="text-zinc-200 grid grid-cols-2 gap-8 max-h-screen items-center pt-24"
           ref={whatIsK8sSectionRef}
         >
           <div className="text-content p-6 rounded-lg shadow-md">
@@ -205,9 +205,9 @@ export default function SplashPage() {
               scaling based on GPU metrics.
             </p>
           </div>
-          <div className="image-container">
+          <div className="image-container ">
             <img
-              className="rounded-lg"
+              className="rounded-lg h-4/5"
               src="./public/Assets/GPU-image.jpg"
               alt="GPU Image"
             />
@@ -215,7 +215,7 @@ export default function SplashPage() {
         </section>
 
         <div className="">
-          <section className="items-center pt-16">
+          <section className="items-center pt-24">
             <div className="flex flex-col items-center justify-center dark:text-zinc-200 text-content p-6 rounded-lg">
               <h2 className="text-center font-extrabold text-5xl flex flex-row justify-center mb-3">
                 The Solution:{' '}
