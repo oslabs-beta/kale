@@ -46,7 +46,7 @@ export default function WelcomePage() {
         <Link to="/welcome">
           <img
             className="ml-[-8]"
-            src="./public/Assets/kale logo.png"
+            src="./public/Assets/kale-logo.png"
             alt="kale Logo"
             width="50"
             height="50"
@@ -65,7 +65,7 @@ export default function WelcomePage() {
         </div>
         <div className="h-full mx-auto max-w-3xl py-28 sm:py-32 lg:py-20 text-left">
           <h1 className="text-4xl font-bold tracking-tight text-zinc-200 sm:text-6xl">
-            Hello,
+            Hello,{' '}
             <p className="inline-block text-kalegreen-400">
               {userDataShow ? userDataShow.firstName : 'Random Hacker'}
             </p>
