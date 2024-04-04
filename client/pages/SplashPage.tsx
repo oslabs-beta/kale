@@ -17,10 +17,10 @@ interface TeamMember {
 }
 
 //team member pictures
-const ismaelImageURL: string = './public/Assets/Ismael Headshot.jpg';
-const soniaImageURL: string = './public/Assets/Sonia Headshot.jpg';
-const jinImageURL: string = './public/Assets/Jin Headshot.jpg';
-const jeffImageURL: string = './public/Assets/Jeff Headshot.jpg';
+const ismaelImageURL: string = './public/Assets/Ismael-Headshot.jpg';
+const soniaImageURL: string = './public/Assets/Sonia-Headshot.jpg';
+const jinImageURL: string = './public/Assets/Jin-Headshot.jpg';
+const jeffImageURL: string = './public/Assets/Jeff-Headshot.jpg';
 
 //team member linkedIn
 const soniaLinkedInUrl: string = 'https://www.linkedin.com/in/soheunhan/';
@@ -35,7 +35,7 @@ const ismaelLinkedInUrl: string =
 const soniaEmail: string = 'sonia.han@hey.com';
 const jinEmail: string = 'jjjinnam@gmail.com';
 const ismaelEmail: string = 'boussatta.ismael@gmail.com';
-const jeffEmail: string = 'tbd';
+const jeffEmail: string = 'jeffplv@gmail.com';
 
 const teamMembers: TeamMember[] = [
   {
@@ -100,7 +100,7 @@ export default function SplashPage() {
           <a href="/" className="logo">
             <img
               className="ml-[-8]"
-              src="./public/Assets/kale logo.png"
+              src="./public/Assets/kale-logo.png"
               alt="kale Logo"
               width="50"
               height="50"
@@ -133,7 +133,7 @@ export default function SplashPage() {
             }}
           />
         </div>
-        <div className="h-screen mx-auto max-w-3xl py-28 sm:py-32 lg:py-20">
+        <div className="h-screen sm:h-2/4 mx-auto max-w-3xl py-28 sm:py-6 lg:py-20">
           <div className="hidden sm:mb-8 sm:flex sm:justify-center"></div>
           <div className="text-center">
             <h1 className="text-4xl font-bold tracking-tight text-zinc-200 sm:text-6xl m-8">
@@ -167,7 +167,7 @@ export default function SplashPage() {
         </div>
 
         <section
-          className="text-zinc-200 grid grid-cols-2 gap-8 min-h-screen items-center pt-16"
+          className="text-zinc-200 grid grid-cols-2 gap-8 max-h-screen items-center pt-16"
           ref={whatIsK8sSectionRef}
         >
           <div className="text-content p-6 rounded-lg shadow-md">
@@ -208,7 +208,7 @@ export default function SplashPage() {
           <div className="image-container">
             <img
               className="rounded-lg"
-              src="./public/Assets/GPU image.jpg"
+              src="./public/Assets/GPU-image.jpg"
               alt="GPU Image"
             />
           </div>
@@ -280,7 +280,7 @@ export default function SplashPage() {
               </ul>
             </div>
             <div className="image-container mr-3">
-              <img className="rounded-lg" src={demoGifUrl} alt="GPU Image" />
+              <img className="rounded-lg" src={demoGifUrl} alt="demo gif" />
             </div>
           </section>
         </div>
