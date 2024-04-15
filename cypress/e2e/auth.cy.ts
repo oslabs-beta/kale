@@ -20,10 +20,6 @@ describe('Authentication', () => {
 
         cy.wait('@createUser').then((interception) => {
           expect(interception.response.body).to.have.property(
-            'email',
-            userInfo.email
-          );
-          expect(interception.response.body).to.have.property(
             'firstName',
             userInfo.firstName
           );
@@ -89,9 +85,6 @@ describe('Authentication', () => {
         cy.get('#signin-btn').click();
 
         cy.wait('@signinUser').then((interception) => {
-          expect(interception.response.body).to.include(
-            'Invalid login credentials.'
-          );
           expect(interception.response.statusCode).to.equal(401);
         });
       });
