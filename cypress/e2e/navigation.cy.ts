@@ -1,9 +1,8 @@
 /// <reference types="cypress" />
 
 describe('The Welcome Page', () => {
-    
   beforeEach(() => {
-    cy.visit('http://localhost:8080');
+    cy.visit('http://localhost:8080/dashboard');
   });
 
   it('has a sidebar that opens and closes', () => {
