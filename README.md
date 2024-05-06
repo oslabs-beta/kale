@@ -23,7 +23,7 @@
 
 ## Getting Started
 
-The simplest and most efficient way to dive into kale is through [our official hosted service](https://).
+The simplest and most efficient way to dive into kale is through [our official hosted service](https://openkale.com/).
 
 ### Prerequisites
 
